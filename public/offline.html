@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- public/offline.html -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#090A0C" />
+    <title>Offline — AdimFit</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem;
+        padding: 2rem;
+        background: #090a0c;
+        color: #fff;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        text-align: center;
+        -webkit-font-smoothing: antialiased;
+      }
+      img { width: 64px; height: 64px; opacity: 0.9; }
+      h1 {
+        font-size: 1.375rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+      p {
+        max-width: 22rem;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      button {
+        margin-top: 0.5rem;
+        padding: 0.8rem 1.75rem;
+        border: none;
+        border-radius: 999px;
+        background: #ccff00;
+        color: #000;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, transform 0.1s;
+      }
+      button:hover { background: #d9ff33; }
+      button:active { transform: scale(0.99); }
+      .status {
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+        font-size: 0.625rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/logo.png" alt="AdimFit" />
+    <p class="status">No connection</p>
+    <h1>You're offline.</h1>
+    <p>
+      AdimFit needs a connection to reach your training history and your coach.
+      Your logged sessions are safe — they're stored on your account.
+    </p>
+    <button onclick="location.reload()">Try again</button>
+  </body>
+</html>
