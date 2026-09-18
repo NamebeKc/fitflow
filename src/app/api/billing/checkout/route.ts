@@ -36,14 +36,16 @@ function flutterwavePlanId(plan: PlanId): string | undefined {
   const map: Record<PlanId, string | undefined> = {
     weekly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_WEEKLY,
     monthly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_MONTHLY,
-    quarterly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_QUARTERLY,
+    annual_ngn_2026: process.env.FLUTTERWAVE_PLAN_NGN_ANNUAL_2026,
     lifetime_ngn: undefined,
     weekly_usd: process.env.FLUTTERWAVE_PLAN_USD_WEEKLY,
     monthly_usd: process.env.FLUTTERWAVE_PLAN_USD_MONTHLY,
-    quarterly_usd: process.env.FLUTTERWAVE_PLAN_USD_QUARTERLY,
+    annual_usd_2026: process.env.FLUTTERWAVE_PLAN_USD_ANNUAL_2026,
     lifetime_usd: undefined,
-    annual_ngn: process.env.FLUTTERWAVE_PLAN_NGN_ANNUAL,
-    annual_usd: process.env.FLUTTERWAVE_PLAN_USD_ANNUAL,
+    // Retired: unreachable, because checkout returns 410 before it
+    // ever asks for a plan ID. Listed for the record.
+    annual_ngn: undefined,
+    annual_usd: undefined,
   };
   return map[plan];
 }

@@ -12,7 +12,24 @@ import {
   PAYWALL_PLANS,
   PLANS,
   type PlanId,
+  type PlanInterval,
 } from "@/lib/subscription";
+
+/**
+ * How each interval is described in the "then X every Y" line.
+ *
+ * Exhaustive over PlanInterval, so adding an interval to the catalogue
+ * is a type error here rather than a sentence that silently says
+ * "every month" about a yearly plan — which is what the previous
+ * ternary chain did to every interval it didn't name.
+ */
+const RECURS: Record<PlanInterval, string> = {
+  weekly: "every week",
+  monthly: "every month",
+  quarterly: "every 3 months",
+  yearly: "every year",
+  lifetime: "never",
+};
 
 interface PaywallProps {
   /** Shown above the plans — why they're seeing this. */
@@ -324,12 +341,7 @@ export function Paywall({
           ) : (
             <>
               {selectedPlan.display} now, then {selectedPlan.display}{" "}
-              {selectedPlan.interval === "weekly"
-                ? "every week"
-                : selectedPlan.interval === "quarterly"
-                  ? "every 3 months"
-                  : "every month"}
-              . Cancel anytime.
+              {RECURS[selectedPlan.interval]}. Cancel anytime.
             </>
           )}
           <br />

@@ -77,11 +77,11 @@ export type PlanInterval =
 export type PlanId =
   | "weekly_ngn"
   | "monthly_ngn"
-  | "quarterly_ngn"
+  | "annual_ngn_2026"
   | "lifetime_ngn"
   | "weekly_usd"
   | "monthly_usd"
-  | "quarterly_usd"
+  | "annual_usd_2026"
   | "lifetime_usd"
   // ── Retired, but NOT removable ───────────────────────────────────
   // Written into `users/{uid}/billing/subscription.plan` before the
@@ -89,6 +89,14 @@ export type PlanId =
   // that isn't in PLANS (`planId in PLANS`), so deleting these would
   // stop renewing anyone who subscribed under the old catalogue.
   // They are excluded from the paywall by `retired`, not by absence.
+  //
+  // WHY THE LIVE ANNUAL PLAN IS `annual_ngn_2026` AND NOT `annual_ngn`.
+  // A plan ID is a stored contract: `annual_ngn` is written into the
+  // billing document of everyone who bought the ₦37,800 plan, and it
+  // is what the subscription card reads to show them their price.
+  // Repointing that ID at ₦49,900 would quote the new price to
+  // customers who are paying the old one. The year suffix means the
+  // next reprice is `annual_ngn_2027` and nothing already sold moves.
   | "annual_ngn"
   | "annual_usd";
 
@@ -182,14 +190,14 @@ const BASE_PLANS: Record<PlanId, Omit<PlanDetails, "saving" | "perWeek">> = {
     display: "₦7,900",
     cadence: "Billed every month",
   },
-  quarterly_ngn: {
-    id: "quarterly_ngn",
-    label: "3 months",
+  annual_ngn_2026: {
+    id: "annual_ngn_2026",
+    label: "Yearly",
     currency: "NGN",
-    amount: 15900,
-    interval: "quarterly",
-    display: "₦15,900",
-    cadence: "Billed every 3 months",
+    amount: 49900,
+    interval: "yearly",
+    display: "₦49,900",
+    cadence: "Billed once a year",
     badge: "Most popular",
   },
   lifetime_ngn: {
@@ -222,14 +230,14 @@ const BASE_PLANS: Record<PlanId, Omit<PlanDetails, "saving" | "perWeek">> = {
     display: "$7.99",
     cadence: "Billed every month",
   },
-  quarterly_usd: {
-    id: "quarterly_usd",
-    label: "3 months",
+  annual_usd_2026: {
+    id: "annual_usd_2026",
+    label: "Yearly",
     currency: "USD",
-    amount: 15.99,
-    interval: "quarterly",
-    display: "$15.99",
-    cadence: "Billed every 3 months",
+    amount: 49.99,
+    interval: "yearly",
+    display: "$49.99",
+    cadence: "Billed once a year",
     badge: "Most popular",
   },
   lifetime_usd: {
@@ -336,16 +344,22 @@ export const PLANS: Record<PlanId, PlanDetails> = Object.fromEntries(
  * Retired plans are absent by construction rather than filtered at
  * every call site — a retired plan should be impossible to select,
  * not merely unlikely.
+ *
+ * The weekly plan stays on this list even though almost nobody should
+ * pick it. It is the price every saving badge is measured against, and
+ * a discount measured against something a customer cannot actually buy
+ * is a fabricated anchor. Weekly has to remain purchasable for "Save
+ * 61%" to stay a true statement about two real prices.
  */
 export const PAYWALL_PLANS: Record<"NGN" | "USD", PlanId[]> = {
-  NGN: ["weekly_ngn", "monthly_ngn", "quarterly_ngn", "lifetime_ngn"],
-  USD: ["weekly_usd", "monthly_usd", "quarterly_usd", "lifetime_usd"],
+  NGN: ["weekly_ngn", "monthly_ngn", "annual_ngn_2026", "lifetime_ngn"],
+  USD: ["weekly_usd", "monthly_usd", "annual_usd_2026", "lifetime_usd"],
 };
 
 /** The plan pre-selected when the paywall opens. */
 export const DEFAULT_PLAN: Record<"NGN" | "USD", PlanId> = {
-  NGN: "quarterly_ngn",
-  USD: "quarterly_usd",
+  NGN: "annual_ngn_2026",
+  USD: "annual_usd_2026",
 };
 
 /** True for one-off purchases that never renew. */
