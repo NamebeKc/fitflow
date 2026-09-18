@@ -36,6 +36,8 @@ import {
   ENVIRONMENTS,
   EQUIPMENT,
   GOALS,
+  MAX_GOALS,
+  profileGoals,
   needsEquipmentQuestion,
   type ActivityId,
   type CoachingStyleId,
@@ -118,7 +120,25 @@ export function OnboardingWizard({
   const [height, setHeight] = useState(
     initialProfile?.heightCm ? String(initialProfile.heightCm) : "",
   );
-  const [goal, setGoal] = useState<GoalId | null>(initialProfile?.goal ?? null);
+  const [goals, setGoals] = useState<GoalId[]>(
+    () => profileGoals(initialProfile),
+  );
+
+  /**
+   * "General fitness" is the absence of a priority, so it cannot sit
+   * beside one — picking it clears the rest, and picking anything else
+   * clears it. At the cap the tiles stop responding rather than
+   * silently swapping something out behind the user's back.
+   */
+  function toggleGoal(id: GoalId) {
+    setGoals((current) => {
+      if (current.includes(id)) return current.filter((g) => g !== id);
+      if (id === "general") return ["general"];
+      const specific = current.filter((g) => g !== "general");
+      if (specific.length >= MAX_GOALS) return specific;
+      return [...specific, id];
+    });
+  }
   const [activities, setActivities] = useState<ActivityId[]>(
     initialProfile?.activities ?? [],
   );
@@ -153,7 +173,7 @@ export function OnboardingWizard({
     heightValid;
 
   // Step 4 is always "valid" — it can be skipped entirely.
-  const stepValid = [basicsValid, goal !== null, activities.length > 0, true][
+  const stepValid = [basicsValid, goals.length > 0, activities.length > 0, true][
     step
   ];
 
@@ -188,7 +208,11 @@ export function OnboardingWizard({
     }
     track("onboarding_completed", {
       editing: isEditing,
-      goal: goal ?? "unset",
+      // Primary plus a count: PostHog can't break down an array, and
+      // the pair answers both "which goal converts" and "do people
+      // actually want two".
+      goal_primary: goals[0] ?? "unset",
+      goal_count: goals.length,
       sessions_per_week: null,
       weight_provided: Boolean(parsedWeight),
       height_provided: Boolean(heightValid && height.trim()),
@@ -207,7 +231,7 @@ export function OnboardingWizard({
       ...(heightValid && height.trim() !== ""
         ? { heightCm: parsedHeight }
         : {}),
-      goal: goal as GoalId,
+      goals,
       activities,
       ...(environment.length > 0 ? { environment } : {}),
       ...(equipment.length > 0 ? { equipment } : {}),
@@ -443,24 +467,40 @@ export function OnboardingWizard({
             {step === 1 && (
               <div className="space-y-4">
                 <p className="text-sm leading-relaxed text-white/60">
-                  What matters most to you right now? Pick one — you can
-                  change it anytime.
+                  What matters most to you right now? Pick one or two —
+                  you can change this anytime.
                 </p>
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   {GOALS.map(({ id, label }) => {
                     const Icon = GOAL_ICONS[id];
-                    const selected = goal === id;
+                    const selected = goals.includes(id);
+                    const atCap =
+                      goals.filter((g) => g !== "general").length >= MAX_GOALS;
                     return (
                       <SelectTile
                         key={id}
                         icon={Icon}
                         label={label}
                         selected={selected}
-                        onClick={() => setGoal(id)}
+                        disabled={!selected && atCap && id !== "general"}
+                        badge={
+                          goals.length > 1 && goals[0] === id
+                            ? "Primary"
+                            : undefined
+                        }
+                        onClick={() => toggleGoal(id)}
                       />
                     );
                   })}
                 </div>
+
+                {goals.length > 1 && (
+                  <p className="text-[13px] leading-relaxed text-white/45">
+                    Your coach shapes each session around the primary goal
+                    and works the second one in across the week. Two is the
+                    maximum — deselect one to change it.
+                  </p>
+                )}
               </div>
             )}
 
@@ -677,17 +717,24 @@ function SelectTile({
   selected,
   onClick,
   compact = false,
+  disabled = false,
+  badge,
 }: {
   icon: LucideIcon;
   label: string;
   selected: boolean;
   onClick: () => void;
   compact?: boolean;
+  /** Dimmed and inert — used when a selection cap is reached. */
+  disabled?: boolean;
+  /** Short qualifier shown on the tile, e.g. which goal is primary. */
+  badge?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-pressed={selected}
       className={cn(
         "flex items-center gap-3 rounded-xl border text-left font-medium outline-none transition-all",
@@ -696,6 +743,7 @@ function SelectTile({
         selected
           ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08] text-white"
           : "border-white/[0.07] bg-black/30 text-white/60 hover:border-white/15 hover:text-white",
+        disabled && "pointer-events-none opacity-35",
       )}
     >
       <Icon
@@ -707,6 +755,11 @@ function SelectTile({
         strokeWidth={2}
       />
       <span className="min-w-0 flex-1 truncate">{label}</span>
+      {badge && (
+        <span className="shrink-0 rounded-full bg-[#CCFF00]/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[#CCFF00]">
+          {badge}
+        </span>
+      )}
       {selected && !compact && (
         <Check className="size-4 shrink-0 text-[#CCFF00]" strokeWidth={2.5} />
       )}

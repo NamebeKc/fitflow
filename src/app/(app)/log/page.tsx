@@ -1,13 +1,14 @@
 // src/app/(app)/log/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { track } from "@/lib/analytics";
 import { WorkoutForm } from "@/components/log/WorkoutForm";
 import { WorkoutList } from "@/components/log/WorkoutList";
 import { ShareWorkoutDialog } from "@/components/share/ShareWorkoutDialog";
+import { ReminderPrompt } from "@/components/onboarding/ReminderPrompt";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useProfile } from "@/components/providers/ProfileProvider";
 import { computeWeekStreak } from "@/lib/measurements";
@@ -31,6 +32,10 @@ export default function WorkoutLogPage() {
   const { profile } = useProfile();
   const [workouts, setWorkouts] = useState<WorkoutEntry[] | null>(null);
   const [shareTarget, setShareTarget] = useState<WorkoutEntry | null>(null);
+  const [promptReminders, setPromptReminders] = useState(false);
+  // Set when a first workout lands, spent when the share sheet closes.
+  // A ref rather than state: nothing should re-render on it changing.
+  const firstLogPending = useRef(false);
 
   useEffect(() => {
     if (!user) return;
@@ -57,6 +62,9 @@ export default function WorkoutLogPage() {
     // just crossed the activation milestone.
     if (updated.length === 1) {
       track("workout_first_logged", { source: "manual" });
+      // Queued, not shown: the share sheet opens next and two things
+      // competing for attention wins neither.
+      firstLogPending.current = true;
     }
 
     setWorkouts(updated);
@@ -90,6 +98,11 @@ export default function WorkoutLogPage() {
         </p>
       </header>
 
+      <ReminderPrompt
+        open={promptReminders}
+        onDismiss={() => setPromptReminders(false)}
+      />
+
       {isLoading ? (
         <LogSkeleton />
       ) : (
@@ -116,7 +129,13 @@ export default function WorkoutLogPage() {
         name={profile?.firstName}
         open={shareTarget !== null}
         onOpenChange={(next) => {
-          if (!next) setShareTarget(null);
+          if (next) return;
+          setShareTarget(null);
+          // The ask lands as the celebration clears, not on top of it.
+          if (firstLogPending.current) {
+            firstLogPending.current = false;
+            setPromptReminders(true);
+          }
         }}
       />
     </div>

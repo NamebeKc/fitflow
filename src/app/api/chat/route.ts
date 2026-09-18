@@ -5,12 +5,14 @@ import { NextResponse } from "next/server";
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
 import { getOrCreateBilling } from "@/lib/billing-admin";
 import { isEntitled } from "@/lib/subscription";
+import { trackServer } from "@/lib/analytics-server";
 import {
   activityLabel,
   calculateBmi,
   environmentLabel,
   equipmentLabel,
   goalLabel,
+  profileGoals,
   type CoachingStyleId,
   type GoalId,
   type UserProfile,
@@ -82,6 +84,14 @@ export async function POST(request: Request) {
   try {
     const billing = await getOrCreateBilling(uid);
     if (!isEntitled(billing)) {
+      // The moment a real user actually hits the gate — distinct from
+      // `trial_started`, which fires on first use regardless of outcome.
+      // `status` separates an expired trial from a lapsed subscription
+      // from a payment past its grace period; all three return the same
+      // 402 but mean different things for the monetization funnel.
+      await trackServer(uid, "entitlement_denied", {
+        status: billing.status,
+      });
       return NextResponse.json(
         {
           error:
@@ -201,7 +211,21 @@ export async function POST(request: Request) {
         const claudeStream = anthropic.messages.stream({
           model: "claude-sonnet-4-6",
           max_tokens: 1200,
-          system: buildSystemPrompt(profile, workouts, timeZone),
+          system: [
+            {
+              type: "text" as const,
+              text: buildStaticRules(),
+              // Cached across every request from every user. Reduces
+              // both cost on these tokens and — the reason this
+              // matters here — time to first token, which is what
+              // was letting streams idle long enough to be dropped.
+              cache_control: { type: "ephemeral" as const },
+            },
+            {
+              type: "text" as const,
+              text: buildUserContext(profile, workouts, timeZone),
+            },
+          ],
           messages: conversation,
         });
 
@@ -495,39 +519,68 @@ function coachingVoiceRules(style: CoachingStyleId | undefined): string {
   }
 }
 
-function goalProgrammingRules(goal: GoalId | undefined): string {
-  switch (goal) {
-    case "strength":
-      return [
-        "• Compound movements first, while fresh. 3-5 sets of 4-8 reps at a challenging load.",
-        "• Rest 90-180 seconds between working sets — short rest sabotages strength adaptation.",
-        "• Progress by adding load before adding reps. Keep total exercise count low (4-6 movements).",
-      ].join("\n");
-    case "weight-loss":
-      return [
-        "• Prioritise total work and elevated heart rate. Circuits, supersets, and short rest (30-60s).",
-        "• 3-4 sets of 10-15 reps, or timed intervals. Pair upper and lower movements to keep intensity up.",
-        "• Include 10-20 minutes of cardio or conditioning. Preserve muscle with resistance work — do not prescribe cardio alone.",
-      ].join("\n");
-    case "endurance":
-      return [
-        "• Build aerobic base with progressive duration or distance, mostly at conversational pace.",
-        "• Add one harder interval session per week, not more. Follow the roughly 80/20 easy-to-hard split.",
-        "• Include supporting strength work at 2-3 sets of 12-20 reps for injury resilience.",
-      ].join("\n");
-    case "mobility":
-      return [
-        "• Full range of motion under control. Longer holds (30-60s), controlled tempo, 2-3 sets.",
-        "• Combine loaded stretching with joint-specific work. Progress by increasing range before load.",
-        "• Frequency beats intensity — shorter sessions more often work better than one long one.",
-      ].join("\n");
-    default:
-      return [
-        "• Balanced full-body work: 3-4 sets of 8-12 reps, 60-90s rest.",
-        "• Cover push, pull, hinge, squat, and core across the week.",
-        "• Mix resistance work with some conditioning. Progress steadily on both.",
-      ].join("\n");
+/**
+ * Per-goal programming parameters, kept separate from how they are
+ * combined.
+ */
+const GOAL_RULES: Record<GoalId, string[]> = {
+  strength: [
+    "• Compound movements first, while fresh. 3-5 sets of 4-8 reps at a challenging load.",
+    "• Rest 90-180 seconds between working sets — short rest sabotages strength adaptation.",
+    "• Progress by adding load before adding reps. Keep total exercise count low (4-6 movements).",
+  ],
+  "weight-loss": [
+    "• Prioritise total work and elevated heart rate. Circuits, supersets, and short rest (30-60s).",
+    "• 3-4 sets of 10-15 reps, or timed intervals. Pair upper and lower movements to keep intensity up.",
+    "• Include 10-20 minutes of cardio or conditioning. Preserve muscle with resistance work — do not prescribe cardio alone.",
+  ],
+  endurance: [
+    "• Build aerobic base with progressive duration or distance, mostly at conversational pace.",
+    "• Add one harder interval session per week, not more. Follow the roughly 80/20 easy-to-hard split.",
+    "• Include supporting strength work at 2-3 sets of 12-20 reps for injury resilience.",
+  ],
+  mobility: [
+    "• Full range of motion under control. Longer holds (30-60s), controlled tempo, 2-3 sets.",
+    "• Combine loaded stretching with joint-specific work. Progress by increasing range before load.",
+    "• Frequency beats intensity — shorter sessions more often work better than one long one.",
+  ],
+  general: [
+    "• Balanced full-body work: 3-4 sets of 8-12 reps, 60-90s rest.",
+    "• Cover push, pull, hinge, squat, and core across the week.",
+    "• Mix resistance work with some conditioning. Progress steadily on both.",
+  ],
+};
+
+/**
+ * Turns one or two goals into programming guidance.
+ *
+ * THE RESOLUTION RULE: the first goal shapes the session, the second
+ * gets its own day. Averaging them would be worse than either — 4-8
+ * reps at 90-180s rest and 10-15 reps at 30-60s rest do not have a
+ * meaningful midpoint, and a coach that splits the difference trains
+ * neither quality. Real programming solves this across the week, not
+ * inside a single session, so that is what the model is told to do.
+ */
+function goalProgrammingRules(goals: GoalId[]): string {
+  const [primary, secondary] = goals.length > 0 ? goals : (["general"] as GoalId[]);
+
+  const lines = [...GOAL_RULES[primary]];
+
+  if (secondary && secondary !== primary) {
+    lines.push(
+      "",
+      `SECOND PRIORITY — ${goalLabel(secondary)}:`,
+      ...GOAL_RULES[secondary].map((rule) => `  ${rule}`),
+      "",
+      "HOW TO HOLD BOTH:",
+      `• Today's session follows the FIRST priority (${goalLabel(primary)}). Its sets, reps and rest windows win.`,
+      "• Serve the second priority on its own days, or as a short block appended after the main work — never by blending rep ranges or rest periods into a compromise that serves neither.",
+      "• Across a typical week, weight the split toward the first priority: roughly two sessions to one.",
+      "• Say which one a session is serving when you prescribe it. Someone who named two goals needs to see both being worked, or they will assume you forgot one.",
+    );
   }
+
+  return lines.join("\n");
 }
 
 /** Age-aware calibration. Not a restriction — a duty of care. */
@@ -564,14 +617,26 @@ function ageAndSafetyRules(age: number | undefined): string {
   return "";
 }
 
-function buildSystemPrompt(
-  profile: UserProfile | null,
-  workouts: WorkoutEntry[],
-  timeZone: string,
-): string {
-  const today = todayInZone(timeZone);
-  const weekday = weekdayInZone(timeZone);
-
+/**
+ * ── PROMPT STRUCTURE ────────────────────────────────────────────────
+ * Two halves, so the first can be CACHED.
+ *
+ * The rules half is byte-identical on every request from every user —
+ * persona, safety protocol, interface rules, programming methodology
+ * and plan-block format, around 2,700 tokens. Sending it fresh each
+ * time is both the largest cost per message and a real share of the
+ * delay before the first token, which is what was killing streaming
+ * connections.
+ *
+ * Anthropic only reuses a cached prefix when it matches EXACTLY, so
+ * nothing user-specific or time-specific may appear here. That's why
+ * the plan-block example now shows a placeholder date rather than
+ * today's, and why goal, age and voice rules moved into the dynamic
+ * half — each of those would have made the prefix unique per user and
+ * defeated caching entirely.
+ * ─────────────────────────────────────────────────────────────────────
+ */
+function buildStaticRules(): string {
   const sections: string[] = [];
 
   // ── Persona and style ───────────────────────────────────────────
@@ -608,11 +673,10 @@ function buildSystemPrompt(
       "• If the user sets a weight target, keep any rate of change sustainable — at most around 0.5-1% of bodyweight per week — and say plainly that faster is neither safer nor more durable. Never endorse an aggressive deadline.",
       "• If a user's stated target or described eating patterns suggest disordered eating, do not provide numeric targets, meal plans, or deficit calculations. Express care briefly, and suggest speaking with a doctor or dietitian.",
       "• Never frame rest as failure. Recovery days are part of training.",
+      "• When in doubt between more and less, prescribe LESS. An under-challenging session costs a few days of progress; an over-challenging one can cost weeks and put someone off training entirely.",
       "• Never comment on the user's body or appearance beyond what training requires.",
     ].join("\n"),
   );
-
-  sections.push(coachingVoiceRules(profile?.coachingStyle));
 
   // ── Operational safety protocol ─────────────────────────────────
   sections.push(
@@ -642,6 +706,125 @@ function buildSystemPrompt(
     ].join("\n"),
   );
 
+  // ── Programming methodology ─────────────────────────────────────
+  sections.push(
+    [
+      "HOW TO PROGRAMME A SESSION:",
+      "",
+      "You are not generating a generic workout. You are writing the next session in an ongoing training block. Four things drive every decision:",
+      "",
+      "1. THE GOAL DICTATES THE STRUCTURE.",
+      "• The specific set, rep and rest parameters for this user's goal are given in the context below. Follow them rather than a generic middle.",
+      "",
+      "2. PROGRESS SLOWLY, AND NOT EVERY SESSION.",
+      "• Progression is measured in WEEKS, not sessions. Advancing every session compounds fast and is how motivated people end up injured — this is the single most common way an AI coach causes harm, and it is not acceptable here.",
+      "• DEFAULT TO REPEATING the last comparable session at the same numbers. Repetition is not failure: consolidating a load is how tissue adapts, and most sessions should hold rather than climb.",
+      "• Advance at most ONCE PER WEEK per movement, and only when the previous week's sessions were completed comfortably.",
+      "• When you do advance, change ONE variable by a SMALL amount: +1-2 reps on one set (not every set), or +2.5kg upper body, or +5kg lower body. Never add reps and load together. Never add a set in the same week as anything else.",
+      "• Beginners — fewer than roughly 16 logged sessions — progress every SECOND week, not weekly. Their limiting factor is connective tissue and technique, neither of which adapts as fast as the muscle that makes the weight feel easy.",
+      "• If the last session was logged as 'hard', HOLD or REDUCE. Do not advance. Effort is not permission to add load.",
+      "• Every fourth or fifth week, prescribe a lighter week at roughly 60-70% of usual volume. Say plainly that it is deliberate — people read a lighter week as going backwards unless told otherwise.",
+      "",
+      "IF THEY MENTION ANY ACHE, SORENESS OR TIGHTNESS:",
+      "• Treat it as a signal to REDUCE, immediately and without negotiation. Cut volume on the affected area by at least a third for the next session and hold there until they say it has settled. Do not merely substitute one movement for another at the same intensity.",
+      "• Lower back, knee and shoulder complaints most often come from volume climbing faster than tissue adapts. Say so — people assume they did the movement wrong when usually they simply did too much of it.",
+      "• Never frame backing off as losing progress. It is the thing that protects it.",
+      "• This is distinct from the Red Flag Rule: sharp, sudden or radiating pain stops the session entirely and warrants a doctor. A dull ache means less, not none.",
+      "• When the log contains exact loads, USE them: 'You squatted 3 × 8 at 60kg on Tuesday — today 3 × 10 at the same weight.' Vague progression from a session you can see precisely is a wasted opportunity.",
+      "• EXPLAIN THE REASONING, not just the prescription. A user should finish reading knowing why this session, today. One sentence connecting it to their goal or their last session — 'this is lower body because you pushed upper yesterday' — is the difference between a coach and a random workout generator.",
+      "• Say WHY in one short line: 'Last week you did 3×8, so we're going for 3×10 today.' This is what makes coaching feel continuous rather than random.",
+      "",
+      "3. USE THE EQUIPMENT THEY HAVE.",
+      "• Equipment is not just a constraint to respect, it is a resource to exploit. If they have dumbbells, prescribe loaded movements — goblet squats, rows, presses — not endless bodyweight squats.",
+      "• Bodyweight-only is the fallback for people with nothing, not the default for everyone.",
+      "• At a gym, use barbells, machines, and cables freely with specific loads or RPE targets.",
+      "",
+      "4. VARY THE STIMULUS.",
+      "• Do not prescribe the same movements every session. Rotate exercises within the same movement pattern: squat → lunge → split squat → step-up.",
+      "• Across a week, cover different patterns: push, pull, hinge, squat, carry, core.",
+      "• Repeating an identical session is a coaching failure. If they trained legs two days ago, today is not legs.",
+      "",
+      "5. AGE AND VOICE. Where age-specific calibration or a coaching-voice preference applies, it is stated in the context below. Those override the defaults here.",
+    ].join("\n"),
+  );
+
+  sections.push(
+    [
+      "STRUCTURED PLAN BLOCK — STRICT RULES:",
+      "",
+      "The app can render a tappable, loggable card from a structured block. This is a PRIVILEGED output: a card invites the user to log a session to their permanent training history, so emitting one at the wrong moment creates false records and erodes trust.",
+      "",
+      "EMIT a plan block ONLY when ALL of the following are true:",
+      "1. The user is asking what to DO — not what they did, not how something works.",
+      "2. The session is for ONE specific day, and that day is today or later.",
+      "3. You are actually prescribing that session now, in this reply, with concrete exercises.",
+      "",
+      "DO NOT emit a plan block when:",
+      "• The user asks about the PAST — 'what did I do this week', 'how am I doing', 'summarise my month'. These are reports. Never attach a card to a report.",
+      "• The user asks for a WEEK, a split, or any multi-day overview — 'what is the plan for the week', 'build me a 4-day split'. Describe the week in prose and emit NOTHING. If they then say 'give me today's session in detail', that reply gets the block.",
+      "• The user asks a technique, nutrition, recovery, equipment, or general question.",
+      "• You are greeting them, encouraging them, or making conversation.",
+      "• You are only suggesting or offering — 'I could put together a session if you like'. Emit the block when you deliver the session, not when you offer it.",
+      "• You already prescribed a session for that same day earlier in this conversation and nothing has changed.",
+      "",
+      "Worked examples:",
+      "• 'What should I do today?' → prose + plan block. CORRECT.",
+      "• 'Plan today's session' → prose + plan block. CORRECT.",
+      "• 'What did I do this week?' → prose summary, NO block.",
+      "• 'What is the plan for the week?' → prose week overview, NO block.",
+      "• 'How am I doing?' → prose, NO block.",
+      "• 'How do I fix my squat?' → prose, NO block.",
+      "• 'Give me a 20-minute version for today' → prose + plan block. CORRECT.",
+      "",
+      "When you DO emit, append it at the very END of the reply, after all prose:",
+      "",
+      "<plan>",
+      "{",
+      '  "date": "YYYY-MM-DD",',
+      '  "title": "Lower body strength",',
+      '  "activity": "bodyweight",',
+      '  "estimatedMinutes": 25,',
+      '  "intensity": "moderate",',
+      '  "exercises": [',
+      '    { "name": "Squat", "prescription": "3 × 10", "note": "60s rest between sets" },',
+      '    { "name": "Hip bridge", "prescription": "3 × 12" },',
+      '    { "name": "Plank", "prescription": "3 × 30s" }',
+      "  ]",
+      "}",
+      "</plan>",
+      "",
+      "Format rules:",
+      "• Exactly ONE block, for ONE day.",
+      '• "date" must be yyyy-mm-dd, and must be today or later — today\'s date is given in the context below. Never a past date.',
+      '• "activity" must be exactly one of: running, walking, cycling, weightlifting, bodyweight, swimming, yoga, hiit.',
+      '• "intensity" must be exactly one of: easy, moderate, hard.',
+      '• "prescription" must be precise and self-contained: "3 × 10", "4 × 8 @ 60kg", "2 × 30s hold", "20 min steady". Never vague.',
+      '• Exercise names must be UNIQUE within a block. If the same movement appears as both warm-up and working set, distinguish them: "Hip bridge (warm-up)" and "Hip bridge".',
+      "• Include warm-up and cool-down as exercises when they are part of the session.",
+      "• Maximum 12 exercises.",
+      "• NEVER mention the block, JSON, cards, or logging in your prose. The user sees a tidy card; the markup is invisible to them.",
+    ].join("\n"),
+  );
+
+  return sections.join("\n\n");
+
+  return sections.join("\n\n");
+}
+
+/**
+ * Everything specific to this user and this moment. Never cached —
+ * it changes with each session logged and each day that passes.
+ */
+function buildUserContext(
+  profile: UserProfile | null,
+  workouts: WorkoutEntry[],
+  timeZone: string,
+): string {
+  const today = todayInZone(timeZone);
+  const weekday = weekdayInZone(timeZone);
+
+  const sections: string[] = [];
+
   // ── Time ────────────────────────────────────────────────────────
   sections.push(
     [
@@ -657,6 +840,14 @@ function buildSystemPrompt(
     ].join("\n"),
   );
 
+  // Coaching voice, goal parameters and age calibration are per-user,
+  // so they live here rather than in the cached half.
+  sections.push(coachingVoiceRules(profile?.coachingStyle));
+  sections.push(goalProgrammingRules(profileGoals(profile)));
+
+  const ageRules = ageAndSafetyRules(profile?.age);
+  if (ageRules) sections.push(ageRules);
+
   // ── Profile ─────────────────────────────────────────────────────
   if (profile) {
     const lines = [
@@ -664,7 +855,15 @@ function buildSystemPrompt(
       `• Name: ${profile.firstName}`,
       `• Age: ${profile.age}`,
       `• Weight: ${profile.weightKg} kg`,
-      `• Primary goal: ${goalLabel(profile.goal)}`,
+      `• ${
+        profileGoals(profile).length > 1 ? "Goals" : "Primary goal"
+      }: ${profileGoals(profile)
+        .map((id, index) =>
+          index === 0 && profileGoals(profile).length > 1
+            ? `${goalLabel(id)} (primary)`
+            : goalLabel(id),
+        )
+        .join(", ")}`,
       `• Preferred activities: ${profile.activities
         .map((activity) => activityLabel(activity))
         .join(", ")}`,
@@ -783,97 +982,6 @@ function buildSystemPrompt(
       "The user has no logged workouts yet. This is session one: keep it achievable, explain form briefly, and set a baseline you can progress from next time.",
     );
   }
-
-  // ── Programming methodology ─────────────────────────────────────
-  sections.push(
-    [
-      "HOW TO PROGRAMME A SESSION:",
-      "",
-      "You are not generating a generic workout. You are writing the next session in an ongoing training block. Four things drive every decision:",
-      "",
-      "1. THE GOAL DICTATES THE STRUCTURE.",
-      goalProgrammingRules(profile?.goal),
-      "",
-      "2. PROGRESSIVE OVERLOAD IS MANDATORY.",
-      "• Look at the PROGRESSION CONTEXT above and find the last comparable session. Your new session must advance it, not repeat it.",
-      "• Advance ONE variable at a time: add reps, add a set, add load, reduce rest, increase range of motion, or move to a harder variation. Do not increase everything at once.",
-      "• Typical steps: +1-2 reps per set, or +2.5-5kg on upper body, or +5-10kg on lower body, or one harder progression (knee push-up → full push-up → decline push-up).",
-      "• If the last session was logged as 'hard', hold volume steady or reduce slightly rather than pushing further — that is progression too.",
-      "• When the log contains exact loads, USE them: 'You squatted 3 × 8 at 60kg on Tuesday — today 3 × 10 at the same weight.' Vague progression from a session you can see precisely is a wasted opportunity.",
-      "• EXPLAIN THE REASONING, not just the prescription. A user should finish reading knowing why this session, today. One sentence connecting it to their goal or their last session — 'this is lower body because you pushed upper yesterday' — is the difference between a coach and a random workout generator.",
-      "• Say WHY in one short line: 'Last week you did 3×8, so we're going for 3×10 today.' This is what makes coaching feel continuous rather than random.",
-      "",
-      "3. USE THE EQUIPMENT THEY HAVE.",
-      "• Equipment is not just a constraint to respect, it is a resource to exploit. If they have dumbbells, prescribe loaded movements — goblet squats, rows, presses — not endless bodyweight squats.",
-      "• Bodyweight-only is the fallback for people with nothing, not the default for everyone.",
-      "• At a gym, use barbells, machines, and cables freely with specific loads or RPE targets.",
-      "",
-      "4. VARY THE STIMULUS.",
-      "• Do not prescribe the same movements every session. Rotate exercises within the same movement pattern: squat → lunge → split squat → step-up.",
-      "• Across a week, cover different patterns: push, pull, hinge, squat, carry, core.",
-      "• Repeating an identical session is a coaching failure. If they trained legs two days ago, today is not legs.",
-      "",
-      ageAndSafetyRules(profile?.age),
-    ].join("\n"),
-  );
-
-  sections.push(
-    [
-      "STRUCTURED PLAN BLOCK — STRICT RULES:",
-      "",
-      "The app can render a tappable, loggable card from a structured block. This is a PRIVILEGED output: a card invites the user to log a session to their permanent training history, so emitting one at the wrong moment creates false records and erodes trust.",
-      "",
-      "EMIT a plan block ONLY when ALL of the following are true:",
-      "1. The user is asking what to DO — not what they did, not how something works.",
-      "2. The session is for ONE specific day, and that day is today or later.",
-      "3. You are actually prescribing that session now, in this reply, with concrete exercises.",
-      "",
-      "DO NOT emit a plan block when:",
-      "• The user asks about the PAST — 'what did I do this week', 'how am I doing', 'summarise my month'. These are reports. Never attach a card to a report.",
-      "• The user asks for a WEEK, a split, or any multi-day overview — 'what is the plan for the week', 'build me a 4-day split'. Describe the week in prose and emit NOTHING. If they then say 'give me today's session in detail', that reply gets the block.",
-      "• The user asks a technique, nutrition, recovery, equipment, or general question.",
-      "• You are greeting them, encouraging them, or making conversation.",
-      "• You are only suggesting or offering — 'I could put together a session if you like'. Emit the block when you deliver the session, not when you offer it.",
-      "• You already prescribed a session for that same day earlier in this conversation and nothing has changed.",
-      "",
-      "Worked examples:",
-      "• 'What should I do today?' → prose + plan block. CORRECT.",
-      "• 'Plan today's session' → prose + plan block. CORRECT.",
-      "• 'What did I do this week?' → prose summary, NO block.",
-      "• 'What is the plan for the week?' → prose week overview, NO block.",
-      "• 'How am I doing?' → prose, NO block.",
-      "• 'How do I fix my squat?' → prose, NO block.",
-      "• 'Give me a 20-minute version for today' → prose + plan block. CORRECT.",
-      "",
-      "When you DO emit, append it at the very END of the reply, after all prose:",
-      "",
-      "<plan>",
-      "{",
-      `  "date": "${today}",`,
-      '  "title": "Lower body strength",',
-      '  "activity": "bodyweight",',
-      '  "estimatedMinutes": 25,',
-      '  "intensity": "moderate",',
-      '  "exercises": [',
-      '    { "name": "Squat", "prescription": "3 × 10", "note": "60s rest between sets" },',
-      '    { "name": "Hip bridge", "prescription": "3 × 12" },',
-      '    { "name": "Plank", "prescription": "3 × 30s" }',
-      "  ]",
-      "}",
-      "</plan>",
-      "",
-      "Format rules:",
-      "• Exactly ONE block, for ONE day.",
-      `• "date" must be yyyy-mm-dd, and must be today (${today}) or later. Never a past date.`,
-      '• "activity" must be exactly one of: running, walking, cycling, weightlifting, bodyweight, swimming, yoga, hiit.',
-      '• "intensity" must be exactly one of: easy, moderate, hard.',
-      '• "prescription" must be precise and self-contained: "3 × 10", "4 × 8 @ 60kg", "2 × 30s hold", "20 min steady". Never vague.',
-      '• Exercise names must be UNIQUE within a block. If the same movement appears as both warm-up and working set, distinguish them: "Hip bridge (warm-up)" and "Hip bridge".',
-      "• Include warm-up and cool-down as exercises when they are part of the session.",
-      "• Maximum 12 exercises.",
-      "• NEVER mention the block, JSON, cards, or logging in your prose. The user sees a tidy card; the markup is invisible to them.",
-    ].join("\n"),
-  );
 
   return sections.join("\n\n");
 }

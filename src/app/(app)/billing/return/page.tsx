@@ -92,6 +92,31 @@ function BillingReturn() {
     void verify();
   }, [user, verify]);
 
+  // If sign-in never resolves, this page used to spin forever — the
+  // worst possible screen to show someone whose card has just been
+  // charged, because it hides the support address along with
+  // everything else. After ten seconds we say so plainly instead.
+  //
+  // The money is safe either way: the transaction stands on
+  // Flutterwave's side and the webhook activates the subscription
+  // without any browser involved. This is only about what the customer
+  // is looking at while that happens.
+  useEffect(() => {
+    if (user) return;
+    const timer = window.setTimeout(() => {
+      if (attempted.current) return;
+      attempted.current = true;
+      setState("failed");
+      setMessage(
+        "We couldn't confirm you're signed in, so we can't check this " +
+          "payment from here. If money left your account, don't pay " +
+          "again — it will be applied automatically, and support can " +
+          "confirm it for you.",
+      );
+    }, 10_000);
+    return () => window.clearTimeout(timer);
+  }, [user]);
+
   if (state === "verifying") return <Pending />;
 
   if (state === "success") {
@@ -208,4 +233,4 @@ function Shell({
       {children && <div className="mt-8 w-full">{children}</div>}
     </div>
   );
-}
+}

@@ -3,8 +3,14 @@ import { NextResponse } from "next/server";
 
 import { getAdminAuth } from "@/lib/firebase-admin";
 import { periodEndFor, updateBilling } from "@/lib/billing-admin";
-import { PLANS, type PlanId } from "@/lib/subscription";
+import {
+  PLANS,
+  isLifetimePlan,
+  txRefBelongsTo,
+  type PlanId,
+} from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
+import { recordReferralConversion } from "@/lib/referral";
 
 /**
  * Confirms a payment after the customer returns from checkout.
@@ -78,11 +84,13 @@ export async function POST(request: Request) {
 
     const tx = data.data;
 
-    // The transaction must belong to THIS user. tx_ref is minted at
-    // checkout as adimfit-{uid}-{timestamp}; without this check, one
-    // person's valid transaction ID could activate another's account.
+    // The transaction must belong to THIS user. Without this check,
+    // one person's valid transaction ID could activate another's
+    // account. The accepted prefixes live in subscription.ts beside
+    // the minting function — they were hardcoded separately here once,
+    // drifted apart, and silently 403'd every real payment.
     const ref: string = tx.tx_ref ?? "";
-    if (!ref.startsWith(`adimfit-${uid}-`)) {
+    if (!txRefBelongsTo(ref, uid)) {
       console.error("[billing/verify] tx_ref/uid mismatch:", ref, uid);
       return NextResponse.json(
         { error: "That payment doesn't belong to this account." },
@@ -130,12 +138,25 @@ export async function POST(request: Request) {
       );
     }
 
+    // A lifetime purchase has no period to end, so it stores the flag
+    // instead. Writing both would leave a record that expires, which
+    // is precisely what the customer paid not to have.
+    const periodEnd = periodEndFor(planId);
+
     await updateBilling(uid, {
       status: "active",
       plan: planId,
-      currentPeriodEnd: periodEndFor(planId),
       billingEmail: String(tx.customer?.email ?? "").toLowerCase(),
+      ...(isLifetimePlan(planId)
+        ? { lifetime: true }
+        : { currentPeriodEnd: periodEnd ?? undefined }),
     });
+
+    // The affiliate ledger, before the analytics event so the event
+    // can carry the partner. Never throws — a bounty that fails to
+    // record is a support ticket; a 500 here would read to a customer
+    // who has just paid as a failed transaction.
+    const referral = await recordReferralConversion(uid, ref);
 
     // Server-side: a browser could fire this without paying, and ad
     // blockers would lose a share of the conversions that did happen.
@@ -144,6 +165,10 @@ export async function POST(request: Request) {
       provider: "flutterwave",
       currency: plan.currency,
       amount: plan.amount,
+      // Lets PostHog break the monetization funnel down by partner
+      // without a second source of truth.
+      referral_code: referral.recorded ? referral.partnerSlug : null,
+      cohort: referral.recorded ? referral.cohort : null,
     });
 
     return NextResponse.json({ entitled: true, plan: planId });
@@ -154,4 +179,4 @@ export async function POST(request: Request) {
       { status: 502 },
     );
   }
-}
+}

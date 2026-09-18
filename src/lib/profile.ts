@@ -21,7 +21,17 @@ export interface UserProfile {
   weightKg: number;
   /** Height in cm. Optional — asked once, used for load calibration. */
   heightCm?: number;
-  goal: GoalId;
+  /**
+   * @deprecated Written by versions that allowed a single goal. Still
+   * present on every profile created before multi-goal shipped — read
+   * through `profileGoals()`, never directly.
+   */
+  goal?: GoalId;
+  /**
+   * Up to `MAX_GOALS`, in priority order: the first drives how a
+   * session is actually shaped, the rest are served across the week.
+   */
+  goals?: GoalId[];
   activities: ActivityId[];
   /** Where they train. Optional — absent on older profiles. */
   environment?: EnvironmentId[];
@@ -42,6 +52,36 @@ export const GOALS = [
 ] as const;
 
 export type GoalId = (typeof GOALS)[number]["id"];
+
+/**
+ * Two, not more.
+ *
+ * A week holds three or four sessions. Three priorities across four
+ * sessions means none of them gets a block long enough to adapt to,
+ * and the coach loses the thing that makes it feel like coaching — a
+ * reason for today's session to be this one. Two is the most that can
+ * be served honestly: one shapes the session, the other gets its own
+ * day.
+ */
+export const MAX_GOALS = 2;
+
+/**
+ * The one way to read a profile's goals.
+ *
+ * Profiles exist in two shapes — `goal` as a bare string on older
+ * documents, `goals` as an ordered array on newer ones. Reading either
+ * field directly gets one of those two populations wrong, silently, on
+ * a field the coach consults for every single message.
+ */
+export function profileGoals(
+  profile: Pick<UserProfile, "goal" | "goals"> | null | undefined,
+): GoalId[] {
+  if (!profile) return [];
+  if (profile.goals && profile.goals.length > 0) {
+    return profile.goals.slice(0, MAX_GOALS);
+  }
+  return profile.goal ? [profile.goal] : [];
+}
 
 export const ACTIVITIES = [
   { id: "running", label: "Running" },

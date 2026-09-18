@@ -1,6 +1,7 @@
 // src/lib/billing-admin.ts
 import { getAdminDb } from "@/lib/firebase-admin";
 import {
+  PLANS,
   newTrialRecord,
   type BillingRecord,
   type PlanId,
@@ -105,13 +106,49 @@ export async function findUidByBillingEmail(
   return parent ? parent.id : null;
 }
 
-/** Advances the paid period after a successful charge. */
-export function periodEndFor(plan: PlanId, from: Date = new Date()): string {
+/**
+ * Advances the paid period after a successful charge.
+ *
+ * Returns `null` for lifetime, which has no period to advance —
+ * callers write `lifetime: true` instead of a `currentPeriodEnd`, and
+ * `isEntitled` reads that flag first.
+ *
+ * Driven off the plan's `interval` rather than a list of plan IDs. The
+ * previous version tested `plan === "annual_ngn" || …`, which meant
+ * every new plan ID silently defaulted to a one-month period — a
+ * quarterly subscriber would have been charged for three months and
+ * given one.
+ */
+export function periodEndFor(
+  plan: PlanId,
+  from: Date = new Date(),
+): string | null {
+  const interval = PLANS[plan]?.interval;
   const end = new Date(from);
-  if (plan === "annual_ngn" || plan === "annual_usd") {
-    end.setFullYear(end.getFullYear() + 1);
-  } else {
-    end.setMonth(end.getMonth() + 1);
+
+  switch (interval) {
+    case "lifetime":
+      return null;
+    case "weekly":
+      end.setDate(end.getDate() + 7);
+      break;
+    case "quarterly":
+      end.setMonth(end.getMonth() + 3);
+      break;
+    case "yearly":
+      end.setFullYear(end.getFullYear() + 1);
+      break;
+    case "monthly":
+      end.setMonth(end.getMonth() + 1);
+      break;
+    default:
+      // An unknown plan ID reaching here means the catalogue and the
+      // stored record have diverged. One month is the conservative
+      // guess — it under-grants rather than over-grants, and the log
+      // line is what gets it noticed.
+      console.error("[billing] periodEndFor: unknown plan", plan);
+      end.setMonth(end.getMonth() + 1);
   }
+
   return end.toISOString();
-}
+}

@@ -7,7 +7,12 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { track } from "@/lib/analytics";
-import { PLANS, type PlanId } from "@/lib/subscription";
+import {
+  DEFAULT_PLAN,
+  PAYWALL_PLANS,
+  PLANS,
+  type PlanId,
+} from "@/lib/subscription";
 
 interface PaywallProps {
   /** Shown above the plans — why they're seeing this. */
@@ -22,10 +27,15 @@ interface PaywallProps {
  * anyone travelling or on a VPN, and being quietly charged in the
  * wrong currency is a worse first impression than one extra tap.
  *
- * Annual is pre-selected because it's the plan that actually retains —
- * weekly and monthly plans churn hard in fitness — but monthly sits
- * right beside it at equal visual weight. Pre-selecting is a nudge;
+ * The 3-month plan is pre-selected because it's the one that actually
+ * retains — weekly and monthly churn hard in fitness — but every plan
+ * sits in the same single column at the same visual weight, with its
+ * real price and its real per-week cost. Pre-selecting is a nudge;
  * hiding the alternative would be a trick.
+ *
+ * The saving badges come from `PLANS`, where they are computed from
+ * the amounts rather than written by hand. Nothing in this file should
+ * ever contain a percentage literal.
  */
 export function Paywall({
   headline = "Your trial has ended",
@@ -33,7 +43,7 @@ export function Paywall({
 }: PaywallProps) {
   const { user } = useAuth();
   const [currency, setCurrency] = useState<"NGN" | "USD">("USD");
-  const [selected, setSelected] = useState<PlanId>("annual_usd");
+  const [selected, setSelected] = useState<PlanId>(DEFAULT_PLAN.USD);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // True once the user picks a currency themselves — after that,
@@ -60,7 +70,7 @@ export function Paywall({
     function applyCurrency(next: "NGN" | "USD") {
       if (cancelled || userChose) return;
       setCurrency(next);
-      setSelected(next === "NGN" ? "annual_ngn" : "annual_usd");
+      setSelected(DEFAULT_PLAN[next]);
     }
 
     try {
@@ -87,27 +97,25 @@ export function Paywall({
     };
   }, [userChose]);
 
+  /**
+   * Swapping currency keeps the INTERVAL the customer chose, rather
+   * than resetting to the default. Someone who deliberately picked
+   * weekly and then corrected the currency still wants weekly; sending
+   * them back to the 3-month plan would quietly change what they are
+   * about to buy.
+   */
   function switchCurrency(next: "NGN" | "USD") {
     setUserChose(true);
     setCurrency(next);
-    // Keep the interval, swap the currency.
-    const annual = selected.startsWith("annual");
-    setSelected(
-      next === "NGN"
-        ? annual
-          ? "annual_ngn"
-          : "monthly_ngn"
-        : annual
-          ? "annual_usd"
-          : "monthly_usd",
+
+    const interval = PLANS[selected].interval;
+    const match = PAYWALL_PLANS[next].find(
+      (id) => PLANS[id].interval === interval,
     );
+    setSelected(match ?? DEFAULT_PLAN[next]);
   }
 
-  const visiblePlans = (
-    currency === "NGN"
-      ? (["annual_ngn", "monthly_ngn"] as const)
-      : (["annual_usd", "monthly_usd"] as const)
-  ).map((id) => PLANS[id]);
+  const visiblePlans = PAYWALL_PLANS[currency].map((id) => PLANS[id]);
 
   async function checkout() {
     if (!user || busy) return;
@@ -149,6 +157,8 @@ export function Paywall({
     }
   }
 
+  const selectedPlan = PLANS[selected];
+
   const included = [
     "Unlimited coaching conversations",
     "Adaptive plans built from your history",
@@ -168,6 +178,26 @@ export function Paywall({
         <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">
           {subline}
         </p>
+
+        {/*
+          VALUE BEFORE PRICE. This list used to sit below the CTA,
+          where a reader had already decided against the price before
+          reaching it. Everything the money buys is now established
+          before a single number appears on screen.
+        */}
+        <ul className="mt-6 space-y-2">
+          {included.map((item) => (
+            <li key={item} className="flex items-start gap-2.5">
+              <Check
+                className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
+                strokeWidth={3}
+              />
+              <span className="text-[14px] leading-relaxed text-white/70">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
 
         {/* Currency */}
         <div className="mt-6 flex rounded-full bg-black/50 p-1">
@@ -220,7 +250,7 @@ export function Paywall({
                 </span>
 
                 <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-2">
+                  <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="text-[15px] font-semibold text-white">
                       {plan.label}
                     </span>
@@ -229,9 +259,14 @@ export function Paywall({
                         {plan.saving}
                       </span>
                     )}
+                    {plan.badge && (
+                      <span className="rounded-full border border-white/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-white/60">
+                        {plan.badge}
+                      </span>
+                    )}
                   </span>
                   <span className="mt-0.5 block text-[13px] text-white/50">
-                    Billed {plan.interval === "yearly" ? "yearly" : "monthly"}
+                    {plan.cadence}
                   </span>
                 </span>
 
@@ -239,6 +274,11 @@ export function Paywall({
                   <span className="block font-mono text-lg tabular-nums text-white">
                     {plan.display}
                   </span>
+                  {plan.perWeek && (
+                    <span className="mt-0.5 block font-mono text-[11px] tabular-nums text-white/40">
+                      {plan.perWeek}
+                    </span>
+                  )}
                 </span>
               </button>
             );
@@ -270,29 +310,44 @@ export function Paywall({
           )}
         </button>
 
-        <p className="mt-3.5 text-center text-[12px] text-white/50">
-          Cancel anytime · Card, bank transfer, or USSD
+        {/*
+          The three things people actually hesitate over, answered
+          where the hesitation happens rather than in a terms page:
+          when it charges, how to stop it, and how to get the money
+          back. A visible refund route costs less than a chargeback —
+          the bank's version of the same request carries a fee and
+          counts against the merchant account.
+        */}
+        <p className="mt-3.5 text-center text-[12px] leading-relaxed text-white/50">
+          {selectedPlan.interval === "lifetime" ? (
+            <>One payment of {selectedPlan.display}. No renewal, ever.</>
+          ) : (
+            <>
+              {selectedPlan.display} now, then {selectedPlan.display}{" "}
+              {selectedPlan.interval === "weekly"
+                ? "every week"
+                : selectedPlan.interval === "quarterly"
+                  ? "every 3 months"
+                  : "every month"}
+              . Cancel anytime.
+            </>
+          )}
+          <br />
+          Card, bank transfer, or USSD.
         </p>
-
-        <ul className="mt-6 space-y-2 border-t border-white/[0.07] pt-5">
-          {included.map((item) => (
-            <li key={item} className="flex items-start gap-2.5">
-              <Check
-                className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
-                strokeWidth={3}
-              />
-              <span className="text-[14px] leading-relaxed text-white/60">
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <p className="mt-4 px-2 text-center text-[12px] leading-relaxed text-white/50">
-        Your training log stays yours whether you subscribe or not. Nothing is
-        deleted if you decide not to continue.
+        Your training log stays yours whether you subscribe or not — nothing is
+        deleted if you decide not to continue.{" "}
+        <a
+          href="mailto:info@lushtechdia.com?subject=AdimFit%20refund%20request"
+          className="underline underline-offset-4 transition-colors hover:text-white/80"
+        >
+          Request a refund
+        </a>
+        .
       </p>
     </div>
   );
-}
+}

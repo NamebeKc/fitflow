@@ -11,6 +11,7 @@ import {
   resetAnalytics,
   trackPageView,
 } from "@/lib/analytics";
+import { captureAttribution, claimAttribution } from "@/lib/attribution";
 
 /**
  * Wires analytics into the app lifecycle.
@@ -42,6 +43,9 @@ function AnalyticsTracker() {
   // Initialise once.
   useEffect(() => {
     initAnalytics();
+    // Must run before any navigation away from the landing URL — the
+    // campaign parameters only exist on that first request.
+    captureAttribution();
   }, []);
 
   // Page view on every navigation.
@@ -57,6 +61,10 @@ function AnalyticsTracker() {
     if (user && identifiedRef.current !== user.uid) {
       identifyUser(user.uid);
       identifiedRef.current = user.uid;
+      // Hand the stored referral to the server. The route writes once
+      // per user, so running this on every sign-in costs nothing and
+      // covers the case where a first attempt never landed.
+      void user.getIdToken().then(claimAttribution);
       return;
     }
 

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { getAdminAuth } from "@/lib/firebase-admin";
 import { updateBilling } from "@/lib/billing-admin";
-import { PLANS, type PlanId } from "@/lib/subscription";
+import { PLANS, mintTxRef, type PlanId } from "@/lib/subscription";
 
 /**
  * Starts a subscription.
@@ -19,12 +19,30 @@ import { PLANS, type PlanId } from "@/lib/subscription";
 
 const FLW_API = "https://api.flutterwave.com/v3";
 
-/** Maps our plan IDs to the plan IDs created in the Flutterwave dashboard. */
+/**
+ * Maps our plan IDs to the payment plans created in the Flutterwave
+ * dashboard.
+ *
+ * Lifetime plans are deliberately absent: a lifetime purchase is a
+ * single charge, not a subscription, so it goes through the same
+ * `/payments` call with no `payment_plan` attached. Attaching one
+ * would enrol the customer in a recurring charge for something sold
+ * as a one-off.
+ *
+ * The retired annual plans are kept so that anyone still on one can be
+ * renewed by the webhook, but they are unreachable from the paywall.
+ */
 function flutterwavePlanId(plan: PlanId): string | undefined {
   const map: Record<PlanId, string | undefined> = {
+    weekly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_WEEKLY,
     monthly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_MONTHLY,
-    annual_ngn: process.env.FLUTTERWAVE_PLAN_NGN_ANNUAL,
+    quarterly_ngn: process.env.FLUTTERWAVE_PLAN_NGN_QUARTERLY,
+    lifetime_ngn: undefined,
+    weekly_usd: process.env.FLUTTERWAVE_PLAN_USD_WEEKLY,
     monthly_usd: process.env.FLUTTERWAVE_PLAN_USD_MONTHLY,
+    quarterly_usd: process.env.FLUTTERWAVE_PLAN_USD_QUARTERLY,
+    lifetime_usd: undefined,
+    annual_ngn: process.env.FLUTTERWAVE_PLAN_NGN_ANNUAL,
     annual_usd: process.env.FLUTTERWAVE_PLAN_USD_ANNUAL,
   };
   return map[plan];
@@ -73,10 +91,22 @@ export async function POST(request: Request) {
   }
 
   const plan = PLANS[planId];
+
+  // A retired plan is still honoured for renewals but must never be
+  // sold again — otherwise an old price stays purchasable forever to
+  // anyone who keeps the plan ID.
+  if (plan.retired) {
+    return NextResponse.json(
+      { error: "That plan is no longer available." },
+      { status: 410 },
+    );
+  }
+
+  const lifetime = plan.interval === "lifetime";
   const flwPlan = flutterwavePlanId(planId);
 
   const secret = process.env.FLUTTERWAVE_SECRET_KEY;
-  if (!secret || !flwPlan) {
+  if (!secret || (!lifetime && !flwPlan)) {
     console.error("[billing/checkout] Missing Flutterwave configuration");
     return NextResponse.json(
       { error: "Payments aren't configured yet. Please try again later." },
@@ -89,7 +119,9 @@ export async function POST(request: Request) {
 
   // tx_ref must be unique per attempt and lets us tie the callback
   // back to this user without trusting the redirect's query string.
-  const txRef = `fitflow-${uid}-${Date.now()}`;
+  // Minted through subscription.ts so the prefix can never drift out
+  // of step with the check in the verify route again.
+  const txRef = mintTxRef(uid);
 
   try {
     const response = await fetch(`${FLW_API}/payments`, {
@@ -102,12 +134,15 @@ export async function POST(request: Request) {
         tx_ref: txRef,
         amount: plan.amount,
         currency: plan.currency,
-        payment_plan: flwPlan,
+        // Omitted entirely for lifetime — see flutterwavePlanId().
+        ...(lifetime ? {} : { payment_plan: flwPlan }),
         redirect_url: `${appUrl}/billing/return`,
         customer: { email },
         customizations: {
-          title: "Fitflow",
-          description: `Fitflow ${plan.label} subscription`,
+          title: "AdimFit",
+          description: lifetime
+            ? "AdimFit Lifetime — one payment"
+            : `AdimFit ${plan.label} subscription`,
           logo: `${appUrl}/logo.png`,
         },
         meta: { uid, plan: planId },
@@ -140,4 +175,4 @@ export async function POST(request: Request) {
       { status: 502 },
     );
   }
-}
+}

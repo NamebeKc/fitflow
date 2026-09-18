@@ -25,7 +25,7 @@
  */
 
 // Bump on every release. This is what invalidates returning users.
-const VERSION = "v2-2026-08-21";
+const VERSION = "v3-push-2026-09-08";
 const CACHE = `adimfit-${VERSION}`;
 const OFFLINE_URL = "/offline.html";
 
@@ -127,4 +127,63 @@ self.addEventListener("fetch", (event) => {
   // ── Everything else: straight to the network, uncached ────────────
   // If it isn't a document and isn't content-hashed, we cannot tell
   // whether a cached copy is still correct — so we don't keep one.
+});
+
+/* ══ PUSH NOTIFICATIONS ═══════════════════════════════════════════ */
+
+/**
+ * A push event MUST result in a visible notification.
+ *
+ * Browsers permit "silent" pushes only briefly before revoking the
+ * permission entirely — showing something every time is not just
+ * courtesy, it's what keeps the subscription alive. Hence the fallback
+ * copy if the payload is missing or malformed.
+ */
+self.addEventListener("push", (event) => {
+  let payload = {
+    title: "AdimFit",
+    body: "Time to move.",
+    url: "/coach",
+  };
+
+  try {
+    if (event.data) payload = { ...payload, ...event.data.json() };
+  } catch {
+    // Malformed payload — the defaults above still satisfy the
+    // must-show-something rule.
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
+      // Same tag each day so a second push replaces rather than
+      // stacks — nobody wants five reminders in their shade.
+      tag: "adimfit-reminder",
+      renotify: false,
+      data: { url: payload.url },
+    }),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = event.notification.data?.url || "/";
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        // Focus an open tab rather than opening a second one — the
+        // person usually already has the app somewhere.
+        for (const client of clients) {
+          if (client.url.includes(self.location.origin) && "focus" in client) {
+            client.navigate(target);
+            return client.focus();
+          }
+        }
+        return self.clients.openWindow(target);
+      }),
+  );
 });
