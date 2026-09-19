@@ -2,7 +2,11 @@
 import { NextResponse } from "next/server";
 
 import { getAdminAuth } from "@/lib/firebase-admin";
-import { periodEndFor, updateBilling } from "@/lib/billing-admin";
+import {
+  claimFoundingSeat,
+  periodEndFor,
+  updateBilling,
+} from "@/lib/billing-admin";
 import {
   PLANS,
   isLifetimePlan,
@@ -151,6 +155,9 @@ export async function POST(request: Request) {
         ? { lifetime: true }
         : { currentPeriodEnd: periodEnd ?? undefined }),
     });
+
+    // Founding seat, after entitlement is written. Never throws.
+    await claimFoundingSeat(uid);
 
     // The affiliate ledger, before the analytics event so the event
     // can carry the partner. Never throws — a bounty that fails to

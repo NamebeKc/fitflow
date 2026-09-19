@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 
 import {
+  claimFoundingSeat,
   findUidByBillingEmail,
   getBilling,
   periodEndFor,
@@ -120,6 +121,11 @@ export async function POST(request: Request) {
           currentPeriodEnd: periodEndFor(planId, base) ?? undefined,
         });
       }
+
+      // A first activation that arrived by webhook rather than verify
+      // still earns its founding seat. Idempotent, so a renewal that
+      // reaches this line changes nothing.
+      if (!renewing) await claimFoundingSeat(uid);
 
       // Renewals reach us only here — no browser is involved, so this
       // is the sole opportunity to record them.

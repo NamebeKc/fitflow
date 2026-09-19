@@ -122,6 +122,13 @@ export interface BillingRecord {
   /** Subscriptions are bound to this email and cannot be reassigned. */
   billingEmail?: string;
   /**
+   * Set once this account has taken a founding-cohort seat. Written
+   * only by `claimFoundingSeat`, never unset — the price is locked by
+   * the Flutterwave payment plan regardless, so this is a record of
+   * what happened rather than the thing that grants it.
+   */
+  founding?: boolean;
+  /**
    * ISO timestamp. Complimentary access granted outside of billing —
    * pilot users, testers, support gestures. Set only by the admin
    * script; never writable from the browser.
@@ -148,11 +155,19 @@ export interface PlanDetails {
    */
   perWeek?: string;
   /**
-   * DERIVED at module load from the amounts below, never hardcoded.
-   * A saving badge is a price claim: if it says 50% it has to be at
-   * least 50% off a price a customer could actually have paid, which
-   * here is always the weekly plan in the same currency. Computing it
-   * removes the only way for the badge and the arithmetic to disagree.
+   * The struck-through standard price, e.g. "₦5,000". Present only
+   * while the plan is being sold at founding-cohort pricing.
+   */
+  standardDisplay?: string;
+  /**
+   * DERIVED at module load from `STANDARD_PRICING`, never hardcoded.
+   *
+   * A saving badge is a price claim, so it is measured against the
+   * standard price this plan reverts to once the founding cohort is
+   * full — a price this product will actually charge, not an invented
+   * anchor. Computing it removes the only way for the badge and the
+   * arithmetic to disagree, and it is floored, so a badge can only
+   * ever understate the real discount.
    */
   saving?: string;
   /** Marketing label — "Most popular", "Founding offer". */
@@ -274,6 +289,47 @@ const BASE_PLANS: Record<PlanId, Omit<PlanDetails, "saving" | "perWeek">> = {
   },
 };
 
+/**
+ * ── FOUNDING COHORT PRICING ─────────────────────────────────────────
+ * The prices in BASE_PLANS are HALF these. That is what makes "50%
+ * off" a true statement on every row rather than a decoration: these
+ * are the standard prices, and they go live for everyone who joins
+ * after the founding cohort fills.
+ *
+ * THE PROMISE THIS MAKES. "50% off for life" is not a marketing line
+ * the app has to remember to honour — a Flutterwave payment plan
+ * locks its amount at the moment of subscription, so a founding
+ * member is charged the founding amount by the plan itself, for as
+ * long as they stay subscribed. There is no per-user price logic to
+ * get wrong.
+ *
+ * WHAT HAPPENS WHEN THE COHORT FILLS. Six new Flutterwave payment
+ * plans are created at these amounts, their IDs go in the env, and
+ * BASE_PLANS moves to them. Existing members are untouched, because
+ * their subscription is bound to the old plan. Until that day these
+ * standard prices exist only as the struck-through number.
+ *
+ * Every entry must be at least double its BASE_PLANS amount, or the
+ * badge would overstate. `assertFoundingDiscount()` below enforces it
+ * at module load rather than trusting the table.
+ * ─────────────────────────────────────────────────────────────────────
+ */
+const STANDARD_PRICING: Partial<
+  Record<PlanId, { amount: number; display: string }>
+> = {
+  weekly_ngn: { amount: 5000, display: "₦5,000" },
+  monthly_ngn: { amount: 15900, display: "₦15,900" },
+  annual_ngn_2026: { amount: 99900, display: "₦99,900" },
+  lifetime_ngn: { amount: 299000, display: "₦299,000" },
+  weekly_usd: { amount: 4.99, display: "$4.99" },
+  monthly_usd: { amount: 15.99, display: "$15.99" },
+  annual_usd_2026: { amount: 99.99, display: "$99.99" },
+  lifetime_usd: { amount: 299, display: "$299" },
+};
+
+/** How many seats are sold at founding pricing. */
+export const FOUNDING_LIMIT = 200;
+
 /** Price per week, in major units. Infinity-safe for lifetime. */
 function perWeekAmount(plan: Omit<PlanDetails, "saving" | "perWeek">): number {
   return plan.amount / WEEKS_PER_PERIOD[plan.interval];
@@ -313,13 +369,15 @@ function formatMoney(currency: "NGN" | "USD", amount: number): string {
  */
 export const PLANS: Record<PlanId, PlanDetails> = Object.fromEntries(
   Object.entries(BASE_PLANS).map(([id, plan]) => {
-    const anchor = plan.currency === "NGN" ? "weekly_ngn" : "weekly_usd";
-    const anchorPerWeek = perWeekAmount(BASE_PLANS[anchor as PlanId]);
-    const thisPerWeek = perWeekAmount(plan);
+    const standard = plan.retired
+      ? undefined
+      : STANDARD_PRICING[id as PlanId];
 
-    const comparable =
-      plan.interval !== "lifetime" && plan.interval !== "weekly";
-    const percent = Math.floor((1 - thisPerWeek / anchorPerWeek) * 100);
+    const percent = standard
+      ? Math.floor((1 - plan.amount / standard.amount) * 100)
+      : 0;
+
+    const thisPerWeek = perWeekAmount(plan);
 
     return [
       id,
@@ -329,14 +387,38 @@ export const PLANS: Record<PlanId, PlanDetails> = Object.fromEntries(
           plan.interval === "lifetime"
             ? undefined
             : `${formatMoney(plan.currency, thisPerWeek)}/week`,
-        saving:
-          comparable && percent > 0 && !plan.retired
-            ? `Save ${percent}%`
-            : undefined,
+        standardDisplay: standard?.display,
+        saving: standard && percent > 0 ? `Save ${percent}%` : undefined,
       },
     ];
   }),
 ) as Record<PlanId, PlanDetails>;
+
+/**
+ * Fails the build rather than shipping an overstated badge.
+ *
+ * A saving badge is a price claim. If a standard price were ever
+ * edited to less than double its founding price, every paywall would
+ * quietly start advertising a discount larger than the one on offer —
+ * the exact failure this whole module is arranged to prevent. Better
+ * to refuse to start.
+ */
+function assertFoundingDiscount(): void {
+  for (const [id, standard] of Object.entries(STANDARD_PRICING)) {
+    const plan = BASE_PLANS[id as PlanId];
+    if (!plan || !standard) continue;
+    const real = (1 - plan.amount / standard.amount) * 100;
+    if (real < 50) {
+      throw new Error(
+        `[pricing] ${id} claims 50% off but the real discount is ` +
+          `${real.toFixed(1)}% (${plan.amount} vs standard ` +
+          `${standard.amount}). Fix STANDARD_PRICING.`,
+      );
+    }
+  }
+}
+
+assertFoundingDiscount();
 
 /**
  * Paywall order, cheapest commitment first, lifetime last.

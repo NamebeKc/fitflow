@@ -1,6 +1,7 @@
 // src/lib/billing-admin.ts
 import { getAdminDb } from "@/lib/firebase-admin";
 import {
+  FOUNDING_LIMIT,
   PLANS,
   newTrialRecord,
   type BillingRecord,
@@ -152,3 +153,80 @@ export function periodEndFor(
 
   return end.toISOString();
 }
+
+/* ── FOUNDING COHORT ──────────────────────────────────────────────
+ * A single counter document, `config/founding`, holding how many
+ * seats have been taken. Server-only: firestore.rules denies clients
+ * every collection it does not name, and the paywall reads the count
+ * through /api/founding instead.
+ * ───────────────────────────────────────────────────────────────── */
+
+const FOUNDING_DOC = "config/founding";
+
+export interface FoundingStatus {
+  claimed: number;
+  limit: number;
+  remaining: number;
+}
+
+export async function getFoundingStatus(): Promise<FoundingStatus> {
+  const snapshot = await getAdminDb().doc(FOUNDING_DOC).get();
+  const claimed = (snapshot.get("claimed") as number | undefined) ?? 0;
+  return {
+    claimed,
+    limit: FOUNDING_LIMIT,
+    remaining: Math.max(0, FOUNDING_LIMIT - claimed),
+  };
+}
+
+/**
+ * Marks an account as a founding member and advances the counter.
+ *
+ * IDEMPOTENT VIA THE BILLING RECORD, not via the counter. The flag on
+ * `users/{uid}/billing/subscription` is read first inside the same
+ * transaction that increments, so a replayed webhook, a double-tapped
+ * verify, or both racing can only ever move the count by one per
+ * account.
+ *
+ * THE SEAT IS GRANTED EVEN PAST THE LIMIT. By the time this runs the
+ * customer has already been charged, and they were charged the
+ * founding amount because that is what the Flutterwave payment plan
+ * says. Refusing the flag here would record them as standard-priced
+ * while billing them founding — a discrepancy in the ledger to avoid
+ * a number going to 201. Closing the cohort is a pricing action
+ * (swap BASE_PLANS to the standard plan IDs); it is not a race this
+ * transaction should try to win.
+ */
+export async function claimFoundingSeat(uid: string): Promise<boolean> {
+  const db = getAdminDb();
+  const billing = billingRef(uid);
+  const counter = db.doc(FOUNDING_DOC);
+
+  try {
+    return await db.runTransaction(async (tx) => {
+      const existing = await tx.get(billing);
+      if (existing.get("founding") === true) return false;
+
+      const snapshot = await tx.get(counter);
+      const claimed = (snapshot.get("claimed") as number | undefined) ?? 0;
+
+      tx.set(
+        counter,
+        {
+          claimed: claimed + 1,
+          limit: FOUNDING_LIMIT,
+          updatedAt: new Date().toISOString(),
+        },
+        { merge: true },
+      );
+      tx.set(billing, { founding: true }, { merge: true });
+      return true;
+    });
+  } catch (error) {
+    // Never fail a payment over a counter. The customer is entitled
+    // and correctly priced either way; a missed increment is a
+    // reporting inaccuracy, not a billing one.
+    console.error("[billing] Founding seat claim failed:", uid, error);
+    return false;
+  }
+}

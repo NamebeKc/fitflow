@@ -10,6 +10,7 @@ import { track } from "@/lib/analytics";
 import {
   DEFAULT_PLAN,
   ENABLED_CURRENCIES,
+  FOUNDING_LIMIT,
   PAYWALL_PLANS,
   PLANS,
   PRIMARY_CURRENCY,
@@ -71,6 +72,32 @@ export function Paywall({
   // True once the user picks a currency themselves — after that,
   // detection must never override their choice.
   const [userChose, setUserChose] = useState(false);
+  // null until known, and stays null if the count can't be read.
+  const [seatsLeft, setSeatsLeft] = useState<number | null>(null);
+
+  /**
+   * Founding seats remaining.
+   *
+   * Scarcity has to be real to be worth showing. This is a live count
+   * of subscriptions taken, not a countdown that resets on reload —
+   * and if the endpoint fails it stays null and the line simply does
+   * not render, rather than falling back to a flattering guess.
+   */
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/founding")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { remaining?: number | null } | null) => {
+        if (cancelled) return;
+        if (typeof data?.remaining === "number") setSeatsLeft(data.remaining);
+      })
+      .catch(() => {
+        // Marketing copy, not a blocker.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   /**
    * Currency detection, in two passes.
@@ -225,6 +252,21 @@ export function Paywall({
         </ul>
 
         {/*
+          The scarcity line sits directly above the prices, because
+          that is where the struck-through number needs explaining:
+          it is not a permanent discount, it is a cohort that closes.
+        */}
+        {seatsLeft !== null && seatsLeft > 0 && (
+          <p className="mt-6 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-[#CCFF00]">
+            Founding member pricing — {seatsLeft} of {FOUNDING_LIMIT} seats
+            left
+            <span className="mt-0.5 block text-[12px] text-white/50">
+              Half price, locked for as long as you stay subscribed.
+            </span>
+          </p>
+        )}
+
+        {/*
           The toggle only appears when there is something to toggle TO.
           With international collection not yet approved, offering a
           dollar price would let a customer choose a plan that cannot
@@ -303,6 +345,11 @@ export function Paywall({
                 </span>
 
                 <span className="shrink-0 text-right">
+                  {plan.standardDisplay && (
+                    <span className="block font-mono text-[11px] tabular-nums text-white/35 line-through">
+                      {plan.standardDisplay}
+                    </span>
+                  )}
                   <span className="block font-mono text-lg tabular-nums text-white">
                     {plan.display}
                   </span>

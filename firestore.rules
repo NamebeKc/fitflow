@@ -101,6 +101,14 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // The founding-seat counter. Read by the browser only through
+    // /api/founding, never directly — a client that can write it can
+    // fake scarcity, and one that can read it gains nothing the API
+    // doesn't already give.
+    match /config/{docId} {
+      allow read, write: if false;
+    }
+
     // ── Everything else ───────────────────────────────────────────
     match /{document=**} {
       allow read, write: if false;
