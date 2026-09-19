@@ -113,12 +113,16 @@ export async function POST(request: Request) {
           status: "active",
           plan: planId,
           lifetime: true,
+          lastPaymentAt: new Date().toISOString(),
         });
       } else {
         await updateBilling(uid, {
           status: "active",
           plan: planId,
           currentPeriodEnd: periodEndFor(planId, base) ?? undefined,
+          // Every charge opens a fresh window, renewals included. The
+          // renewal nobody wanted is the one that becomes a chargeback.
+          lastPaymentAt: new Date().toISOString(),
         });
       }
 

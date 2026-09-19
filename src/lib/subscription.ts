@@ -129,6 +129,14 @@ export interface BillingRecord {
   trialEndsAt?: string;
   /** ISO timestamp — paid access valid until this point. */
   currentPeriodEnd?: string;
+  /**
+   * ISO timestamp of the most recent successful charge.
+   *
+   * Distinct from `updatedAt`, which moves on every write including
+   * ones that took no money. The refund guarantee is measured from
+   * this and nothing else, so it has to mean exactly one thing.
+   */
+  lastPaymentAt?: string;
   plan?: PlanId;
   /** Flutterwave's subscription ID, needed to cancel. */
   flwSubscriptionId?: number;
@@ -352,6 +360,55 @@ const STANDARD_PRICING: Partial<
 
 /** How many seats are sold at founding pricing. */
 export const FOUNDING_LIMIT = 200;
+
+/**
+ * ── THE REFUND GUARANTEE ────────────────────────────────────────────
+ * Seven days from any charge, refunded on request, no reason needed.
+ *
+ * THIS IS WHY THERE IS NO FREE TRIAL. Flutterwave payment plans have
+ * no trial primitive — the subscription is created BY the first
+ * charge — so a card-gated trial would mean tokenising a card with a
+ * real non-zero charge, running our own scheduler, and owning the
+ * entire dunning lifecycle that Flutterwave currently handles. The
+ * guarantee buys the same thing the trial was for, which is removing
+ * the fear of being stuck, and costs a support inbox instead of a
+ * subscription engine.
+ *
+ * IT APPLIES TO EVERY CHARGE, NOT JUST THE FIRST. More generous than
+ * the usual first-purchase-only version, and deliberately so: the
+ * renewal nobody wanted is precisely the charge that becomes a
+ * chargeback, and a chargeback costs the fee plus a mark against the
+ * merchant account. A refund is the cheaper version of the same
+ * outcome.
+ *
+ * A PROMISE MADE ON THE PAYWALL IS A PROMISE. This constant is read
+ * by the paywall, the post-purchase screen, the subscription card and
+ * the terms page, so all four cannot drift apart and quietly start
+ * offering different windows.
+ * ─────────────────────────────────────────────────────────────────────
+ */
+export const GUARANTEE_DAYS = 7;
+
+/** When the current refund window closes, or null if none is open. */
+export function guaranteeEndsAt(
+  billing: Pick<BillingRecord, "lastPaymentAt"> | null | undefined,
+): string | null {
+  if (!billing?.lastPaymentAt) return null;
+  const paid = new Date(billing.lastPaymentAt);
+  if (Number.isNaN(paid.getTime())) return null;
+  return new Date(
+    paid.getTime() + GUARANTEE_DAYS * 86_400_000,
+  ).toISOString();
+}
+
+/** True while the most recent charge is still refundable on request. */
+export function withinGuarantee(
+  billing: Pick<BillingRecord, "lastPaymentAt"> | null | undefined,
+  now: Date = new Date(),
+): boolean {
+  const ends = guaranteeEndsAt(billing);
+  return ends !== null && new Date(ends) > now;
+}
 
 /** Price per week, in major units. Infinity-safe for lifetime. */
 function perWeekAmount(plan: Omit<PlanDetails, "saving" | "perWeek">): number {

@@ -11,6 +11,7 @@ import {
   DEFAULT_PLAN,
   ENABLED_CURRENCIES,
   FOUNDING_LIMIT,
+  GUARANTEE_DAYS,
   PAYWALL_PLANS,
   PLANS,
   PRIMARY_CURRENCY,
@@ -388,6 +389,30 @@ export function Paywall({
             </>
           )}
         </button>
+
+        {/*
+          THE GUARANTEE SITS UNDER THE BUTTON, NOT IN THE TERMS.
+
+          It is doing the job a free trial would do — removing the
+          fear of being stuck — and it can only do that job if it is
+          read before the decision rather than discovered after it.
+          Flutterwave has no trial primitive, so this is the honest
+          version of the same offer: the money moves, and it moves
+          back on request.
+
+          Both the window and the wording come from GUARANTEE_DAYS,
+          which the terms page and the subscription card also read, so
+          the promise cannot quietly differ by surface.
+        */}
+        <div className="mt-4 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-3 text-center">
+          <p className="text-[13px] font-medium leading-relaxed text-[#CCFF00]">
+            {GUARANTEE_DAYS}-day money-back guarantee
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-white/60">
+            Not for you? Email us within {GUARANTEE_DAYS} days and we refund
+            it in full. No reason needed, no forms.
+          </p>
+        </div>
 
         {/*
           The three things people actually hesitate over, answered

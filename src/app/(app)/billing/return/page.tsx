@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
 import { useAuth } from "@/components/providers/AuthProvider";
+import { GUARANTEE_DAYS } from "@/lib/subscription";
 
 /**
  * Where Flutterwave sends people after checkout.
@@ -127,7 +128,7 @@ function BillingReturn() {
         }
         accent
         title="You're all set."
-        body="Your subscription is active. Your coach is ready when you are."
+        body={`Your subscription is active. If it turns out not to be for you, email us within ${GUARANTEE_DAYS} days for a full refund.`}
       >
         <button
           type="button"

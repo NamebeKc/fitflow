@@ -96,15 +96,26 @@ export default function TermsPage() {
 
       <Section heading="Subscriptions and payment">
         <p>
-          Some features may require a paid subscription. Where they do, the
-          price, billing period, and any free trial will be shown clearly
-          before you are charged. Subscriptions renew automatically until
-          cancelled, and you can cancel at any time — access continues to
-          the end of the paid period.
+          AdimFit requires a paid subscription. There is no free trial:
+          the price and billing period are shown in full before you are
+          charged. Subscriptions renew automatically until cancelled, and
+          you can cancel at any time — access continues to the end of the
+          period you have already paid for.
         </p>
         <p>
-          Refunds are handled in line with the rules of the payment
-          provider and applicable consumer law.
+          <strong className="font-medium text-white/80">
+            Seven-day money-back guarantee.
+          </strong>{" "}
+          If you email us within seven days of any charge — including a
+          renewal, not only your first payment — we will refund that charge
+          in full. You do not need to give a reason. Refunds are returned
+          to the card or account you paid from, and can take a few working
+          days to appear depending on your bank.
+        </p>
+        <p>
+          Outside that window, refunds are handled in line with the rules
+          of the payment provider and applicable consumer law. Nothing here
+          limits any right you have under Nigerian consumer protection law.
         </p>
       </Section>
 

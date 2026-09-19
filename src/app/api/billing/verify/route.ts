@@ -151,6 +151,9 @@ export async function POST(request: Request) {
       status: "active",
       plan: planId,
       billingEmail: String(tx.customer?.email ?? "").toLowerCase(),
+      // Starts the refund guarantee. Separate from updatedAt, which
+      // moves on writes that took no money.
+      lastPaymentAt: new Date().toISOString(),
       ...(isLifetimePlan(planId)
         ? { lifetime: true }
         : { currentPeriodEnd: periodEnd ?? undefined }),
