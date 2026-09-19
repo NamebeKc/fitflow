@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { track } from "@/lib/analytics";
 import { TrialBanner } from "@/components/billing/TrialBanner";
 import { TabGuide } from "@/components/onboarding/TabGuide";
+import { BaselinePrompt } from "@/components/onboarding/BaselinePrompt";
 import { CoachQuickActions } from "@/components/dashboard/CoachQuickActions";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { WeeklySummary } from "@/components/dashboard/WeeklySummary";
@@ -89,6 +90,13 @@ export default function DashboardPage() {
           that already existed; this is cheaper than building them
           again. */}
       {!isLoading && profile && <TabGuide />}
+
+      {/* Self-gating: waits for the second logged workout so it never
+          competes with ReminderPrompt, and never returns once
+          answered. See BaselinePrompt for why it isn't in onboarding. */}
+      {!isLoading && profile && (
+        <BaselinePrompt workoutCount={workouts?.length ?? 0} />
+      )}
 
       {(isLoading || needsOnboarding) && <DashboardSkeleton />}
 

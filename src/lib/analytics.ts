@@ -63,6 +63,9 @@ export type AnalyticsEvent =
   | "weigh_in_opened"
   | "measurement_logged"
   | "profile_edited"
+  | "baseline_activity_prompted"
+  | "baseline_activity_answered"
+  | "baseline_activity_dismissed"
   | "account_deleted"
   // ── PWA ──────────────────────────────────────────────────────────
   | "pwa_install_prompt_shown"

@@ -39,6 +39,24 @@ export interface UserProfile {
   equipment?: EquipmentId[];
   /** How they want to be spoken to. Optional; defaults to balanced. */
   coachingStyle?: CoachingStyleId;
+  /**
+   * How active they were BEFORE AdimFit, self-reported.
+   *
+   * Optional, and captured in-app rather than during onboarding, so
+   * most profiles will not have it. Absent is a real and expected
+   * value — never treat it as zero.
+   *
+   * WHY IT EXISTS. Insurer evidence is consistent that healthcare
+   * savings concentrate in members who move from inactive to active,
+   * not in members who were already training. Without a baseline
+   * there is no way to identify that group, and "our users are
+   * active" is the selection effect an actuary discounts to nothing.
+   * Recorded once and never overwritten: the answer is about a fixed
+   * point in the past, so a later edit could only make it less true.
+   */
+  baselineActiveDays?: BaselineActivityId;
+  /** When the baseline was answered. Recall degrades; this dates it. */
+  baselineCapturedAt?: string;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
 }
@@ -64,6 +82,23 @@ export type GoalId = (typeof GOALS)[number]["id"];
  * day.
  */
 export const MAX_GOALS = 2;
+
+/**
+ * Self-reported activity before joining, in days per week.
+ *
+ * Deliberately coarse. A four-way split is answerable in one tap from
+ * memory; asking for a number invites a guess dressed up as precision,
+ * and the literature on self-reported activity is unkind enough
+ * already.
+ */
+export const BASELINE_ACTIVITY = [
+  { id: "none", label: "Barely at all" },
+  { id: "1-2", label: "1–2 days" },
+  { id: "3-4", label: "3–4 days" },
+  { id: "5+", label: "5+ days" },
+] as const;
+
+export type BaselineActivityId = (typeof BASELINE_ACTIVITY)[number]["id"];
 
 /**
  * The one way to read a profile's goals.
