@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useProfile } from "@/components/providers/ProfileProvider";
 import { track } from "@/lib/analytics";
-import { Paywall } from "@/components/billing/Paywall";
+import { PaywallFlow } from "@/components/billing/PaywallFlow";
 import { isEntitled, loadBilling, type BillingRecord } from "@/lib/subscription";
 
 /**
@@ -29,6 +29,11 @@ import { isEntitled, loadBilling, type BillingRecord } from "@/lib/subscription"
  *    there. A customer who cannot pay must still be able to leave —
  *    a paywall that also traps someone's account is how a support
  *    request becomes a chargeback.
+ *
+ * WHAT IT RENDERS. Not the bare price screen — PaywallFlow, which
+ * puts three value screens in front of it. Someone who has just
+ * finished onboarding has told us a great deal and been shown nothing
+ * back; a price is the wrong first response to that.
  *
  * ENTITLEMENT IS STILL DECIDED SERVER-SIDE. This gate is a UI
  * affordance, nothing more. Anyone can edit their way past a React
@@ -95,10 +100,6 @@ export function PaywallGate({ children }: { children: ReactNode }) {
 
   if (!blocked) return <>{children}</>;
 
-  return (
-    <Paywall
-      headline={`Ready when you are, ${profile?.firstName ?? "there"}`}
-      subline="Your plan is built. Subscribe to start training with it."
-    />
-  );
+  // The flow owns its own headline and the price screen it ends on.
+  return <PaywallFlow />;
 }

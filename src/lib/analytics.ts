@@ -70,6 +70,7 @@ export type AnalyticsEvent =
   | "pwa_install_dismissed"
   // ── Monetization (client half — see analytics-server for the rest) ─
   | "paywall_shown"
+  | "paywall_step_viewed"
   | "checkout_started"
   | "checkout_abandoned"
   // ── Referral, Phase 4 (Channel A test) ───────────────────────────
