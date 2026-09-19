@@ -59,8 +59,8 @@ interface PaywallProps {
  * ever contain a percentage literal.
  */
 export function Paywall({
-  headline = "Your trial has ended",
-  subline = "Subscribe to keep training with a coach that remembers every session.",
+  headline = "Start training with your coach",
+  subline = "One subscription unlocks the coach, your plans, and every session you log.",
 }: PaywallProps) {
   const { user } = useAuth();
   const [currency, setCurrency] = useState<Currency>(PRIMARY_CURRENCY);

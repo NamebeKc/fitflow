@@ -20,6 +20,11 @@ import { db } from "@/lib/firebase";
  * ─────────────────────────────────────────────────────────────────────
  */
 
+/**
+ * @deprecated The card-free trial was retired in September 2026 in
+ * favour of a hard paywall. Kept only so the length of a legacy trial
+ * is still documented somewhere; nothing reads it to grant access.
+ */
 export const TRIAL_DAYS = 7;
 
 /**
@@ -61,6 +66,19 @@ export function txRefBelongsTo(ref: string, uid: string): boolean {
 }
 
 export type SubscriptionStatus =
+  /**
+   * Signed up, never paid. The default under the hard paywall.
+   * Carries no entitlement and no expiry to compute.
+   */
+  | "none"
+  /**
+   * LEGACY. No new record is ever created with this status — the
+   * card-free trial was retired in September 2026. It stays in the
+   * union, and in `isEntitled`, because accounts created before that
+   * were promised seven days and revoking a promise already made is
+   * not a pricing change, it is a broken commitment that looks
+   * exactly like a bug. These records age out on their own.
+   */
   | "trialing"
   | "active"
   | "past_due"
@@ -102,8 +120,13 @@ export type PlanId =
 
 export interface BillingRecord {
   status: SubscriptionStatus;
-  /** ISO timestamp — when the free trial runs out. */
-  trialEndsAt: string;
+  /**
+   * ISO timestamp — when the free trial runs out.
+   *
+   * Optional because records created under the hard paywall have no
+   * trial to end. Only ever present on legacy `trialing` records.
+   */
+  trialEndsAt?: string;
   /** ISO timestamp — paid access valid until this point. */
   currentPeriodEnd?: string;
   plan?: PlanId;
@@ -486,14 +509,17 @@ export function isLifetimePlan(plan: PlanId | undefined): boolean {
   return plan ? PLANS[plan]?.interval === "lifetime" : false;
 }
 
-/** A fresh trial record, created the first time billing is read. */
-export function newTrialRecord(): BillingRecord {
-  const now = new Date();
-  const trialEnd = new Date(now.getTime() + TRIAL_DAYS * 86_400_000);
+/**
+ * A fresh billing record — no trial, no entitlement.
+ *
+ * Created the first time billing is read for an account. Under the
+ * hard paywall this exists purely so there is a document to write a
+ * subscription into; it grants nothing on its own.
+ */
+export function newBillingRecord(): BillingRecord {
   return {
-    status: "trialing",
-    trialEndsAt: trialEnd.toISOString(),
-    updatedAt: now.toISOString(),
+    status: "none",
+    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -533,7 +559,10 @@ export function isEntitled(
     return new Date(billing.currentPeriodEnd) > now;
   }
 
-  if (billing.status === "trialing") {
+  // Legacy trials only — nothing mints these any more. A record
+  // without `trialEndsAt` cannot be entitled by this branch, which is
+  // what makes a half-written or migrated document fail closed.
+  if (billing.status === "trialing" && billing.trialEndsAt) {
     return new Date(billing.trialEndsAt) > now;
   }
 
@@ -564,7 +593,9 @@ export function trialDaysLeft(
   billing: BillingRecord | null,
   now: Date = new Date(),
 ): number {
-  if (!billing || billing.status !== "trialing") return 0;
+  if (!billing || billing.status !== "trialing" || !billing.trialEndsAt) {
+    return 0;
+  }
   const ms = new Date(billing.trialEndsAt).getTime() - now.getTime();
   return Math.max(0, Math.ceil(ms / 86_400_000));
 }

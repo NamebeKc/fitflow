@@ -3,7 +3,7 @@ import { getAdminDb } from "@/lib/firebase-admin";
 import {
   FOUNDING_LIMIT,
   PLANS,
-  newTrialRecord,
+  newBillingRecord,
   type BillingRecord,
   type PlanId,
 } from "@/lib/subscription";
@@ -30,11 +30,13 @@ function billingRef(uid: string) {
 }
 
 /**
- * Reads billing state, creating a trial record on first access.
+ * Reads billing state, creating an empty record on first access.
  *
- * The trial clock starts when someone first uses a gated feature, not
- * at signup — so a person who signs up and disappears for a month
- * still gets their full seven days when they come back.
+ * Under the hard paywall this record grants nothing — it exists so
+ * there is somewhere for a subscription to be written. Reaching this
+ * function at all means a request got past the client-side gate,
+ * which is exactly why entitlement is re-derived server-side on every
+ * gated request rather than trusted from the browser.
  */
 export async function getOrCreateBilling(
   uid: string,
@@ -46,23 +48,14 @@ export async function getOrCreateBilling(
     return snapshot.data() as BillingRecord;
   }
 
-  const record = newTrialRecord();
+  const record = newBillingRecord();
   await ref.set(record);
 
-  // The trial genuinely starts HERE — no card, no checkout, just the
-  // first gated request. The funnel document assumes card capture at
-  // this step; this implementation has none, so the step measures
-  // "began using the coach" rather than "committed a card".
-  // Deliberately NOT awaited. This runs inside the entitlement check
-  // on every chat request; a slow telemetry call here would delay the
-  // coach, and the record above is already written either way.
-  void trackServer(uid, "trial_started", {
-    trial_days: 7,
-    card_required: false,
-  }).catch(() => {
-    // Already logged inside trackServer.
-  });
-
+  // No `trial_started` here any more. There is no trial to start, and
+  // an event that fires on record creation would count people who
+  // never saw a price. The funnel's first paid step is
+  // `paywall_shown`, fired client-side where the paywall is actually
+  // rendered.
   return record;
 }
 
