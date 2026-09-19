@@ -9,8 +9,11 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { track } from "@/lib/analytics";
 import {
   DEFAULT_PLAN,
+  ENABLED_CURRENCIES,
   PAYWALL_PLANS,
   PLANS,
+  PRIMARY_CURRENCY,
+  type Currency,
   type PlanId,
   type PlanInterval,
 } from "@/lib/subscription";
@@ -59,8 +62,10 @@ export function Paywall({
   subline = "Subscribe to keep training with a coach that remembers every session.",
 }: PaywallProps) {
   const { user } = useAuth();
-  const [currency, setCurrency] = useState<"NGN" | "USD">("USD");
-  const [selected, setSelected] = useState<PlanId>(DEFAULT_PLAN.USD);
+  const [currency, setCurrency] = useState<Currency>(PRIMARY_CURRENCY);
+  const [selected, setSelected] = useState<PlanId>(
+    DEFAULT_PLAN[PRIMARY_CURRENCY],
+  );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // True once the user picks a currency themselves — after that,
@@ -82,9 +87,12 @@ export function Paywall({
    * above the plans, so a wrong guess costs a single tap.
    */
   useEffect(() => {
+    // Nothing to detect when only one currency can be collected.
+    if (ENABLED_CURRENCIES.length < 2) return;
+
     let cancelled = false;
 
-    function applyCurrency(next: "NGN" | "USD") {
+    function applyCurrency(next: Currency) {
       if (cancelled || userChose) return;
       setCurrency(next);
       setSelected(DEFAULT_PLAN[next]);
@@ -121,7 +129,7 @@ export function Paywall({
    * them back to the 3-month plan would quietly change what they are
    * about to buy.
    */
-  function switchCurrency(next: "NGN" | "USD") {
+  function switchCurrency(next: Currency) {
     setUserChose(true);
     setCurrency(next);
 
@@ -216,24 +224,31 @@ export function Paywall({
           ))}
         </ul>
 
-        {/* Currency */}
-        <div className="mt-6 flex rounded-full bg-black/50 p-1">
-          {(["NGN", "USD"] as const).map((value) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => switchCurrency(value)}
-              className={cn(
-                "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
-                currency === value
-                  ? "bg-[#CCFF00] text-black"
-                  : "text-white/50 hover:text-white/80",
-              )}
-            >
-              {value === "NGN" ? "₦ Naira" : "$ Dollars"}
-            </button>
-          ))}
-        </div>
+        {/*
+          The toggle only appears when there is something to toggle TO.
+          With international collection not yet approved, offering a
+          dollar price would let a customer choose a plan that cannot
+          be charged.
+        */}
+        {ENABLED_CURRENCIES.length > 1 && (
+          <div className="mt-6 flex rounded-full bg-black/50 p-1">
+            {ENABLED_CURRENCIES.map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => switchCurrency(value)}
+                className={cn(
+                  "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
+                  currency === value
+                    ? "bg-[#CCFF00] text-black"
+                    : "text-white/50 hover:text-white/80",
+                )}
+              >
+                {value === "NGN" ? "₦ Naira" : "$ Dollars"}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Plans */}
         <div className="mt-4 space-y-2.5">
@@ -353,7 +368,7 @@ export function Paywall({
         Your training log stays yours whether you subscribe or not — nothing is
         deleted if you decide not to continue.{" "}
         <a
-          href="mailto:info@lushtechdia.com?subject=AdimFit%20refund%20request"
+          href="mailto:support@adimfit.com?subject=AdimFit%20refund%20request"
           className="underline underline-offset-4 transition-colors hover:text-white/80"
         >
           Request a refund

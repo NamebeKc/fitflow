@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Cancel your subscription before deleting your account, or you'll keep being charged. Email info@lushtechdia.com and we'll cancel it for you.",
+            "Cancel your subscription before deleting your account, or you'll keep being charged. Email support@adimfit.com and we'll cancel it for you.",
           reason: "active_subscription",
         },
         { status: 409 },
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "We couldn't complete the deletion. Nothing was partially removed — please try again, or email info@lushtechdia.com.",
+          "We couldn't complete the deletion. Nothing was partially removed — please try again, or email support@adimfit.com.",
       },
       { status: 500 },
     );

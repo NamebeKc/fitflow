@@ -185,7 +185,7 @@ export default function TermsPage() {
       <Section heading="Contact">
         <p>
           Questions about these terms:{" "}
-          <strong className="font-medium text-white/80">info@lushtechdia.com</strong>
+          <strong className="font-medium text-white/80">support@adimfit.com</strong>
           .
         </p>
       </Section>

@@ -691,7 +691,7 @@ function coachErrorMessage(error: unknown, hadStarted: boolean): string {
     return "Your session timed out. Sign in again and we'll carry on from where we left off.";
   }
 
-  return "Something went wrong on my side there. Try again in a moment — and if it keeps happening, info@lushtechdia.com reaches a human.";
+  return "Something went wrong on my side there. Try again in a moment — and if it keeps happening, support@adimfit.com reaches a human.";
 }
 
 /**

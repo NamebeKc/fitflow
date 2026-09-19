@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 
 import { getAdminAuth } from "@/lib/firebase-admin";
 import { updateBilling } from "@/lib/billing-admin";
-import { PLANS, mintTxRef, type PlanId } from "@/lib/subscription";
+import {
+  PLANS,
+  isCurrencyEnabled,
+  mintTxRef,
+  type PlanId,
+} from "@/lib/subscription";
 
 /**
  * Starts a subscription.
@@ -104,6 +109,17 @@ export async function POST(request: Request) {
     );
   }
 
+  // Re-checked server-side. The paywall already hides currencies we
+  // cannot collect, but the paywall is a browser component and a plan
+  // ID can be posted directly. A clear 409 beats a Flutterwave 502
+  // that the customer reads as their card being declined.
+  if (!isCurrencyEnabled(plan.currency)) {
+    return NextResponse.json(
+      { error: "That currency isn't available yet. Please pick another plan." },
+      { status: 409 },
+    );
+  }
+
   const lifetime = plan.interval === "lifetime";
   const flwPlan = flutterwavePlanId(planId);
 
@@ -117,7 +133,7 @@ export async function POST(request: Request) {
   }
 
   const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://myfitflow.pro";
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://adimfit.com";
 
   // tx_ref must be unique per attempt and lets us tie the callback
   // back to this user without trusting the redirect's query string.

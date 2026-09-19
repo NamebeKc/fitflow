@@ -77,7 +77,7 @@ export async function POST(request: Request) {
 
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   const privateKey = process.env.VAPID_PRIVATE_KEY;
-  const contact = process.env.VAPID_SUBJECT ?? "mailto:info@lushtechdia.com";
+  const contact = process.env.VAPID_SUBJECT ?? "mailto:support@adimfit.com";
 
   if (!publicKey || !privateKey) {
     return NextResponse.json({ error: "Not configured" }, { status: 503 });

@@ -362,6 +362,43 @@ export const DEFAULT_PLAN: Record<"NGN" | "USD", PlanId> = {
   USD: "annual_usd_2026",
 };
 
+export type Currency = "NGN" | "USD";
+
+/**
+ * ── WHICH CURRENCIES CAN ACTUALLY BE COLLECTED ──────────────────────
+ * Not a pricing decision — a payment-processor one. A Nigerian
+ * Flutterwave merchant needs separate approval for international card
+ * collection, and until that lands a USD checkout fails at the
+ * processor with an error the customer reads as a declined card.
+ *
+ * Showing a price you cannot charge is worse than showing no price at
+ * all: the customer picks a plan, commits, taps pay, and is told
+ * something went wrong. The dollar prices stay in the catalogue so
+ * nothing has to be re-derived later — they are simply not offered.
+ *
+ * DELIBERATELY A CONSTANT, NOT AN ENV VAR. The paywall is a client
+ * component, so an env-driven version would have to be NEXT_PUBLIC_*
+ * — inlined at build time, absent at runtime, and already the cause
+ * of three separate silent failures in this codebase (runbook §1).
+ * Flipping this requires a deploy either way, and a constant cannot
+ * be half-configured.
+ *
+ * Both are enabled: the six Flutterwave payment plans exist and are
+ * active on merchant 100838261. Note that creating a USD payment plan
+ * is NOT the same as being approved to charge international cards —
+ * if USD checkouts start failing at the processor, drop "USD" from
+ * this list and deploy. That is the whole point of the switch: the
+ * dollar prices stay in the catalogue, they are simply not offered.
+ */
+export const ENABLED_CURRENCIES: readonly Currency[] = ["NGN", "USD"];
+
+/** The currency the paywall opens on. */
+export const PRIMARY_CURRENCY: Currency = ENABLED_CURRENCIES[0] ?? "NGN";
+
+export function isCurrencyEnabled(currency: Currency): boolean {
+  return ENABLED_CURRENCIES.includes(currency);
+}
+
 /** True for one-off purchases that never renew. */
 export function isLifetimePlan(plan: PlanId | undefined): boolean {
   return plan ? PLANS[plan]?.interval === "lifetime" : false;

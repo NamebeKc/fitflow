@@ -156,7 +156,7 @@ export default function PrivacyPage() {
         />
         <p>
           Email{" "}
-          <strong className="font-medium text-white/80">info@lushtechdia.com</strong>{" "}
+          <strong className="font-medium text-white/80">support@adimfit.com</strong>{" "}
           and we will respond within 30 days. If you are in Nigeria, you may
           also complain to the Nigeria Data Protection Commission; in the
           EU or UK, to your local supervisory authority.
@@ -221,7 +221,7 @@ export default function PrivacyPage() {
       <Section heading="Contact">
         <p>
           Questions about this policy or your data:{" "}
-          <strong className="font-medium text-white/80">info@lushtechdia.com</strong>
+          <strong className="font-medium text-white/80">support@adimfit.com</strong>
           .
         </p>
       </Section>

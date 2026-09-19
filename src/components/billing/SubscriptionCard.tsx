@@ -231,7 +231,7 @@ function SubscribeButton({
 function CancelLink() {
   return (
     <a
-      href="mailto:info@lushtechdia.com?subject=Cancel%20my%20AdimFit%20subscription"
+      href="mailto:support@adimfit.com?subject=Cancel%20my%20AdimFit%20subscription"
       className="block text-center text-[13px] text-white/50 underline underline-offset-4 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
     >
       Cancel subscription

@@ -175,7 +175,7 @@ function BillingReturn() {
           Back to AdimFit
         </Link>
         <a
-          href="mailto:info@lushtechdia.com?subject=AdimFit%20payment%20issue"
+          href="mailto:support@adimfit.com?subject=AdimFit%20payment%20issue"
           className="block text-center text-[13px] text-white/50 underline underline-offset-4 transition-colors hover:text-white/80"
         >
           Email support
