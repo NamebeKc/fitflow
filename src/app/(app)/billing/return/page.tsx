@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
 import { useAuth } from "@/components/providers/AuthProvider";
+import { GUARANTEE_DAYS } from "@/lib/subscription";
 
 /**
  * Where Flutterwave sends people after checkout.
@@ -92,6 +93,31 @@ function BillingReturn() {
     void verify();
   }, [user, verify]);
 
+  // If sign-in never resolves, this page used to spin forever — the
+  // worst possible screen to show someone whose card has just been
+  // charged, because it hides the support address along with
+  // everything else. After ten seconds we say so plainly instead.
+  //
+  // The money is safe either way: the transaction stands on
+  // Flutterwave's side and the webhook activates the subscription
+  // without any browser involved. This is only about what the customer
+  // is looking at while that happens.
+  useEffect(() => {
+    if (user) return;
+    const timer = window.setTimeout(() => {
+      if (attempted.current) return;
+      attempted.current = true;
+      setState("failed");
+      setMessage(
+        "We couldn't confirm you're signed in, so we can't check this " +
+          "payment from here. If money left your account, don't pay " +
+          "again — it will be applied automatically, and support can " +
+          "confirm it for you.",
+      );
+    }, 10_000);
+    return () => window.clearTimeout(timer);
+  }, [user]);
+
   if (state === "verifying") return <Pending />;
 
   if (state === "success") {
@@ -102,7 +128,7 @@ function BillingReturn() {
         }
         accent
         title="You're all set."
-        body="Your subscription is active. Your coach is ready when you are."
+        body={`Your subscription is active. If it turns out not to be for you, email us within ${GUARANTEE_DAYS} days for a full refund.`}
       >
         <button
           type="button"
@@ -150,7 +176,7 @@ function BillingReturn() {
           Back to AdimFit
         </Link>
         <a
-          href="mailto:info@lushtechdia.com?subject=AdimFit%20payment%20issue"
+          href="mailto:support@adimfit.com?subject=AdimFit%20payment%20issue"
           className="block text-center text-[13px] text-white/50 underline underline-offset-4 transition-colors hover:text-white/80"
         >
           Email support
@@ -208,4 +234,4 @@ function Shell({
       {children && <div className="mt-8 w-full">{children}</div>}
     </div>
   );
-}
+}

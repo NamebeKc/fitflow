@@ -2,12 +2,13 @@
 import { NextResponse } from "next/server";
 
 import {
+  claimFoundingSeat,
   findUidByBillingEmail,
   getBilling,
   periodEndFor,
   updateBilling,
 } from "@/lib/billing-admin";
-import { PLANS, type PlanId } from "@/lib/subscription";
+import { PLANS, isLifetimePlan, type PlanId } from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
 
 /**
@@ -84,6 +85,15 @@ export async function POST(request: Request) {
         return NextResponse.json({ received: true });
       }
 
+      // A lifetime buyer is already permanently entitled. Flutterwave
+      // should never send a renewal for a one-off charge, but if a
+      // duplicate or a later unrelated charge arrives, overwriting the
+      // record with a dated period would REVOKE access they paid for.
+      // Leave it alone.
+      if (existing?.lifetime) {
+        return NextResponse.json({ received: true });
+      }
+
       // Renewals extend from the CURRENT period end, not from now —
       // otherwise a charge that lands a day early silently shortens
       // the customer's year.
@@ -95,11 +105,31 @@ export async function POST(request: Request) {
 
       const renewing = existing?.status === "active";
 
-      await updateBilling(uid, {
-        status: "active",
-        plan: planId,
-        currentPeriodEnd: periodEndFor(planId, base),
-      });
+      if (isLifetimePlan(planId)) {
+        // The first (and only) charge for a lifetime plan, arriving by
+        // webhook because the customer closed the tab before the
+        // verify route ran.
+        await updateBilling(uid, {
+          status: "active",
+          plan: planId,
+          lifetime: true,
+          lastPaymentAt: new Date().toISOString(),
+        });
+      } else {
+        await updateBilling(uid, {
+          status: "active",
+          plan: planId,
+          currentPeriodEnd: periodEndFor(planId, base) ?? undefined,
+          // Every charge opens a fresh window, renewals included. The
+          // renewal nobody wanted is the one that becomes a chargeback.
+          lastPaymentAt: new Date().toISOString(),
+        });
+      }
+
+      // A first activation that arrived by webhook rather than verify
+      // still earns its founding seat. Idempotent, so a renewal that
+      // reaches this line changes nothing.
+      if (!renewing) await claimFoundingSeat(uid);
 
       // Renewals reach us only here — no browser is involved, so this
       // is the sole opportunity to record them.
@@ -150,4 +180,4 @@ export async function POST(request: Request) {
     // failure on our side.
     return NextResponse.json({ error: "Handler failed" }, { status: 500 });
   }
-}
+}

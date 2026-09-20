@@ -9,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Paywall } from "@/components/billing/Paywall";
 import { SubscriptionCard } from "@/components/billing/SubscriptionCard";
 import { InstallCard } from "@/components/pwa/InstallCard";
+import { DeleteAccountCard } from "@/components/profile/DeleteAccountCard";
+import { ReminderCard } from "@/components/profile/ReminderCard";
 import { OnboardingWizard } from "@/components/profile/OnboardingWizard";
 import { ProfileView } from "@/components/profile/ProfileView";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -99,7 +101,12 @@ export default function ProfilePage() {
         <div className="mx-auto w-full max-w-xl space-y-5">
           <SubscriptionCard onSubscribe={() => setShowPaywall(true)} />
           <InstallCard />
+          <ReminderCard />
           <ProfileView profile={profile} onEdit={() => setIsEditing(true)} />
+
+          {/* Last on the page, and behind a link — findable without
+              being adjacent to anything routine. */}
+          <DeleteAccountCard />
         </div>
       )}
     </div>

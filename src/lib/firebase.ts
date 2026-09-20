@@ -5,18 +5,26 @@ import { getFirestore } from "firebase/firestore";
 
 /**
  * ── FIREBASE INITIALIZATION ──────────────────────────────────────────
- * PASTE YOUR OWN CONFIG below — from Firebase console → Project
- * settings → Your apps → fitflow-web. Replace every "PASTE_..." value.
- *
  * These values are PUBLIC identifiers (they tell the SDK which project
  * to talk to), not secrets — every Firebase web app ships them in its
  * code. Your data is protected by Firestore security rules and Auth,
  * not by hiding these strings.
+ *
+ * `authDomain` is deliberately OUR domain, not the project's
+ * `*.firebaseapp.com` default. The OAuth handler is proxied to
+ * Firebase from `adimfit.com/__/auth/*` by the rewrites in
+ * `next.config.ts` — so users never see an auto-generated Google
+ * project ID during sign-up.
+ *
+ * THIS VALUE AND THOSE REWRITES ARE A PAIR. Changing `authDomain` to a
+ * host that does not serve `/__/auth/handler` breaks Google sign-in
+ * completely, and it fails at the popup with no useful error. If you
+ * change one, change the other.
  * ─────────────────────────────────────────────────────────────────────
  */
 const firebaseConfig = {
   apiKey: "AIzaSyDbn_1RLlpj8q_0IXvHziqLwO7_VTbVDFs",
- authDomain: "gen-lang-client-0453085520.firebaseapp.com",
+  authDomain: "adimfit.com",
   projectId: "gen-lang-client-0453085520",
   storageBucket: "gen-lang-client-0453085520.firebasestorage.app",
   messagingSenderId: "31626096568",

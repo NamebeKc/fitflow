@@ -21,7 +21,17 @@ export interface UserProfile {
   weightKg: number;
   /** Height in cm. Optional — asked once, used for load calibration. */
   heightCm?: number;
-  goal: GoalId;
+  /**
+   * @deprecated Written by versions that allowed a single goal. Still
+   * present on every profile created before multi-goal shipped — read
+   * through `profileGoals()`, never directly.
+   */
+  goal?: GoalId;
+  /**
+   * Up to `MAX_GOALS`, in priority order: the first drives how a
+   * session is actually shaped, the rest are served across the week.
+   */
+  goals?: GoalId[];
   activities: ActivityId[];
   /** Where they train. Optional — absent on older profiles. */
   environment?: EnvironmentId[];
@@ -29,6 +39,24 @@ export interface UserProfile {
   equipment?: EquipmentId[];
   /** How they want to be spoken to. Optional; defaults to balanced. */
   coachingStyle?: CoachingStyleId;
+  /**
+   * How active they were BEFORE AdimFit, self-reported.
+   *
+   * Optional, and captured in-app rather than during onboarding, so
+   * most profiles will not have it. Absent is a real and expected
+   * value — never treat it as zero.
+   *
+   * WHY IT EXISTS. Insurer evidence is consistent that healthcare
+   * savings concentrate in members who move from inactive to active,
+   * not in members who were already training. Without a baseline
+   * there is no way to identify that group, and "our users are
+   * active" is the selection effect an actuary discounts to nothing.
+   * Recorded once and never overwritten: the answer is about a fixed
+   * point in the past, so a later edit could only make it less true.
+   */
+  baselineActiveDays?: BaselineActivityId;
+  /** When the baseline was answered. Recall degrades; this dates it. */
+  baselineCapturedAt?: string;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
 }
@@ -42,6 +70,53 @@ export const GOALS = [
 ] as const;
 
 export type GoalId = (typeof GOALS)[number]["id"];
+
+/**
+ * Two, not more.
+ *
+ * A week holds three or four sessions. Three priorities across four
+ * sessions means none of them gets a block long enough to adapt to,
+ * and the coach loses the thing that makes it feel like coaching — a
+ * reason for today's session to be this one. Two is the most that can
+ * be served honestly: one shapes the session, the other gets its own
+ * day.
+ */
+export const MAX_GOALS = 2;
+
+/**
+ * Self-reported activity before joining, in days per week.
+ *
+ * Deliberately coarse. A four-way split is answerable in one tap from
+ * memory; asking for a number invites a guess dressed up as precision,
+ * and the literature on self-reported activity is unkind enough
+ * already.
+ */
+export const BASELINE_ACTIVITY = [
+  { id: "none", label: "Barely at all" },
+  { id: "1-2", label: "1–2 days" },
+  { id: "3-4", label: "3–4 days" },
+  { id: "5+", label: "5+ days" },
+] as const;
+
+export type BaselineActivityId = (typeof BASELINE_ACTIVITY)[number]["id"];
+
+/**
+ * The one way to read a profile's goals.
+ *
+ * Profiles exist in two shapes — `goal` as a bare string on older
+ * documents, `goals` as an ordered array on newer ones. Reading either
+ * field directly gets one of those two populations wrong, silently, on
+ * a field the coach consults for every single message.
+ */
+export function profileGoals(
+  profile: Pick<UserProfile, "goal" | "goals"> | null | undefined,
+): GoalId[] {
+  if (!profile) return [];
+  if (profile.goals && profile.goals.length > 0) {
+    return profile.goals.slice(0, MAX_GOALS);
+  }
+  return profile.goal ? [profile.goal] : [];
+}
 
 export const ACTIVITIES = [
   { id: "running", label: "Running" },

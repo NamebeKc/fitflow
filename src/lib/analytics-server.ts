@@ -22,14 +22,21 @@ import { PostHog } from "posthog-node";
  */
 
 export type ServerAnalyticsEvent =
+  | "reminder_sent"
   | "trial_started"
   | "trial_converted"
-  | "trial_canceled"
   | "subscription_activated"
   | "subscription_renewed"
   | "subscription_payment_failed"
   | "subscription_payment_recovered"
   | "subscription_churned"
+  // Fired when `isEntitled()` blocks a real request — expired trial,
+  // lapsed subscription, or past-due grace period run out. `status` on
+  // the event says which. There is deliberately no `trial_canceled`:
+  // the trial is card-free (see subscription.ts), so nothing exists for
+  // a user to cancel. A trial that doesn't convert simply expires —
+  // visible as `trial_started` with no matching `trial_converted`
+  // within 7 days, or explicitly as this event.
   | "entitlement_denied";
 
 let client: PostHog | null = null;

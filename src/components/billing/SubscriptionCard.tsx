@@ -8,11 +8,13 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { track } from "@/lib/analytics";
 import {
+  guaranteeEndsAt,
   isComped,
   isEntitled,
   loadBilling,
   PLANS,
   trialDaysLeft,
+  withinGuarantee,
   type BillingRecord,
 } from "@/lib/subscription";
 
@@ -82,13 +84,28 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
 
   // ── Active subscription ──────────────────────────────────────────
   if (billing?.status === "active" && entitled) {
+    // Lifetime has no period to renew. Saying "Renews —" to someone
+    // who paid precisely so they would never renew again is a small
+    // insult with a support email attached.
+    const cadence = billing.lifetime
+      ? "Yours permanently. Nothing further will ever be charged."
+      : `Renews ${formatDate(billing.currentPeriodEnd)}.`;
+
+    // Shown only while it is actually true. A guarantee advertised
+    // after it has expired is worse than one never mentioned.
+    const refundable = withinGuarantee(billing)
+      ? ` Full refund on request until ${formatDate(
+          guaranteeEndsAt(billing) ?? undefined,
+        )}.`
+      : "";
+
     return (
       <Card
         icon={<ShieldCheck className="size-4 text-[#CCFF00]" strokeWidth={2} />}
         accent
         label="Subscription"
         title={plan ? `${plan.label} · ${plan.display}` : "Active"}
-        body={`Renews ${formatDate(billing.currentPeriodEnd)}.`}
+        body={`${cadence}${refundable}`}
       >
         <CancelLink />
       </Card>
@@ -231,7 +248,7 @@ function SubscribeButton({
 function CancelLink() {
   return (
     <a
-      href="mailto:info@lushtechdia.com?subject=Cancel%20my%20AdimFit%20subscription"
+      href="mailto:support@adimfit.com?subject=Cancel%20my%20AdimFit%20subscription"
       className="block text-center text-[13px] text-white/50 underline underline-offset-4 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
     >
       Cancel subscription

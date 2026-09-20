@@ -63,20 +63,29 @@ export type AnalyticsEvent =
   | "weigh_in_opened"
   | "measurement_logged"
   | "profile_edited"
+  | "baseline_activity_prompted"
+  | "baseline_activity_answered"
+  | "baseline_activity_dismissed"
+  | "account_deleted"
   // ── PWA ──────────────────────────────────────────────────────────
   | "pwa_install_prompt_shown"
   | "pwa_installed"
   | "pwa_install_dismissed"
   // ── Monetization (client half — see analytics-server for the rest) ─
   | "paywall_shown"
+  | "paywall_step_viewed"
   | "checkout_started"
   | "checkout_abandoned"
   // ── Referral, Phase 4 (Channel A test) ───────────────────────────
   | "referral_link_clicked"
-  // ── Not yet built — declared so funnels can be pre-built ─────────
+  // ── Reminders ────────────────────────────────────────────────────
+  | "reminder_prompt_shown"
+  | "reminder_prompt_dismissed"
   | "push_permission_requested"
   | "push_permission_granted"
   | "push_permission_denied"
+  | "reminders_disabled"
+  // ── Not yet built — declared so funnels can be pre-built ─────────
   | "reminder_opened"
   | "weekly_summary_viewed"
   | "strava_connect_started"

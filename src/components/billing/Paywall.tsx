@@ -7,7 +7,34 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { track } from "@/lib/analytics";
-import { PLANS, type PlanId } from "@/lib/subscription";
+import {
+  DEFAULT_PLAN,
+  ENABLED_CURRENCIES,
+  FOUNDING_LIMIT,
+  GUARANTEE_DAYS,
+  PAYWALL_PLANS,
+  PLANS,
+  PRIMARY_CURRENCY,
+  type Currency,
+  type PlanId,
+  type PlanInterval,
+} from "@/lib/subscription";
+
+/**
+ * How each interval is described in the "then X every Y" line.
+ *
+ * Exhaustive over PlanInterval, so adding an interval to the catalogue
+ * is a type error here rather than a sentence that silently says
+ * "every month" about a yearly plan — which is what the previous
+ * ternary chain did to every interval it didn't name.
+ */
+const RECURS: Record<PlanInterval, string> = {
+  weekly: "every week",
+  monthly: "every month",
+  quarterly: "every 3 months",
+  yearly: "every year",
+  lifetime: "never",
+};
 
 interface PaywallProps {
   /** Shown above the plans — why they're seeing this. */
@@ -22,23 +49,56 @@ interface PaywallProps {
  * anyone travelling or on a VPN, and being quietly charged in the
  * wrong currency is a worse first impression than one extra tap.
  *
- * Annual is pre-selected because it's the plan that actually retains —
- * weekly and monthly plans churn hard in fitness — but monthly sits
- * right beside it at equal visual weight. Pre-selecting is a nudge;
+ * The 3-month plan is pre-selected because it's the one that actually
+ * retains — weekly and monthly churn hard in fitness — but every plan
+ * sits in the same single column at the same visual weight, with its
+ * real price and its real per-week cost. Pre-selecting is a nudge;
  * hiding the alternative would be a trick.
+ *
+ * The saving badges come from `PLANS`, where they are computed from
+ * the amounts rather than written by hand. Nothing in this file should
+ * ever contain a percentage literal.
  */
 export function Paywall({
-  headline = "Your trial has ended",
-  subline = "Subscribe to keep training with a coach that remembers every session.",
+  headline = "Start training with your coach",
+  subline = "One subscription unlocks the coach, your plans, and every session you log.",
 }: PaywallProps) {
   const { user } = useAuth();
-  const [currency, setCurrency] = useState<"NGN" | "USD">("USD");
-  const [selected, setSelected] = useState<PlanId>("annual_usd");
+  const [currency, setCurrency] = useState<Currency>(PRIMARY_CURRENCY);
+  const [selected, setSelected] = useState<PlanId>(
+    DEFAULT_PLAN[PRIMARY_CURRENCY],
+  );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // True once the user picks a currency themselves — after that,
   // detection must never override their choice.
   const [userChose, setUserChose] = useState(false);
+  // null until known, and stays null if the count can't be read.
+  const [seatsLeft, setSeatsLeft] = useState<number | null>(null);
+
+  /**
+   * Founding seats remaining.
+   *
+   * Scarcity has to be real to be worth showing. This is a live count
+   * of subscriptions taken, not a countdown that resets on reload —
+   * and if the endpoint fails it stays null and the line simply does
+   * not render, rather than falling back to a flattering guess.
+   */
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/founding")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { remaining?: number | null } | null) => {
+        if (cancelled) return;
+        if (typeof data?.remaining === "number") setSeatsLeft(data.remaining);
+      })
+      .catch(() => {
+        // Marketing copy, not a blocker.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   /**
    * Currency detection, in two passes.
@@ -55,12 +115,15 @@ export function Paywall({
    * above the plans, so a wrong guess costs a single tap.
    */
   useEffect(() => {
+    // Nothing to detect when only one currency can be collected.
+    if (ENABLED_CURRENCIES.length < 2) return;
+
     let cancelled = false;
 
-    function applyCurrency(next: "NGN" | "USD") {
+    function applyCurrency(next: Currency) {
       if (cancelled || userChose) return;
       setCurrency(next);
-      setSelected(next === "NGN" ? "annual_ngn" : "annual_usd");
+      setSelected(DEFAULT_PLAN[next]);
     }
 
     try {
@@ -87,27 +150,25 @@ export function Paywall({
     };
   }, [userChose]);
 
-  function switchCurrency(next: "NGN" | "USD") {
+  /**
+   * Swapping currency keeps the INTERVAL the customer chose, rather
+   * than resetting to the default. Someone who deliberately picked
+   * weekly and then corrected the currency still wants weekly; sending
+   * them back to the 3-month plan would quietly change what they are
+   * about to buy.
+   */
+  function switchCurrency(next: Currency) {
     setUserChose(true);
     setCurrency(next);
-    // Keep the interval, swap the currency.
-    const annual = selected.startsWith("annual");
-    setSelected(
-      next === "NGN"
-        ? annual
-          ? "annual_ngn"
-          : "monthly_ngn"
-        : annual
-          ? "annual_usd"
-          : "monthly_usd",
+
+    const interval = PLANS[selected].interval;
+    const match = PAYWALL_PLANS[next].find(
+      (id) => PLANS[id].interval === interval,
     );
+    setSelected(match ?? DEFAULT_PLAN[next]);
   }
 
-  const visiblePlans = (
-    currency === "NGN"
-      ? (["annual_ngn", "monthly_ngn"] as const)
-      : (["annual_usd", "monthly_usd"] as const)
-  ).map((id) => PLANS[id]);
+  const visiblePlans = PAYWALL_PLANS[currency].map((id) => PLANS[id]);
 
   async function checkout() {
     if (!user || busy) return;
@@ -149,6 +210,8 @@ export function Paywall({
     }
   }
 
+  const selectedPlan = PLANS[selected];
+
   const included = [
     "Unlimited coaching conversations",
     "Adaptive plans built from your history",
@@ -169,24 +232,66 @@ export function Paywall({
           {subline}
         </p>
 
-        {/* Currency */}
-        <div className="mt-6 flex rounded-full bg-black/50 p-1">
-          {(["NGN", "USD"] as const).map((value) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => switchCurrency(value)}
-              className={cn(
-                "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
-                currency === value
-                  ? "bg-[#CCFF00] text-black"
-                  : "text-white/50 hover:text-white/80",
-              )}
-            >
-              {value === "NGN" ? "₦ Naira" : "$ Dollars"}
-            </button>
+        {/*
+          VALUE BEFORE PRICE. This list used to sit below the CTA,
+          where a reader had already decided against the price before
+          reaching it. Everything the money buys is now established
+          before a single number appears on screen.
+        */}
+        <ul className="mt-6 space-y-2">
+          {included.map((item) => (
+            <li key={item} className="flex items-start gap-2.5">
+              <Check
+                className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
+                strokeWidth={3}
+              />
+              <span className="text-[14px] leading-relaxed text-white/70">
+                {item}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
+
+        {/*
+          The scarcity line sits directly above the prices, because
+          that is where the struck-through number needs explaining:
+          it is not a permanent discount, it is a cohort that closes.
+        */}
+        {seatsLeft !== null && seatsLeft > 0 && (
+          <p className="mt-6 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-[#CCFF00]">
+            Founding member pricing — {seatsLeft} of {FOUNDING_LIMIT} seats
+            left
+            <span className="mt-0.5 block text-[12px] text-white/50">
+              Half price, locked for as long as you stay subscribed.
+            </span>
+          </p>
+        )}
+
+        {/*
+          The toggle only appears when there is something to toggle TO.
+          With international collection not yet approved, offering a
+          dollar price would let a customer choose a plan that cannot
+          be charged.
+        */}
+        {ENABLED_CURRENCIES.length > 1 && (
+          <div className="mt-6 flex rounded-full bg-black/50 p-1">
+            {ENABLED_CURRENCIES.map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => switchCurrency(value)}
+                className={cn(
+                  "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
+                  currency === value
+                    ? "bg-[#CCFF00] text-black"
+                    : "text-white/50 hover:text-white/80",
+                )}
+              >
+                {value === "NGN" ? "₦ Naira" : "$ Dollars"}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Plans */}
         <div className="mt-4 space-y-2.5">
@@ -220,7 +325,7 @@ export function Paywall({
                 </span>
 
                 <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-2">
+                  <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="text-[15px] font-semibold text-white">
                       {plan.label}
                     </span>
@@ -229,16 +334,31 @@ export function Paywall({
                         {plan.saving}
                       </span>
                     )}
+                    {plan.badge && (
+                      <span className="rounded-full border border-white/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-white/60">
+                        {plan.badge}
+                      </span>
+                    )}
                   </span>
                   <span className="mt-0.5 block text-[13px] text-white/50">
-                    Billed {plan.interval === "yearly" ? "yearly" : "monthly"}
+                    {plan.cadence}
                   </span>
                 </span>
 
                 <span className="shrink-0 text-right">
+                  {plan.standardDisplay && (
+                    <span className="block font-mono text-[11px] tabular-nums text-white/35 line-through">
+                      {plan.standardDisplay}
+                    </span>
+                  )}
                   <span className="block font-mono text-lg tabular-nums text-white">
                     {plan.display}
                   </span>
+                  {plan.perWeek && (
+                    <span className="mt-0.5 block font-mono text-[11px] tabular-nums text-white/40">
+                      {plan.perWeek}
+                    </span>
+                  )}
                 </span>
               </button>
             );
@@ -270,29 +390,63 @@ export function Paywall({
           )}
         </button>
 
-        <p className="mt-3.5 text-center text-[12px] text-white/50">
-          Cancel anytime · Card, bank transfer, or USSD
-        </p>
+        {/*
+          THE GUARANTEE SITS UNDER THE BUTTON, NOT IN THE TERMS.
 
-        <ul className="mt-6 space-y-2 border-t border-white/[0.07] pt-5">
-          {included.map((item) => (
-            <li key={item} className="flex items-start gap-2.5">
-              <Check
-                className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
-                strokeWidth={3}
-              />
-              <span className="text-[14px] leading-relaxed text-white/60">
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
+          It is doing the job a free trial would do — removing the
+          fear of being stuck — and it can only do that job if it is
+          read before the decision rather than discovered after it.
+          Flutterwave has no trial primitive, so this is the honest
+          version of the same offer: the money moves, and it moves
+          back on request.
+
+          Both the window and the wording come from GUARANTEE_DAYS,
+          which the terms page and the subscription card also read, so
+          the promise cannot quietly differ by surface.
+        */}
+        <div className="mt-4 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-3 text-center">
+          <p className="text-[13px] font-medium leading-relaxed text-[#CCFF00]">
+            {GUARANTEE_DAYS}-day money-back guarantee
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-white/60">
+            Not for you? Email us within {GUARANTEE_DAYS} days and we refund
+            it in full. No reason needed, no forms.
+          </p>
+        </div>
+
+        {/*
+          The three things people actually hesitate over, answered
+          where the hesitation happens rather than in a terms page:
+          when it charges, how to stop it, and how to get the money
+          back. A visible refund route costs less than a chargeback —
+          the bank's version of the same request carries a fee and
+          counts against the merchant account.
+        */}
+        <p className="mt-3.5 text-center text-[12px] leading-relaxed text-white/50">
+          {selectedPlan.interval === "lifetime" ? (
+            <>One payment of {selectedPlan.display}. No renewal, ever.</>
+          ) : (
+            <>
+              {selectedPlan.display} now, then {selectedPlan.display}{" "}
+              {RECURS[selectedPlan.interval]}. Cancel anytime.
+            </>
+          )}
+          <br />
+          Card, bank transfer, or USSD.
+        </p>
       </div>
 
       <p className="mt-4 px-2 text-center text-[12px] leading-relaxed text-white/50">
-        Your training log stays yours whether you subscribe or not. Nothing is
-        deleted if you decide not to continue.
+        Your training log stays yours whether you subscribe or not — nothing is
+        deleted if you decide not to continue.{" "}
+        <a
+          href="mailto:support@adimfit.com?subject=AdimFit%20refund%20request"
+          className="underline underline-offset-4 transition-colors hover:text-white/80"
+        >
+          Request a refund
+        </a>
+        .
       </p>
     </div>
   );
-}
+}

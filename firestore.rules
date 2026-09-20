@@ -1,0 +1,117 @@
+rules_version = '2';
+
+// ── FIRESTORE SECURITY RULES ─────────────────────────────────────────
+// The Admin SDK bypasses every rule in this file. These govern the
+// BROWSER only, which is the point: the browser is the untrusted half.
+//
+// The rule that matters most is near the bottom. Every collection the
+// affiliate ledger touches — partners, attributions, referralEvents,
+// payouts — is denied to clients outright. Those documents decide who
+// gets paid and how much. A field a user can write is a field a user
+// can forge, and no browser has a legitimate reason to read another
+// partner's terms or a stranger's attribution.
+//
+// THE USER SUBCOLLECTIONS BELOW ARE EXHAUSTIVE as of writing, derived
+// from every `doc(db, …)` and `collection(db, …)` call in the client:
+//
+//   users/{uid}                      profile.ts        read + write
+//   users/{uid}/workouts             workouts.ts       read + write
+//   users/{uid}/measurements         measurements.ts   read + write
+//   users/{uid}/messages             chat.ts           read + write
+//   users/{uid}/plans                plans.ts          read + write
+//   users/{uid}/billing/subscription subscription.ts   read only
+//
+// Add a new client-read subcollection and you must add it here too —
+// the catch-all inside the user block denies anything unlisted. That
+// is deliberate: a forgotten rule should break a feature loudly in
+// development, not quietly expose data in production.
+//
+// Deploy with:  firebase deploy --only firestore:rules
+// ─────────────────────────────────────────────────────────────────────
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      // The profile document. Its mere existence is what tells the app
+      // onboarding is complete — which is exactly why attribution is
+      // NOT stored here.
+      allow read, write: if isOwner(uid);
+
+      match /workouts/{workoutId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /measurements/{measurementId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /messages/{messageId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /plans/{planId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // Written by the server only. A client that can write its own
+      // billing document can grant itself a subscription; it needs to
+      // read it to render trial state, and nothing more.
+      match /billing/{docId} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+
+      // Reminder preferences and device push subscriptions. Both are
+      // written by API routes through the Admin SDK; the browser never
+      // touches them directly.
+      match /settings/{settingId} {
+        allow read, write: if false;
+      }
+
+      match /push/{deviceId} {
+        allow read, write: if false;
+      }
+
+      // Anything added under a user later is denied until someone
+      // decides otherwise, rather than inheriting access by accident.
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    // ── The affiliate ledger: server-only, all of it ──────────────
+    match /partners/{slug} {
+      allow read, write: if false;
+    }
+
+    match /attributions/{uid} {
+      allow read, write: if false;
+    }
+
+    match /referralEvents/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /payouts/{payoutId} {
+      allow read, write: if false;
+    }
+
+    // The founding-seat counter. Read by the browser only through
+    // /api/founding, never directly — a client that can write it can
+    // fake scarcity, and one that can read it gains nothing the API
+    // doesn't already give.
+    match /config/{docId} {
+      allow read, write: if false;
+    }
+
+    // ── Everything else ───────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

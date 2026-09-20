@@ -20,7 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useProfile } from "@/components/providers/ProfileProvider";
-import { goalLabel } from "@/lib/profile";
+import { goalLabel, profileGoals } from "@/lib/profile";
 
 interface NavItem {
   label: string;
@@ -65,7 +65,12 @@ export function Sidebar() {
 
   const displayName = profile?.firstName ?? user?.displayName ?? "Athlete";
   const initial = displayName.charAt(0).toUpperCase();
-  const subline = profile ? goalLabel(profile.goal) : "Complete your profile";
+  // One line of chrome, so the primary goal is enough — the full list
+  // belongs on the Profile tab, not squeezed into a sidebar subline.
+  const primaryGoal = profileGoals(profile)[0];
+  const subline = primaryGoal
+    ? goalLabel(primaryGoal)
+    : "Complete your profile";
 
   return (
     <>

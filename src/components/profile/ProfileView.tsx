@@ -15,6 +15,7 @@ import {
   environmentLabel,
   equipmentLabel,
   goalLabel,
+  profileGoals,
   type UserProfile,
 } from "@/lib/profile";
 
@@ -101,10 +102,10 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
             <div className="col-span-2 rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] p-3.5 sm:col-span-1 sm:p-4">
               <p className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#CCFF00]/70">
                 <Target className="size-3" strokeWidth={2.5} />
-                Goal
+                {profileGoals(profile).length > 1 ? "Goals" : "Goal"}
               </p>
               <p className="mt-2 text-sm font-semibold leading-snug text-white">
-                {goalLabel(profile.goal)}
+                {profileGoals(profile).map(goalLabel).join(" + ") || "Not set"}
               </p>
             </div>
           </div>
