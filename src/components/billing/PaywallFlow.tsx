@@ -114,8 +114,12 @@ const STEPS = ["goals", "plan", "evidence", "price"] as const;
 
 export function PaywallFlow({
   onReachedPrice,
+  headline,
+  subline,
 }: {
   onReachedPrice?: () => void;
+  headline?: string;
+  subline?: string;
 }) {
   const { profile } = useProfile();
   const prefersReducedMotion = useReducedMotion();
@@ -183,8 +187,13 @@ export function PaywallFlow({
           {step === 2 && <EvidenceScreen />}
           {step === 3 && (
             <Paywall
-              headline={`Ready when you are, ${profile?.firstName ?? "there"}`}
-              subline="Your plan is built. Subscribe to start training with it."
+              headline={
+                headline ??
+                `Ready when you are, ${profile?.firstName ?? "there"}`
+              }
+              subline={
+                subline ?? "Your plan is built. Subscribe to start training."
+              }
             />
           )}
         </motion.div>

@@ -3,7 +3,8 @@ import { getAdminDb } from "@/lib/firebase-admin";
 import {
   FOUNDING_LIMIT,
   PLANS,
-  newBillingRecord,
+  TRIAL_DAYS,
+  newTrialRecord,
   type BillingRecord,
   type PlanId,
 } from "@/lib/subscription";
@@ -30,13 +31,20 @@ function billingRef(uid: string) {
 }
 
 /**
- * Reads billing state, creating an empty record on first access.
+ * Reads billing state, starting a trial on first access.
  *
- * Under the hard paywall this record grants nothing — it exists so
- * there is somewhere for a subscription to be written. Reaching this
- * function at all means a request got past the client-side gate,
- * which is exactly why entitlement is re-derived server-side on every
- * gated request rather than trusted from the browser.
+ * Two things happen here that look like one:
+ *
+ * 1. No record at all → a fresh seven-day trial. This is the moment
+ *    the clock starts.
+ * 2. A record with `status: "none"` and no `trialEndsAt` → healed
+ *    into a trial. Those documents were written during the brief
+ *    hard-paywall period of 19-20 September 2026. Without this they
+ *    would be permanently locked out of a product that now offers
+ *    everyone a trial, for no reason they could ever discover.
+ *
+ * Both paths are idempotent: an existing trial, subscription or
+ * expired record is returned untouched.
  */
 export async function getOrCreateBilling(
   uid: string,
@@ -45,17 +53,37 @@ export async function getOrCreateBilling(
   const snapshot = await ref.get();
 
   if (snapshot.exists) {
-    return snapshot.data() as BillingRecord;
+    const existing = snapshot.data() as BillingRecord;
+
+    // The heal. Only ever applies to a record that has neither
+    // started a trial nor taken a payment.
+    if (existing.status === "none" && !existing.trialEndsAt) {
+      const healed = newTrialRecord();
+      await ref.set(healed, { merge: true });
+      void trackServer(uid, "trial_started", {
+        trial_days: TRIAL_DAYS,
+        card_required: false,
+        healed: true,
+      }).catch(() => {});
+      return { ...existing, ...healed };
+    }
+
+    return existing;
   }
 
-  const record = newBillingRecord();
+  const record = newTrialRecord();
   await ref.set(record);
 
-  // No `trial_started` here any more. There is no trial to start, and
-  // an event that fires on record creation would count people who
-  // never saw a price. The funnel's first paid step is
-  // `paywall_shown`, fired client-side where the paywall is actually
-  // rendered.
+  // Deliberately NOT awaited. This runs inside the entitlement check
+  // on gated requests; a slow telemetry call would delay the coach,
+  // and the record above is already written either way.
+  void trackServer(uid, "trial_started", {
+    trial_days: TRIAL_DAYS,
+    card_required: false,
+  }).catch(() => {
+    // Already logged inside trackServer.
+  });
+
   return record;
 }
 

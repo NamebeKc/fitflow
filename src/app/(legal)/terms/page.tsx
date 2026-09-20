@@ -96,7 +96,9 @@ export default function TermsPage() {
 
       <Section heading="Subscriptions and payment">
         <p>
-          AdimFit requires a paid subscription. There is no free trial:
+          New accounts get a seven-day free trial. No card is required to
+          start it and nothing is charged during it — if you do nothing,
+          it simply ends. After that AdimFit requires a paid subscription;
           the price and billing period are shown in full before you are
           charged. Subscriptions renew automatically until cancelled, and
           you can cancel at any time — access continues to the end of the

@@ -12,8 +12,16 @@ import { PaywallFlow } from "@/components/billing/PaywallFlow";
 import { isEntitled, loadBilling, type BillingRecord } from "@/lib/subscription";
 
 /**
- * ── THE HARD PAYWALL ────────────────────────────────────────────────
- * Sits inside AuthGate: signed in, but not yet paid.
+ * ── THE ACCESS GATE ─────────────────────────────────────────────────
+ * Sits inside AuthGate: signed in, and either trialing, paying, or
+ * out of road.
+ *
+ * A NEW ACCOUNT HAS NO BILLING RECORD, and a missing record is not
+ * the same as an expired one. Reaching the gate with nothing means
+ * the trial has not started yet, so the gate starts it rather than
+ * refusing entry — see /api/billing/trial. Treating absence as
+ * "unentitled" would show a paywall to someone who was promised
+ * seven days and has used none of them.
  *
  * TWO THINGS DELIBERATELY PASS THROUGH IT.
  *
@@ -30,10 +38,10 @@ import { isEntitled, loadBilling, type BillingRecord } from "@/lib/subscription"
  *    a paywall that also traps someone's account is how a support
  *    request becomes a chargeback.
  *
- * WHAT IT RENDERS. Not the bare price screen — PaywallFlow, which
- * puts three value screens in front of it. Someone who has just
- * finished onboarding has told us a great deal and been shown nothing
- * back; a price is the wrong first response to that.
+ * WHAT IT RENDERS, once the trial really has run out. Not the bare
+ * price screen — PaywallFlow, which puts three value screens in front
+ * of it. Someone who has just spent a week in the product deserves
+ * the case restated, not just a number.
  *
  * ENTITLEMENT IS STILL DECIDED SERVER-SIDE. This gate is a UI
  * affordance, nothing more. Anyone can edit their way past a React
@@ -59,6 +67,7 @@ export function PaywallGate({ children }: { children: ReactNode }) {
     undefined,
   );
   const announced = useRef(false);
+  const starting = useRef(false);
 
   useEffect(() => {
     if (!user) return;
@@ -73,7 +82,53 @@ export function PaywallGate({ children }: { children: ReactNode }) {
     };
   }, [user]);
 
-  const resolving = billing === undefined || profileLoading;
+  /**
+   * No record yet — start the trial.
+   *
+   * Guarded by a ref rather than state so a re-render mid-flight
+   * cannot fire a second POST. The route is idempotent anyway; this
+   * just avoids the noise.
+   *
+   * Waits for `profile`, so the clock starts when someone actually
+   * enters the product rather than while they are still filling in
+   * onboarding.
+   */
+  useEffect(() => {
+    if (!user || billing !== null || !profile || starting.current) return;
+    starting.current = true;
+
+    void (async () => {
+      try {
+        const token = await user.getIdToken();
+        const response = await fetch("/api/billing/trial", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          setBilling((await response.json()) as BillingRecord);
+          return;
+        }
+      } catch (error) {
+        console.error("[paywall-gate] Could not start trial:", error);
+      }
+      // Failed to start. Let them in rather than showing a paywall to
+      // someone whose trial we simply failed to create — /api/chat
+      // re-derives entitlement server-side and will gate correctly
+      // whatever this component believes.
+      starting.current = false;
+      setBilling({
+        status: "trialing",
+        trialEndsAt: new Date(Date.now() + 86_400_000).toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    })();
+  }, [user, billing, profile]);
+
+  // `null` means "looked, found nothing", which the effect above is
+  // busy turning into a trial. Keep showing the skeleton until it
+  // resolves rather than flashing a paywall in the gap.
+  const resolving =
+    billing === undefined || profileLoading || (billing === null && !!profile);
   const entitled = !resolving && isEntitled(billing ?? null);
   const open = OPEN_PATHS.some((path) => pathname.startsWith(path));
   const blocked = !resolving && !entitled && Boolean(profile) && !open;
@@ -100,6 +155,21 @@ export function PaywallGate({ children }: { children: ReactNode }) {
 
   if (!blocked) return <>{children}</>;
 
-  // The flow owns its own headline and the price screen it ends on.
-  return <PaywallFlow />;
+  // Someone whose trial just ran out needs different words from
+  // someone who never had one.
+  const expired = billing?.status === "trialing";
+  return (
+    <PaywallFlow
+      headline={
+        expired
+          ? "Your trial has ended"
+          : `Ready when you are, ${profile?.firstName ?? "there"}`
+      }
+      subline={
+        expired
+          ? "Keep the coach that already knows your history, your goals and every session you've logged."
+          : "Your plan is built. Subscribe to start training with it."
+      }
+    />
+  );
 }

@@ -21,9 +21,14 @@ import { db } from "@/lib/firebase";
  */
 
 /**
- * @deprecated The card-free trial was retired in September 2026 in
- * favour of a hard paywall. Kept only so the length of a legacy trial
- * is still documented somewhere; nothing reads it to grant access.
+ * Length of the free trial, in days.
+ *
+ * The trial is CARD-FREE and managed here, not by Flutterwave.
+ * Flutterwave payment plans have no trial parameter — the
+ * subscription is created by the first charge — so a card-gated trial
+ * would mean tokenising a card with a real non-zero charge and then
+ * owning the entire dunning lifecycle the processor currently
+ * handles. Managing the clock in Firestore costs one field.
  */
 export const TRIAL_DAYS = 7;
 
@@ -67,18 +72,14 @@ export function txRefBelongsTo(ref: string, uid: string): boolean {
 
 export type SubscriptionStatus =
   /**
-   * Signed up, never paid. The default under the hard paywall.
-   * Carries no entitlement and no expiry to compute.
+   * Signed up, no trial started, never paid. Written only during the
+   * brief hard-paywall period of 19-20 September 2026; nothing mints
+   * it now. `getOrCreateBilling` heals these into real trials on
+   * next read, so the handful of accounts created that day are not
+   * left permanently locked out.
    */
   | "none"
-  /**
-   * LEGACY. No new record is ever created with this status — the
-   * card-free trial was retired in September 2026. It stays in the
-   * union, and in `isEntitled`, because accounts created before that
-   * were promised seven days and revoking a promise already made is
-   * not a pricing change, it is a broken commitment that looks
-   * exactly like a bug. These records age out on their own.
-   */
+  /** Inside the card-free trial. `trialEndsAt` says until when. */
   | "trialing"
   | "active"
   | "past_due"
@@ -567,16 +568,23 @@ export function isLifetimePlan(plan: PlanId | undefined): boolean {
 }
 
 /**
- * A fresh billing record — no trial, no entitlement.
+ * A fresh trial record.
  *
- * Created the first time billing is read for an account. Under the
- * hard paywall this exists purely so there is a document to write a
- * subscription into; it grants nothing on its own.
+ * The clock starts HERE — on the first read of a billing document,
+ * which happens when someone first opens the app after onboarding —
+ * rather than at signup. Someone who registers and disappears for a
+ * month still gets their full seven days when they come back, which
+ * is the version that treats a slow start as a life event rather
+ * than a forfeit.
  */
-export function newBillingRecord(): BillingRecord {
+export function newTrialRecord(): BillingRecord {
+  const now = new Date();
   return {
-    status: "none",
-    updatedAt: new Date().toISOString(),
+    status: "trialing",
+    trialEndsAt: new Date(
+      now.getTime() + TRIAL_DAYS * 86_400_000,
+    ).toISOString(),
+    updatedAt: now.toISOString(),
   };
 }
 
@@ -616,9 +624,9 @@ export function isEntitled(
     return new Date(billing.currentPeriodEnd) > now;
   }
 
-  // Legacy trials only — nothing mints these any more. A record
-  // without `trialEndsAt` cannot be entitled by this branch, which is
-  // what makes a half-written or migrated document fail closed.
+  // A record without `trialEndsAt` cannot be entitled by this branch.
+  // A half-written or partially migrated document fails closed rather
+  // than granting an unbounded trial.
   if (billing.status === "trialing" && billing.trialEndsAt) {
     return new Date(billing.trialEndsAt) > now;
   }
