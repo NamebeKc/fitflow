@@ -23,6 +23,7 @@
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 
 /* ── Credentials ──────────────────────────────────────────────────── */
@@ -66,6 +67,7 @@ if (getApps().length === 0) {
   initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
 }
 const db = getFirestore();
+const auth = getAuth();
 
 const APP_URL = env.NEXT_PUBLIC_APP_URL ?? "https://adimfit.com";
 const money = (amount, currency) =>
@@ -114,6 +116,7 @@ async function list() {
     console.log(
       `  ${data.status === "active" ? "ACTIVE  " : "INACTIVE"} ${document.id.padEnd(16)} ` +
         `${money(terms.amount ?? 0, terms.currency ?? "?").padEnd(14)} ` +
+        `views ${String(counters.views ?? 0).padEnd(6)} ` +
         `signups ${String(counters.signups ?? 0).padEnd(5)} ` +
         `conversions ${String(counters.conversions ?? 0).padEnd(5)} ` +
         `accrued ${money(counters.accruedAmount ?? 0, terms.currency ?? "?")}`,
@@ -148,6 +151,21 @@ async function upsert(options) {
       `${slug} deactivated. Bounties already accrued are unaffected and\n` +
         `still appear in the next payout run.`,
     );
+    return;
+  }
+
+  if (options.reset) {
+    if (!existing.exists) {
+      console.error(`No such partner: ${slug}`);
+      process.exit(1);
+    }
+    const email = existing.get("email");
+    if (!email) {
+      console.error(`${slug} has no email — re-run with --email to add one.`);
+      process.exit(1);
+    }
+    const link = await auth.generatePasswordResetLink(email);
+    console.log(`Password link for ${email}:\n  ${link}`);
     return;
   }
 
@@ -191,6 +209,43 @@ async function upsert(options) {
     updatedAt: Timestamp.now(),
   };
 
+  /**
+   * Partner sign-in runs on Firebase Auth rather than a bespoke
+   * password table. It already exists, it already handles sessions
+   * and rate limiting, and — the deciding factor — its password-reset
+   * email is sent by Firebase from auth.adimfit.com, which works
+   * today. AdimFit has no transactional email of its own, so any
+   * scheme needing us to send mail could not have shipped.
+   *
+   * INVITE ONLY. There is no public partner signup. Every conversion
+   * is a payment obligation, so an open form would let anyone mint a
+   * code and refer themselves. Accounts are created here, by someone
+   * who has the service-account key.
+   *
+   * The partner never receives a password from us — they set their
+   * own through the reset link, so no credential passes through chat,
+   * email drafts or these logs.
+   */
+  if (options.email) {
+    const email = String(options.email).trim().toLowerCase();
+    let user;
+    try {
+      user = await auth.getUserByEmail(email);
+      console.log(`Linked existing account for ${email}.`);
+    } catch {
+      user = await auth.createUser({ email, emailVerified: false });
+      console.log(`Created account for ${email}.`);
+    }
+    base.email = email;
+    base.authUid = user.uid;
+
+    const link = await auth.generatePasswordResetLink(email);
+    console.log(
+      `\nSend them this to set a password (expires — regenerate with` +
+        ` --reset if it lapses):\n  ${link}\n`,
+    );
+  }
+
   if (existing.exists) {
     await ref.set(base, { merge: true });
     console.log(`Updated ${slug}.`);
@@ -199,7 +254,13 @@ async function upsert(options) {
     await ref.set({
       ...base,
       viewToken,
-      counters: { signups: 0, conversions: 0, accruedAmount: 0 },
+          counters: {
+        views: 0,
+        signups: 0,
+        conversions: 0,
+        accruedAmount: 0,
+        paidAmount: 0,
+      },
       createdAt: Timestamp.now(),
     });
     console.log(`Created ${slug}.`);
@@ -208,7 +269,9 @@ async function upsert(options) {
   }
 
   console.log(`\nTheir referral link:`);
-  console.log(`  ${APP_URL}/?ref=${slug}`);
+  console.log(`  ${APP_URL}/r/${slug}`);
+  console.log(`\nTheir dashboard:`);
+  console.log(`  ${APP_URL}/partners`);
   console.log(
     `\n  ${money(amount, currency)} per conversion` +
       `${cap === null ? ", uncapped" : `, capped at ${money(cap, currency)}`}` +
@@ -224,13 +287,14 @@ if (process.argv.length === 2 || options.help) {
   console.log(
     "\nOnboard a referral partner.\n\n" +
       "  node scripts/partner-add.mjs --slug <slug> --name <name> \\\n" +
-      "      --amount <n> [--currency NGN] [--cap <n>] [--window 60]\n" +
+      "      --email <addr> --amount <n> [--currency NGN] [--cap <n>]\n" +
+      "  node scripts/partner-add.mjs --slug <slug> --reset\n" +
       "  node scripts/partner-add.mjs --list\n" +
       "  node scripts/partner-add.mjs --slug <slug> --deactivate\n" +
       "  node scripts/partner-add.mjs --slug <slug> --rotate-token\n\n" +
       "Example:\n" +
       '  node scripts/partner-add.mjs --slug adura --name "Adura Coaching" \\\n' +
-      "      --amount 5000 --currency NGN --cap 250000\n",
+      "      --email adura@example.com --amount 5000 --cap 250000\n",
   );
   process.exit(0);
 }

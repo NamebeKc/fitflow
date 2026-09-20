@@ -25,7 +25,7 @@
 
 import { readFileSync } from "node:fs";
 import { cert, getApps, initializeApp } from "firebase-admin/app";
-import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
 
 /* ── Load credentials from .env.local ─────────────────────────────── */
 
@@ -154,6 +154,16 @@ async function run({ dryRun, periodEnd }) {
     for (const event of events) {
       batch.update(event.ref, { status: "paid", payoutId: payoutRef.id });
     }
+
+    // Mirrors the total onto the partner so their dashboard can show
+    // what is still OWED rather than what has ever been earned. Doing
+    // it as a counter avoids querying referralEvents by partner and
+    // status on every dashboard load, which would need its own
+    // composite index — and it lands in the same batch as the events
+    // it describes, so the two cannot disagree.
+    batch.update(store.doc(`partners/${slug}`), {
+      "counters.paidAmount": FieldValue.increment(total),
+    });
     await batch.commit();
 
     console.log(`  → payout ${payoutRef.id} (${money(total, currency)})`);

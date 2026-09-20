@@ -3,6 +3,7 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { getAdminDb } from "@/lib/firebase-admin";
+import { buildPartnerStats } from "@/lib/partner-stats";
 
 /**
  * A partner's own numbers.
@@ -59,27 +60,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Not found." }, { status: 404 });
     }
 
-    const counters = (snapshot.get("counters") ?? {}) as Record<string, number>;
-    const terms = (snapshot.get("terms") ?? {}) as Record<string, unknown>;
-    const cap = snapshot.get("cap") as { totalAmount?: number } | null;
-
-    const conversions = counters.conversions ?? 0;
-    const signups = counters.signups ?? 0;
-
-    return NextResponse.json({
-      name: (snapshot.get("name") as string) ?? slug,
-      status: snapshot.get("status") ?? "inactive",
-      signups,
-      conversions,
-      // Rounded to one decimal: a rate quoted to four places invites a
-      // conversation about the fourth.
-      conversionRate:
-        signups > 0 ? Math.round((conversions / signups) * 1000) / 10 : null,
-      accruedAmount: counters.accruedAmount ?? 0,
-      currency: (terms.currency as string) ?? "NGN",
-      perConversion: (terms.amount as number) ?? 0,
-      capTotal: cap?.totalAmount ?? null,
-    });
+    return NextResponse.json(buildPartnerStats(snapshot, slug));
   } catch (error) {
     console.error("[partners/stats] Failed:", slug, error);
     return NextResponse.json({ error: "Unavailable." }, { status: 503 });
