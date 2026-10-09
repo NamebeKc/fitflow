@@ -87,16 +87,16 @@ export function TrialBanner() {
     <AnimatePresence>
       <motion.div
         {...motionProps}
-        className="flex items-center gap-3 rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-4 py-3"
+        className="flex items-center gap-3 rounded-md border border-indigo/20 bg-indigo/[0.05] px-4 py-3"
       >
         <Timer
-          className="size-4 shrink-0 text-[#CCFF00]"
+          className="size-4 shrink-0 text-indigo"
           strokeWidth={2}
           aria-hidden
         />
 
-        <p className="min-w-0 flex-1 text-[13px] leading-relaxed text-white/70">
-          <span className="font-semibold text-white">
+        <p className="min-w-0 flex-1 text-[13px] leading-relaxed text-ink-muted">
+          <span className="font-semibold text-ink">
             {daysLeft} day{daysLeft === 1 ? "" : "s"} left
           </span>{" "}
           of your free trial.
@@ -105,7 +105,7 @@ export function TrialBanner() {
         <Link
           href="/profile"
           onClick={() => track("paywall_shown", { trigger: "trial_banner" })}
-          className="hidden shrink-0 items-center gap-1 rounded-full bg-[#CCFF00] px-3.5 py-1.5 text-[12px] font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.98] sm:flex"
+          className="hidden shrink-0 items-center gap-1 rounded-full bg-indigo px-3.5 py-1.5 text-[12px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.98] sm:flex"
         >
           Subscribe
           <ArrowRight className="size-3" strokeWidth={2.5} />
@@ -115,7 +115,7 @@ export function TrialBanner() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="flex size-7 shrink-0 items-center justify-center rounded-lg text-white/50 outline-none transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           <X className="size-3.5" strokeWidth={2.5} />
         </button>

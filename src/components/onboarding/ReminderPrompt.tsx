@@ -152,23 +152,23 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-3xl border border-[#CCFF00]/25 bg-[#CCFF00]/[0.05] p-5 sm:p-6"
+          className="rounded-lg border border-indigo/25 bg-indigo/[0.05] p-5 sm:p-6"
         >
           <div className="flex items-start gap-3">
             <Bell
-              className="mt-0.5 size-4 shrink-0 text-[#CCFF00]"
+              className="mt-0.5 size-4 shrink-0 text-indigo"
               strokeWidth={2}
               aria-hidden
             />
 
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
                 First one logged
               </p>
-              <p className="mt-2 text-[15px] font-semibold text-white">
+              <p className="mt-2 text-[15px] font-semibold text-ink">
                 Want a nudge on days you haven&apos;t trained?
               </p>
-              <p className="mt-2 text-[14px] leading-relaxed text-white/60">
+              <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
                 One notification, at a time you pick. Nothing on days
                 you&apos;ve already logged a session.
               </p>
@@ -178,7 +178,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
               type="button"
               onClick={dismiss}
               aria-label="Not now"
-              className="flex size-7 shrink-0 items-center justify-center rounded-lg text-white/50 outline-none transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               <X className="size-3.5" strokeWidth={2.5} />
             </button>
@@ -191,18 +191,18 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-xl border border-white/[0.09] bg-black/30 px-4 py-3 text-left outline-none transition-all hover:border-[#CCFF00]/30 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.99] disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-ink/30 px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99] disabled:opacity-50"
               >
                 <span>
-                  <span className="block text-sm font-medium text-white">
+                  <span className="block text-sm font-medium text-ink">
                     {time.label}
                   </span>
-                  <span className="block font-mono text-[11px] text-white/50">
+                  <span className="block font-mono text-[11px] text-ink-muted">
                     {time.detail}
                   </span>
                 </span>
                 {busy && (
-                  <Loader2 className="size-3.5 animate-spin text-white/50" />
+                  <Loader2 className="size-3.5 animate-spin text-ink-muted" />
                 )}
               </button>
             ))}
@@ -211,7 +211,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           {error && (
             <p
               role="alert"
-              className="mt-4 rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+              className="mt-4 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
             >
               {error}
             </p>
@@ -220,7 +220,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           <button
             type="button"
             onClick={dismiss}
-            className="mt-3 w-full rounded-full px-5 py-2.5 text-[13px] font-medium text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/40"
+            className="mt-3 w-full rounded-full px-5 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/40"
           >
             Not now
           </button>

@@ -70,7 +70,7 @@ export function DeleteAccountCard() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full text-center text-[13px] text-white/50 underline underline-offset-4 outline-none transition-colors hover:text-red-300 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+        className="w-full text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-red-300 focus-visible:ring-2 focus-visible:ring-indigo/50"
       >
         Delete my account
       </button>
@@ -78,7 +78,7 @@ export function DeleteAccountCard() {
   }
 
   return (
-    <section className="rounded-3xl border border-red-500/25 bg-red-500/[0.04] p-5 sm:p-6">
+    <section className="rounded-lg border border-red-500/25 bg-red-500/[0.04] p-5 sm:p-6">
       <div className="flex items-center gap-2">
         <AlertTriangle className="size-4 text-red-300" strokeWidth={2} />
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-red-300/80">
@@ -86,17 +86,17 @@ export function DeleteAccountCard() {
         </p>
       </div>
 
-      <p className="mt-3 text-[15px] font-semibold text-white">
+      <p className="mt-3 text-[15px] font-semibold text-ink">
         This removes everything, permanently.
       </p>
-      <p className="mt-2 text-[14px] leading-relaxed text-white/60">
+      <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
         Your profile, every logged workout, your coach conversations and
         your progress history. It cannot be undone, and we cannot restore
         it afterwards.
       </p>
 
       <label className="mt-5 block">
-        <span className="text-[13px] font-medium text-white/60">
+        <span className="text-[13px] font-medium text-ink-muted">
           Type DELETE to confirm
         </span>
         <input
@@ -104,7 +104,7 @@ export function DeleteAccountCard() {
           value={confirmText}
           onChange={(event) => setConfirmText(event.target.value)}
           autoComplete="off"
-          className="mt-1.5 w-full rounded-xl border border-white/[0.09] bg-black/50 px-4 py-3 text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-red-400/60"
+          className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-red-400/60"
           placeholder="DELETE"
         />
       </label>
@@ -112,7 +112,7 @@ export function DeleteAccountCard() {
       {error && (
         <p
           role="alert"
-          className="mt-3 rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+          className="mt-3 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
         >
           {error}
         </p>
@@ -126,7 +126,7 @@ export function DeleteAccountCard() {
             setConfirmText("");
             setError(null);
           }}
-          className="flex-1 rounded-full border border-white/10 px-5 py-3 text-sm font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white"
+          className="flex-1 rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink"
         >
           Keep my account
         </button>
@@ -134,7 +134,7 @@ export function DeleteAccountCard() {
           type="button"
           onClick={() => void deleteAccount()}
           disabled={!canDelete || busy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-5 py-3 text-sm font-semibold text-white outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:scale-[0.99] disabled:opacity-40"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-5 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:scale-[0.99] disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

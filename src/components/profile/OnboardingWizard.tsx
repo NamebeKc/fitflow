@@ -295,19 +295,19 @@ export function OnboardingWizard({
     const greetingName = displayName?.split(" ")[0];
 
     return (
-      <Card className="mx-auto w-full max-w-xl border-white/[0.07] bg-[#14161A] text-white shadow-none">
+      <Card className="mx-auto w-full max-w-xl border-rule bg-paper-raised text-ink shadow-none">
         <CardContent className="space-y-7 p-6 md:p-8">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex size-14 items-center justify-center rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.07]">
-              <Sparkles className="size-6 text-[#CCFF00]" strokeWidth={2} />
+            <div className="flex size-14 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
+              <Sparkles className="size-6 text-indigo" strokeWidth={2} />
             </div>
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold tracking-[-0.02em] text-white">
+              <h2 className="text-xl font-semibold tracking-[-0.02em] text-ink">
                 {greetingName
                   ? `Let's set you up, ${greetingName}.`
                   : "Let's set you up."}
               </h2>
-              <p className="mx-auto max-w-sm text-sm leading-relaxed text-white/60">
+              <p className="mx-auto max-w-sm text-sm leading-relaxed text-ink-muted">
                 A few short questions. Your answers shape every plan your
                 coach writes — this is what makes the advice yours rather
                 than generic.
@@ -335,13 +335,13 @@ export function OnboardingWizard({
 
           <Button
             onClick={() => setShowIntro(false)}
-            className="w-full gap-2 rounded-full bg-[#CCFF00] py-6 text-sm font-semibold text-black shadow-[0_10px_40px_-12px_rgba(204,255,0,0.5)] hover:bg-[#d9ff33] active:scale-[0.99]"
+            className="w-full gap-2 rounded-full bg-indigo py-6 text-sm font-semibold text-black hover:bg-indigo-lift active:scale-[0.99]"
           >
             Get started
             <ArrowRight className="size-4" />
           </Button>
 
-          <p className="text-center font-mono text-[10px] uppercase tracking-[0.1em] text-white/50">
+          <p className="text-center font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
             Takes about a minute. You can change any of it later.
           </p>
         </CardContent>
@@ -351,15 +351,15 @@ export function OnboardingWizard({
 
   // ── Wizard ────────────────────────────────────────────────────────
   return (
-    <Card className="mx-auto w-full max-w-xl border-white/[0.07] bg-[#14161A] text-white shadow-none">
+    <Card className="mx-auto w-full max-w-xl border-rule bg-paper-raised text-ink shadow-none">
       <CardContent className="p-6 md:p-8">
         {/* Progress */}
         <div className="mb-8 space-y-3">
           <div className="flex items-baseline justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               Step {step + 1} / {STEPS.length}
             </p>
-            <p className="text-sm font-medium text-white/70">{STEPS[step]}</p>
+            <p className="text-sm font-medium text-ink-muted">{STEPS[step]}</p>
           </div>
           <div className="flex gap-1.5">
             {STEPS.map((label, index) => (
@@ -367,7 +367,7 @@ export function OnboardingWizard({
                 key={label}
                 className={cn(
                   "h-1 flex-1 rounded-full transition-colors duration-300",
-                  index <= step ? "bg-[#CCFF00]" : "bg-white/[0.08]",
+                  index <= step ? "bg-indigo" : "bg-paper-sunken",
                 )}
               />
             ))}
@@ -382,7 +382,7 @@ export function OnboardingWizard({
                 <div className="space-y-2">
                   <label
                     htmlFor="firstName"
-                    className="text-sm font-medium text-white/70"
+                    className="text-sm font-medium text-ink-muted"
                   >
                     First name
                   </label>
@@ -392,7 +392,7 @@ export function OnboardingWizard({
                     onChange={(event) => setFirstName(event.target.value)}
                     placeholder="What should your coach call you?"
                     autoComplete="given-name"
-                    className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+                    className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
                   />
                 </div>
 
@@ -400,7 +400,7 @@ export function OnboardingWizard({
                   <div className="space-y-2">
                     <label
                       htmlFor="age"
-                      className="text-sm font-medium text-white/70"
+                      className="text-sm font-medium text-ink-muted"
                     >
                       Age
                     </label>
@@ -413,13 +413,13 @@ export function OnboardingWizard({
                       value={age}
                       onChange={(event) => setAge(event.target.value)}
                       placeholder="e.g. 32"
-                      className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                   <div className="space-y-2">
                     <label
                       htmlFor="weight"
-                      className="text-sm font-medium text-white/70"
+                      className="text-sm font-medium text-ink-muted"
                     >
                       Weight (kg)
                     </label>
@@ -432,13 +432,13 @@ export function OnboardingWizard({
                       value={weight}
                       onChange={(event) => setWeight(event.target.value)}
                       placeholder="78"
-                      className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                   <div className="space-y-2">
                     <label
                       htmlFor="height"
-                      className="text-sm font-medium text-white/70"
+                      className="text-sm font-medium text-ink-muted"
                     >
                       Height (cm)
                     </label>
@@ -451,12 +451,12 @@ export function OnboardingWizard({
                       value={height}
                       onChange={(event) => setHeight(event.target.value)}
                       placeholder="175"
-                      className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                 </div>
 
-                <p className="text-xs leading-relaxed text-white/50">
+                <p className="text-xs leading-relaxed text-ink-muted">
                   Used to calibrate training loads and progression. Height is
                   optional. Nothing here is ever shown to anyone else, and
                   AdimFit will not score or judge your body.
@@ -466,7 +466,7 @@ export function OnboardingWizard({
 
             {step === 1 && (
               <div className="space-y-4">
-                <p className="text-sm leading-relaxed text-white/60">
+                <p className="text-sm leading-relaxed text-ink-muted">
                   What matters most to you right now? Pick one or two —
                   you can change this anytime.
                 </p>
@@ -495,7 +495,7 @@ export function OnboardingWizard({
                 </div>
 
                 {goals.length > 1 && (
-                  <p className="text-[13px] leading-relaxed text-white/45">
+                  <p className="text-[13px] leading-relaxed text-ink-faint">
                     Your coach shapes each session around the primary goal
                     and works the second one in across the week. Two is the
                     maximum — deselect one to change it.
@@ -506,7 +506,7 @@ export function OnboardingWizard({
 
             {step === 2 && (
               <div className="space-y-4">
-                <p className="text-sm leading-relaxed text-white/60">
+                <p className="text-sm leading-relaxed text-ink-muted">
                   Which activities do you enjoy? Select all that apply —
                   your plans will lean on these.
                 </p>
@@ -529,10 +529,10 @@ export function OnboardingWizard({
               <div className="space-y-6">
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-white/70">
+                    <p className="text-sm font-medium text-ink-muted">
                       Where do you usually train?
                     </p>
-                    <p className="text-sm leading-relaxed text-white/60">
+                    <p className="text-sm leading-relaxed text-ink-muted">
                       Select all that apply. Your coach won&apos;t prescribe
                       a barbell session if you&apos;re in a hotel room.
                     </p>
@@ -569,12 +569,12 @@ export function OnboardingWizard({
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="space-y-4 border-t border-white/[0.06] pt-6">
+                      <div className="space-y-4 border-t border-rule pt-6">
                         <div className="space-y-1">
-                          <p className="text-sm font-medium text-white/70">
+                          <p className="text-sm font-medium text-ink-muted">
                             What do you have access to?
                           </p>
-                          <p className="text-sm leading-relaxed text-white/60">
+                          <p className="text-sm leading-relaxed text-ink-muted">
                             Outside the gym, this is what shapes your
                             sessions.
                           </p>
@@ -591,10 +591,10 @@ export function OnboardingWizard({
                                 aria-pressed={selected}
                                 className={cn(
                                   "rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:scale-[0.98]",
-                                  "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
+                                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
                                   selected
-                                    ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08] text-white"
-                                    : "border-white/[0.07] bg-black/30 text-white/60 hover:border-white/15 hover:text-white",
+                                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
                                 )}
                               >
                                 {label}
@@ -607,12 +607,12 @@ export function OnboardingWizard({
                   )}
                 </AnimatePresence>
 
-                <div className="space-y-4 border-t border-white/[0.06] pt-6">
+                <div className="space-y-4 border-t border-rule pt-6">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-white/80">
+                    <p className="text-sm font-medium text-ink">
                       How should your coach talk to you?
                     </p>
-                    <p className="text-sm leading-relaxed text-white/60">
+                    <p className="text-sm leading-relaxed text-ink-muted">
                       Same programming either way — only the delivery
                       changes.
                     </p>
@@ -630,22 +630,22 @@ export function OnboardingWizard({
                           }
                           aria-pressed={selected}
                           className={cn(
-                            "w-full rounded-xl border px-4 py-3 text-left outline-none transition-all active:scale-[0.99]",
-                            "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
+                            "w-full rounded-md border px-4 py-3 text-left outline-none transition-all active:scale-[0.99]",
+                            "focus-visible:ring-2 focus-visible:ring-indigo/50",
                             selected
-                              ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08]"
-                              : "border-white/[0.07] bg-black/30 hover:border-white/15",
+                              ? "border-indigo/40 bg-indigo/[0.08]"
+                              : "border-rule bg-ink/30 hover:border-rule",
                           )}
                         >
                           <span
                             className={cn(
                               "block text-sm font-medium",
-                              selected ? "text-white" : "text-white/70",
+                              selected ? "text-ink" : "text-ink-muted",
                             )}
                           >
                             {label}
                           </span>
-                          <span className="mt-0.5 block text-xs leading-relaxed text-white/50">
+                          <span className="mt-0.5 block text-xs leading-relaxed text-ink-muted">
                             {description}
                           </span>
                         </button>
@@ -654,7 +654,7 @@ export function OnboardingWizard({
                   </div>
                 </div>
 
-                <p className="text-xs leading-relaxed text-white/50">
+                <p className="text-xs leading-relaxed text-ink-muted">
                   All optional — skip and tell your coach in chat instead. It
                   also adapts per session: say &ldquo;I&apos;m travelling
                   today&rdquo; and the plan changes.
@@ -671,7 +671,7 @@ export function OnboardingWizard({
             onClick={goBack}
             disabled={step === 0}
             className={cn(
-              "gap-2 text-white/60 hover:bg-white/[0.04] hover:text-white",
+              "gap-2 text-ink-muted hover:bg-paper-sunken hover:text-ink",
               step === 0 && "invisible",
             )}
           >
@@ -686,7 +686,7 @@ export function OnboardingWizard({
               <Button
                 variant="ghost"
                 onClick={finish}
-                className="text-white/50 hover:bg-white/[0.04] hover:text-white/70"
+                className="text-ink-muted hover:bg-paper-sunken hover:text-ink-muted"
               >
                   Skip
                 </Button>
@@ -695,7 +695,7 @@ export function OnboardingWizard({
             <Button
               onClick={goForward}
               disabled={!stepValid}
-              className="gap-2 rounded-full bg-[#CCFF00] px-6 font-semibold text-black shadow-[0_10px_30px_-12px_rgba(204,255,0,0.5)] hover:bg-[#d9ff33] active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
+              className="gap-2 rounded-full bg-indigo px-6 font-semibold text-black hover:bg-indigo-lift active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
             >
               {step === STEPS.length - 1
                 ? isEditing
@@ -737,12 +737,12 @@ function SelectTile({
       disabled={disabled}
       aria-pressed={selected}
       className={cn(
-        "flex items-center gap-3 rounded-xl border text-left font-medium outline-none transition-all",
-        "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.99]",
+        "flex items-center gap-3 rounded-md border text-left font-medium outline-none transition-all",
+        "focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]",
         compact ? "gap-2.5 px-3.5 py-3 text-sm" : "px-4 py-3.5 text-sm",
         selected
-          ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08] text-white"
-          : "border-white/[0.07] bg-black/30 text-white/60 hover:border-white/15 hover:text-white",
+          ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+          : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
         disabled && "pointer-events-none opacity-35",
       )}
     >
@@ -750,18 +750,18 @@ function SelectTile({
         className={cn(
           "shrink-0",
           compact ? "size-4" : "size-5",
-          selected ? "text-[#CCFF00]" : "text-white/50",
+          selected ? "text-indigo" : "text-ink-muted",
         )}
         strokeWidth={2}
       />
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge && (
-        <span className="shrink-0 rounded-full bg-[#CCFF00]/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[#CCFF00]">
+        <span className="shrink-0 rounded-full bg-indigo/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-indigo">
           {badge}
         </span>
       )}
       {selected && !compact && (
-        <Check className="size-4 shrink-0 text-[#CCFF00]" strokeWidth={2.5} />
+        <Check className="size-4 shrink-0 text-indigo" strokeWidth={2.5} />
       )}
     </button>
   );
@@ -778,12 +778,12 @@ function IntroPoint({
 }) {
   return (
     <li className="flex items-start gap-3.5">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-black/30">
-        <Icon className="size-4 text-white/40" strokeWidth={2} />
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule bg-ink/30">
+        <Icon className="size-4 text-ink-faint" strokeWidth={2} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-white">{title}</p>
-        <p className="mt-0.5 text-sm leading-relaxed text-white/60">
+        <p className="text-sm font-medium text-ink">{title}</p>
+        <p className="mt-0.5 text-sm leading-relaxed text-ink-muted">
           {description}
         </p>
       </div>

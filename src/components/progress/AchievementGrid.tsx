@@ -39,10 +39,10 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-baseline justify-between">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Milestones
         </p>
-        <p className="font-mono text-[11px] tabular-nums text-white/50">
+        <p className="font-mono text-[11px] tabular-nums text-ink-muted">
           {earned.length} / {achievements.length}
         </p>
       </div>
@@ -61,19 +61,19 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
               ease: "easeOut",
             }}
             className={cn(
-              "rounded-2xl border p-4 transition-colors",
+              "rounded-md border p-4 transition-colors",
               achievement.earned
-                ? "border-[#CCFF00]/25 bg-[#CCFF00]/[0.05]"
-                : "border-white/[0.07] bg-black/30",
+                ? "border-indigo/25 bg-indigo/[0.05]"
+                : "border-rule bg-ink/30",
             )}
           >
             <div className="flex items-start gap-3">
               <div
                 className={cn(
-                  "flex size-8 shrink-0 items-center justify-center rounded-lg border",
+                  "flex size-8 shrink-0 items-center justify-center rounded-sm border",
                   achievement.earned
-                    ? "border-[#CCFF00]/30 bg-[#CCFF00]/10 text-[#CCFF00]"
-                    : "border-white/10 bg-white/[0.03] text-white/50",
+                    ? "border-indigo/30 bg-indigo/10 text-indigo"
+                    : "border-rule bg-paper-sunken text-ink-muted",
                 )}
               >
                 {achievement.earned ? (
@@ -87,20 +87,20 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                 <p
                   className={cn(
                     "text-sm font-semibold tracking-[-0.01em]",
-                    achievement.earned ? "text-white" : "text-white/70",
+                    achievement.earned ? "text-ink" : "text-ink-muted",
                   )}
                 >
                   {achievement.title}
                 </p>
-                <p className="mt-1 text-[13px] leading-relaxed text-white/50">
+                <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
                   {achievement.description}
                 </p>
 
                 {!achievement.earned && (
                   <div className="mt-3 space-y-1.5">
-                    <div className="h-1 overflow-hidden rounded-full bg-white/[0.08]">
+                    <div className="h-1 overflow-hidden rounded-full bg-paper-sunken">
                       <motion.div
-                        className="h-full rounded-full bg-[#CCFF00]/60"
+                        className="h-full rounded-full bg-indigo/60"
                         initial={
                           prefersReducedMotion ? undefined : { width: 0 }
                         }
@@ -112,7 +112,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                         transition={{ duration: 0.6, ease: "easeOut" }}
                       />
                     </div>
-                    <p className="font-mono text-[10px] tabular-nums text-white/50">
+                    <p className="font-mono text-[10px] tabular-nums text-ink-muted">
                       {achievement.progress} / {achievement.target}
                     </p>
                   </div>

@@ -205,7 +205,7 @@ export function PaywallFlow({
             <button
               type="button"
               onClick={() => setStep((current) => current - 1)}
-              className="flex size-12 shrink-0 items-center justify-center rounded-full border border-white/12 text-white/60 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="flex size-12 shrink-0 items-center justify-center rounded-full border border-rule text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
               aria-label="Back"
             >
               <ArrowLeft className="size-4" strokeWidth={2.5} />
@@ -214,7 +214,7 @@ export function PaywallFlow({
           <button
             type="button"
             onClick={() => setStep((current) => current + 1)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-6 py-3.5 text-[15px] font-semibold text-black shadow-[0_10px_40px_-12px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
           >
             {step === STEPS.length - 2 ? "See your options" : "Continue"}
             <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -250,7 +250,7 @@ function GoalsScreen({
         {chips.map((chip) => (
           <span
             key={chip}
-            className="rounded-full border border-white/[0.09] bg-black/30 px-3.5 py-2 text-[13px] text-white/70"
+            className="rounded-full border border-rule bg-ink/30 px-3.5 py-2 text-[13px] text-ink-muted"
           >
             {chip}
           </span>
@@ -258,9 +258,9 @@ function GoalsScreen({
       </div>
 
       {(profile?.equipment?.length ?? 0) > 0 && (
-        <p className="mt-5 text-[13px] leading-relaxed text-white/50">
+        <p className="mt-5 text-[13px] leading-relaxed text-ink-muted">
           Working with{" "}
-          <span className="text-white/75">
+          <span className="text-ink-muted">
             {(profile?.equipment ?? []).map(equipmentLabel).join(", ")}
           </span>
           . Your coach never prescribes a movement you have no way to do.
@@ -289,10 +289,10 @@ function PlanScreen({
         {plan.lines.map((line) => (
           <li key={line} className="flex items-start gap-2.5">
             <Check
-              className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
+              className="mt-0.5 size-3.5 shrink-0 text-indigo"
               strokeWidth={3}
             />
-            <span className="text-[14px] leading-relaxed text-white/70">
+            <span className="text-[14px] leading-relaxed text-ink-muted">
               {line}
             </span>
           </li>
@@ -300,8 +300,8 @@ function PlanScreen({
       </ul>
 
       {secondary && secondary !== primary && (
-        <p className="mt-5 rounded-xl border border-white/[0.07] bg-black/30 px-3.5 py-3 text-[13px] leading-relaxed text-white/60">
-          <span className="text-white/80">
+        <p className="mt-5 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
+          <span className="text-ink">
             {goalLabel(secondary)} gets its own days.
           </span>{" "}
           Sessions follow {goalLabel(primary).toLowerCase()} — roughly two to
@@ -320,16 +320,16 @@ function EvidenceScreen() {
       title="Why a coach that adapts beats one that doesn't"
       body="The strongest evidence for this kind of product, stated the way the researchers stated it."
     >
-      <div className="rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] p-4">
-        <p className="font-mono text-3xl tabular-nums text-[#CCFF00]">+753</p>
-        <p className="mt-1 text-[13px] leading-relaxed text-white/70">
+      <div className="rounded-md border border-indigo/20 bg-indigo/[0.05] p-4">
+        <p className="font-mono text-3xl tabular-nums text-indigo">+753</p>
+        <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
           extra steps a day, pooled across 21 randomised trials of apps and
           activity trackers{" "}
-          <span className="text-white/45">(95% CI 440–971)</span>
+          <span className="text-ink-faint">(95% CI 440–971)</span>
         </p>
       </div>
 
-      <p className="mt-4 text-[14px] leading-relaxed text-white/70">
+      <p className="mt-4 text-[14px] leading-relaxed text-ink-muted">
         The same review tested <em>which</em> features did the work.
         Personalisation and messaging were the two that reached significance —
         the difference between a coach that knows your history and an app that
@@ -341,11 +341,11 @@ function EvidenceScreen() {
         limitation a reader has to go looking for is a limitation the
         page is hiding.
       */}
-      <div className="mt-5 rounded-xl border border-white/[0.07] bg-black/30 px-3.5 py-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+      <div className="mt-5 rounded-md border border-rule bg-ink/30 px-3.5 py-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
           What this doesn&apos;t show
         </p>
-        <p className="mt-2 text-[13px] leading-relaxed text-white/55">
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
           Most trials bundled apps with other support, so the app alone
           isn&apos;t isolated. The authors grade the evidence low-to-moderate.
           It says this category of tool moves activity — not what will happen
@@ -357,7 +357,7 @@ function EvidenceScreen() {
         href="https://pubmed.ncbi.nlm.nih.gov/33355160/"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-flex items-center gap-1.5 text-[12px] text-white/45 underline underline-offset-4 transition-colors hover:text-white/80"
+        className="mt-4 inline-flex items-center gap-1.5 text-[12px] text-ink-faint underline underline-offset-4 transition-colors hover:text-ink"
       >
         Laranjo et al., British Journal of Sports Medicine, 2021
         <ExternalLink className="size-3" strokeWidth={2} />
@@ -376,7 +376,7 @@ function Progress({ step, total }: { step: number; total: number }) {
           key={index}
           className={cn(
             "h-1 flex-1 rounded-full transition-colors duration-300",
-            index <= step ? "bg-[#CCFF00]" : "bg-white/10",
+            index <= step ? "bg-indigo" : "bg-paper-sunken",
           )}
         />
       ))}
@@ -396,14 +396,14 @@ function Shell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-3xl border border-white/[0.09] bg-[#14161A] p-6 sm:p-7">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+    <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
         {eyebrow}
       </p>
-      <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">
+      <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">
         {title}
       </h2>
-      <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">{body}</p>
+      <p className="mt-2.5 text-[15px] leading-relaxed text-ink-muted">{body}</p>
       <div className="mt-6">{children}</div>
     </div>
   );

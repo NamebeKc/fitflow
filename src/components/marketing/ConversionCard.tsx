@@ -113,7 +113,7 @@ export function ConversionCard() {
   return (
     <div
       id="auth"
-      className="rounded-3xl border border-white/10 bg-[#14161A] p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6"
+      className="rounded-lg border border-rule bg-paper-raised p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6"
     >
       {/* The one-tap path, given the most weight */}
       <button
@@ -122,23 +122,23 @@ export function ConversionCard() {
           track("signup_started", { method: "google" });
           void signInWithGoogle();
         }}
-        className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3.5 text-[15px] font-semibold text-[#14161A] shadow-[0_10px_30px_-12px_rgba(255,255,255,0.4)] outline-none transition-all hover:bg-white/92 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99]"
+        className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3.5 text-[15px] font-semibold text-paper-raised shadow-[0_10px_30px_-12px_rgba(255,255,255,0.4)] outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-rule focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99]"
       >
         <GoogleMark />
         Continue with Google
       </button>
 
-      <p className="mt-3 text-center text-[13px] text-white/50">
+      <p className="mt-3 text-center text-[13px] text-ink-muted">
         Free to start · No card required
       </p>
 
       {/* Email, available but not in the way */}
-      <div className="mt-5 border-t border-white/[0.07] pt-4">
+      <div className="mt-5 border-t border-rule pt-4">
         <button
           type="button"
           onClick={() => setShowEmail((open) => !open)}
           aria-expanded={showEmail}
-          className="flex w-full items-center justify-center gap-1.5 text-[13px] font-medium text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="flex w-full items-center justify-center gap-1.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           {showEmail ? "Hide email options" : "Or use email instead"}
           <ChevronDown
@@ -162,7 +162,7 @@ export function ConversionCard() {
               className="overflow-hidden"
             >
               <div className="pt-4">
-                <div className="flex rounded-full bg-black/50 p-1">
+                <div className="flex rounded-full bg-paper p-1">
                   {(["register", "login"] as const).map((value) => {
                     const active = mode === value;
                     return (
@@ -176,7 +176,7 @@ export function ConversionCard() {
                         }}
                         className={cn(
                           "relative z-10 flex-1 rounded-full px-4 py-2 text-[13px] font-medium outline-none transition-colors",
-                          active ? "text-black" : "text-white/50 hover:text-white/80",
+                          active ? "text-black" : "text-ink-muted hover:text-ink",
                         )}
                       >
                         {active && (
@@ -187,7 +187,7 @@ export function ConversionCard() {
                                 ? { duration: 0 }
                                 : { type: "spring", stiffness: 420, damping: 34 }
                             }
-                            className="absolute inset-0 -z-10 rounded-full bg-[#CCFF00]"
+                            className="absolute inset-0 -z-10 rounded-full bg-indigo"
                             aria-hidden
                           />
                         )}
@@ -232,7 +232,7 @@ export function ConversionCard() {
                       type="button"
                       onClick={() => void resetPassword()}
                       disabled={resetting}
-                      className="text-[12px] text-white/60 underline underline-offset-4 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 disabled:opacity-50"
+                      className="text-[12px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 disabled:opacity-50"
                     >
                       {resetting ? "Sending…" : "Forgot your password?"}
                     </button>
@@ -242,7 +242,7 @@ export function ConversionCard() {
                 {error && (
                   <p
                     role="alert"
-                    className="mt-3 rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+                    className="mt-3 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
                   >
                     {error}
                   </p>
@@ -251,7 +251,7 @@ export function ConversionCard() {
                 {notice && (
                   <p
                     role="status"
-                    className="mt-3 rounded-xl border border-[#CCFF00]/25 bg-[#CCFF00]/[0.07] px-3.5 py-2.5 text-[13px] leading-relaxed text-white/80"
+                    className="mt-3 rounded-md border border-indigo/25 bg-indigo/[0.07] px-3.5 py-2.5 text-[13px] leading-relaxed text-ink"
                   >
                     {notice}
                   </p>
@@ -261,7 +261,7 @@ export function ConversionCard() {
                   type="button"
                   onClick={() => void submit()}
                   disabled={busy}
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-[14px] font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99] disabled:opacity-50"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-[14px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-50"
                 >
                   {busy ? (
                     <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -300,7 +300,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-[13px] font-medium text-white/60">{label}</span>
+      <span className="text-[13px] font-medium text-ink-muted">{label}</span>
       <input
         type={type}
         value={value}
@@ -310,7 +310,7 @@ function Field({
           if (event.key === "Enter" && onEnter) onEnter();
         }}
         placeholder={placeholder}
-        className="mt-1.5 w-full rounded-xl border border-white/[0.09] bg-black/50 px-4 py-3 text-[15px] text-white outline-none transition-colors placeholder:text-white/50 focus:border-[#CCFF00]/60 focus:bg-black/70"
+        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-muted focus:border-indigo/60 focus:bg-paper"
       />
     </label>
   );

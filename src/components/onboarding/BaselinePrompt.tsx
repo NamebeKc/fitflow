@@ -119,24 +119,24 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
         animate={{ opacity: 1, y: 0 }}
         exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="relative rounded-2xl border border-white/[0.09] bg-[#14161A] p-5"
+        className="relative rounded-md border border-rule bg-paper-raised p-5"
       >
         <button
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full text-white/35 outline-none transition-colors hover:bg-white/[0.06] hover:text-white/70 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full text-ink-faint outline-none transition-colors hover:bg-paper-sunken hover:text-ink-muted focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           <X className="size-3.5" strokeWidth={2.5} />
         </button>
 
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
           One question
         </p>
-        <h3 className="mt-3 pr-8 text-[17px] font-semibold tracking-[-0.02em] text-white">
+        <h3 className="mt-3 pr-8 text-[17px] font-semibold tracking-[-0.02em] text-ink">
           Before AdimFit, how many days a week were you active?
         </h3>
-        <p className="mt-2 text-[13px] leading-relaxed text-white/55">
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
           Roughly is fine. It&apos;s how we tell whether this is actually
           changing anything — and it&apos;s the one thing we can&apos;t work
           out from your log.
@@ -150,9 +150,9 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
               disabled={saving}
               onClick={() => void answer(option.id)}
               className={cn(
-                "rounded-xl border border-white/[0.09] bg-black/30 px-3 py-3 text-[13px] text-white/75 outline-none transition-all",
-                "hover:border-[#CCFF00]/40 hover:bg-[#CCFF00]/[0.06] hover:text-white",
-                "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.98]",
+                "rounded-md border border-rule bg-ink/30 px-3 py-3 text-[13px] text-ink-muted outline-none transition-all",
+                "hover:border-indigo/40 hover:bg-indigo/[0.06] hover:text-ink",
+                "focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]",
                 "disabled:opacity-40",
               )}
             >

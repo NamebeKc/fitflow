@@ -4,117 +4,278 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── TYPEFACES ────────────────────────────────────────────────────
+   Self-hosted and subset. Not next/font, and not a Google Fonts
+   runtime request: a third-party connection costs a round trip, a
+   CLS risk and an NDPA question for nothing we need.
+
+   Geist was removed here. It has no NAIRA SIGN (U+20A6) in its cmap,
+   so every price on the site was rendering its currency symbol in
+   whatever the browser substituted, and it also lacks the Yoruba
+   s-dot-below and the Igbo n-dot-above.
+
+   Subset to Latin plus the African Latin ranges the product actually
+   needs. Both variable fonts keep every axis.
+   ───────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/Archivo.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fills exactly the gap Archivo and Fraunces leave: n-dot-above for
+   Igbo and the Hausa hooked consonants. Google Fonts commissioned
+   Questrial's African Latin expansion, and it is the only candidate
+   tested with complete coverage. Single weight, so it is a
+   glyph-level fallback and never a UI font. The unicode-range means
+   it is downloaded only if one of these characters is rendered. */
+@font-face {
+  font-family: "AfricanLatin";
+  src: url("/fonts/Questrial.woff2") format("woff2");
+  font-display: swap;
+  unicode-range: U+1E44-1E45, U+0181, U+018A, U+0198-0199, U+01B3-01B4,
+    U+0253, U+0257;
+}
+
 @theme inline {
+  /* Brand surface and ink */
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-field-border: var(--field-border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  /* Indigo — primary. Laterite — emphasis. Ochre — rationed. */
+  --color-indigo: var(--indigo);
+  --color-indigo-deep: var(--indigo-deep);
+  --color-indigo-lift: var(--indigo-lift);
+  --color-indigo-wash: var(--indigo-wash);
+  --color-laterite: var(--laterite);
+  --color-laterite-wash: var(--laterite-wash);
+  --color-ochre: var(--ochre);
+
+  /* States */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  /* Paired foregrounds. A coloured fill NEVER takes --ink directly:
+     invert the theme and the ochre chip drops from 6.86:1 to 1.70:1
+     while every body-text check still passes. */
+  --color-on-indigo: var(--on-indigo);
+  --color-on-laterite: var(--on-laterite);
+  --color-on-ochre: var(--on-ochre);
+
+  /* shadcn aliases, remapped onto the brand tokens above so stock
+     primitives are on-brand with no per-component overrides. This is
+     the step that was missing: globals.css shipped the untouched
+     shadcn default, every token oklch(x 0 0), and components ignored
+     it in favour of 1,893 arbitrary values. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-text);
+  --font-display: var(--font-display-stack);
+  --font-mono: var(--font-mono-stack);
+  --font-heading: var(--font-display-stack);
+
+  /* Four radii. Replaces six. rounded-full is for avatars, status
+     dots and progress tracks only — never a button. */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 16px;
+  --radius-2xl: 16px;
+  --radius-3xl: 16px;
+  --radius-4xl: 16px;
 }
 
+/* ── LIGHT — "paper" ──────────────────────────────────────────────
+   Every neutral carries hue 62–83 and a trace of chroma. Pure grey
+   (chroma 0) is what the old build had, and why it read cold.
+   All 34 contrast pairings verified against WCAG 2.1; the checker is
+   in design.md §11.1 and parses this file.
+   ───────────────────────────────────────────────────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --font-text: "Archivo", "AfricanLatin", ui-sans-serif, system-ui, sans-serif;
+  --font-display-stack: "Fraunces", "AfricanLatin", Georgia, serif;
+  --font-mono-stack: "Archivo", ui-monospace, SFMono-Regular, monospace;
+
+  --paper: oklch(97.8% 0.006 83);
+  --paper-raised: oklch(99.2% 0.004 83);
+  --paper-sunken: oklch(95.4% 0.008 83);
+  --rule: oklch(89% 0.009 83);
+  --rule-strong: oklch(80% 0.012 83);
+  --field-border: oklch(63% 0.013 78);
+  --ink: oklch(22% 0.014 62);
+  --ink-muted: oklch(47% 0.012 70);
+  --ink-faint: oklch(55% 0.012 74);
+
+  --indigo: oklch(38% 0.115 266);
+  --indigo-deep: oklch(27% 0.095 268);
+  --indigo-lift: oklch(55% 0.120 264);
+  --indigo-wash: oklch(94% 0.022 266);
+  --laterite: oklch(52% 0.135 40);
+  --laterite-wash: oklch(94% 0.025 45);
+  --ochre: oklch(72% 0.115 72);
+
+  --success: oklch(48% 0.085 150);
+  --warning: oklch(52% 0.105 62);
+  --danger: oklch(50% 0.150 25);
+
+  --on-indigo: oklch(97.8% 0.006 83);
+  --on-laterite: oklch(97.8% 0.006 83);
+  --on-ochre: oklch(22% 0.014 62);
+
+  /* Two shadows exist. Both neutral. Cards get neither. */
+  --shadow-overlay: 0 4px 16px -4px oklch(22% 0.014 62 / 0.1),
+    0 1px 3px -1px oklch(22% 0.014 62 / 0.08);
+  --shadow-modal: 0 16px 48px -12px oklch(22% 0.014 62 / 0.18),
+    0 2px 8px -2px oklch(22% 0.014 62 / 0.1);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--indigo);
+  --primary-foreground: var(--on-indigo);
+  --secondary: var(--paper-sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-sunken);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--indigo-wash);
+  --accent-foreground: var(--indigo-deep);
+  --destructive: var(--danger);
+  --border: var(--rule);
+  --input: var(--field-border);
+  --ring: var(--indigo);
+  --chart-1: var(--indigo);
+  --chart-2: var(--laterite);
+  --chart-3: var(--ochre);
+  --chart-4: var(--indigo-lift);
+  --chart-5: var(--ink-muted);
+  --radius: 8px;
+  --sidebar: var(--paper-raised);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--indigo);
+  --sidebar-primary-foreground: var(--on-indigo);
+  --sidebar-accent: var(--indigo-wash);
+  --sidebar-accent-foreground: var(--indigo-deep);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--indigo);
 }
 
+/* ── DARK — "press" ───────────────────────────────────────────────
+   Not an inversion. Elevation rises in lightness, surfaces stay warm,
+   and the accents are re-picked — an indigo that works at 38%
+   lightness on paper is invisible at 17%. Phase 4: nothing applies
+   `.dark` yet, so this is staged, not live.
+   ───────────────────────────────────────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --paper: oklch(17.5% 0.010 70);
+  --paper-raised: oklch(21.5% 0.011 70);
+  --paper-sunken: oklch(14% 0.009 70);
+  --rule: oklch(28% 0.011 70);
+  --rule-strong: oklch(37% 0.013 70);
+  --field-border: oklch(53% 0.014 72);
+  --ink: oklch(94% 0.008 83);
+  --ink-muted: oklch(74% 0.011 78);
+  --ink-faint: oklch(62% 0.012 76);
+
+  --indigo: oklch(72% 0.105 262);
+  --indigo-deep: oklch(30% 0.075 266);
+  --indigo-lift: oklch(82% 0.075 260);
+  --indigo-wash: oklch(26% 0.050 266);
+  --laterite: oklch(70% 0.120 44);
+  --laterite-wash: oklch(27% 0.055 42);
+  --ochre: oklch(78% 0.105 74);
+
+  --success: oklch(72% 0.090 150);
+  --warning: oklch(76% 0.100 68);
+  --danger: oklch(70% 0.135 28);
+
+  /* A light fill in dark mode needs a DARK foreground. */
+  --on-indigo: oklch(14% 0.009 70);
+  --on-laterite: oklch(14% 0.009 70);
+  --on-ochre: oklch(14% 0.009 70);
+
+  --shadow-overlay: 0 4px 16px -4px oklch(5% 0.01 70 / 0.5),
+    0 1px 3px -1px oklch(5% 0.01 70 / 0.4);
+  --shadow-modal: 0 16px 48px -12px oklch(5% 0.01 70 / 0.6),
+    0 2px 8px -2px oklch(5% 0.01 70 / 0.45);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--indigo);
+  --primary-foreground: var(--on-indigo);
+  --secondary: var(--paper-sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-sunken);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--indigo-wash);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--rule);
+  --input: var(--field-border);
+  --ring: var(--indigo);
+  --sidebar: var(--paper-raised);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--indigo);
+  --sidebar-primary-foreground: var(--on-indigo);
+  --sidebar-accent: var(--indigo-wash);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--indigo);
 }
 
 @layer base {
@@ -123,11 +284,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-text);
+    -webkit-font-smoothing: antialiased;
   }
   html {
     @apply font-sans;
   }
+  /* A training log is a data product: figures must not shift as they
+     change. Applied to the whole app rather than per-component,
+     because the per-component version is the one that gets forgotten. */
+  .tabular,
+  table,
+  time,
+  output {
+    font-variant-numeric: tabular-nums slashed-zero;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
 }
+
 /* ── Mobile input sizing ──────────────────────────────────────────
    iOS Safari force-zooms the page whenever a focused input's font is
    under 16px. Rather than disabling zoom (an accessibility failure),

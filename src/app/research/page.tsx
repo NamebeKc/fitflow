@@ -41,12 +41,12 @@ const ARTICLES = [ARTICLE];
 
 export default function ResearchIndexPage() {
   return (
-    <div className="min-h-dvh bg-[#090A0C] text-white antialiased">
-      <header className="border-b border-white/[0.07]">
+    <div className="min-h-dvh bg-paper text-ink antialiased">
+      <header className="border-b border-rule">
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
           <Link
             href="/"
-            className="outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             <Image
               src="/logo-horizontal.png"
@@ -58,7 +58,7 @@ export default function ResearchIndexPage() {
           </Link>
           <a
             href="/#auth"
-            className="rounded-full border border-white/12 px-4 py-2 text-[13px] font-medium text-white/70 outline-none transition-colors hover:border-[#CCFF00]/40 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             Try AdimFit
           </a>
@@ -66,13 +66,13 @@ export default function ResearchIndexPage() {
       </header>
 
       <main className="mx-auto w-full max-w-[860px] px-5 py-14 md:px-8 md:py-20">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#CCFF00]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
           Research
         </p>
         <h1 className="mt-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
           The working, shown.
         </h1>
-        <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/60">
+        <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-muted">
           AdimFit makes claims about exercise on its marketing pages.
           These are the reviews those claims rest on, with every figure
           tied to a source you can open.
@@ -83,24 +83,24 @@ export default function ResearchIndexPage() {
             <li key={article.slug}>
               <Link
                 href={`/research/${article.slug}`}
-                className="group block rounded-3xl border border-white/[0.09] bg-[#14161A] p-6 outline-none transition-colors hover:border-[#CCFF00]/30 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 sm:p-8"
+                className="group block rounded-lg border border-rule bg-paper-raised p-6 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 sm:p-8"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
                   <time dateTime={article.published}>21 September 2026</time>
-                  <span className="px-2 text-white/20">·</span>
+                  <span className="px-2 text-ink-faint">·</span>
                   {article.readingMinutes} min
-                  <span className="px-2 text-white/20">·</span>
+                  <span className="px-2 text-ink-faint">·</span>
                   {CITATIONS.length} sources
                 </p>
 
-                <h2 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-white">
+                <h2 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-ink">
                   {article.title}
                 </h2>
-                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-white/60">
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
                   {article.subtitle}
                 </p>
 
-                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-[#CCFF00]">
+                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-indigo">
                   Read the review
                   <span
                     aria-hidden
@@ -115,8 +115,8 @@ export default function ResearchIndexPage() {
         </ul>
 
         {/* ── The standards these follow ───────────────────────────── */}
-        <section className="mt-16 rounded-3xl border border-white/[0.09] p-6 sm:p-8">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <section className="mt-16 rounded-lg border border-rule p-6 sm:p-8">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
             How these are written
           </h2>
           <ul className="mt-5 space-y-3.5">
@@ -129,11 +129,11 @@ export default function ResearchIndexPage() {
             ].map((rule) => (
               <li
                 key={rule}
-                className="flex gap-3 text-[15px] leading-relaxed text-white/60"
+                className="flex gap-3 text-[15px] leading-relaxed text-ink-muted"
               >
                 <span
                   aria-hidden
-                  className="mt-2 size-1.5 shrink-0 rounded-full bg-[#CCFF00]/60"
+                  className="mt-2 size-1.5 shrink-0 rounded-full bg-indigo/60"
                 />
                 <span>{rule}</span>
               </li>

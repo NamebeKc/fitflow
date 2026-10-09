@@ -29,8 +29,8 @@ export default function manifest(): MetadataRoute.Manifest {
     // between a bookmark and something that feels like an app.
     display: "standalone",
     orientation: "portrait",
-    background_color: "#090A0C",
-    theme_color: "#090A0C",
+    background_color: "#FAF7F3",
+    theme_color: "#FAF7F3",
     categories: ["health", "fitness", "lifestyle"],
     icons: [
       {

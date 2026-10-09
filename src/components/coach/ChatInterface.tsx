@@ -482,7 +482,7 @@ export function ChatInterface() {
 
   return (
     <section
-      className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-white/[0.07] bg-[#14161A]"
+      className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-rule bg-paper-raised"
       aria-label="Chat with your AI coach"
     >
       {/*
@@ -490,8 +490,8 @@ export function ChatInterface() {
         a normal thing to want, and a control that appears and vanishes
         is one people never learn is there.
       */}
-      <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5 md:px-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/50">
+      <div className="flex items-center justify-between border-b border-rule px-4 py-2.5 md:px-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
           {visibleMessages.length > 0
             ? `${visibleMessages.length} message${
                 visibleMessages.length === 1 ? "" : "s"
@@ -501,14 +501,14 @@ export function ChatInterface() {
 
         {confirmingClear ? (
           <div className="flex items-center gap-1.5">
-            <span className="hidden text-[12px] text-white/60 sm:inline">
+            <span className="hidden text-[12px] text-ink-muted sm:inline">
               Start over?
             </span>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setConfirmingClear(false)}
-              className="h-8 px-3 text-[12px] text-white/60 hover:bg-white/[0.06] hover:text-white"
+              className="h-8 px-3 text-[12px] text-ink-muted hover:bg-paper-sunken hover:text-ink"
             >
               Cancel
             </Button>
@@ -516,7 +516,7 @@ export function ChatInterface() {
               size="sm"
               onClick={() => void handleClear()}
               disabled={isClearing}
-              className="h-8 gap-1.5 rounded-full bg-[#CCFF00] px-3.5 text-[12px] font-semibold text-black hover:bg-[#d9ff33] active:scale-[0.98]"
+              className="h-8 gap-1.5 rounded-full bg-indigo px-3.5 text-[12px] font-semibold text-black hover:bg-indigo-lift active:scale-[0.98]"
             >
               {isClearing ? "Clearing…" : "Yes, reset"}
             </Button>
@@ -527,7 +527,7 @@ export function ChatInterface() {
             size="sm"
             onClick={() => setConfirmingClear(true)}
             disabled={isBusy || visibleMessages.length === 0}
-            className="h-8 gap-1.5 px-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50 hover:bg-white/[0.06] hover:text-white disabled:opacity-40"
+            className="h-8 gap-1.5 px-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted hover:bg-paper-sunken hover:text-ink disabled:opacity-40"
           >
             <RotateCcw className="size-3.5" strokeWidth={2} />
             Reset
@@ -543,15 +543,15 @@ export function ChatInterface() {
           <TranscriptSkeleton />
         ) : isEmpty ? (
           <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
-            <div className="flex size-14 items-center justify-center rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.07]">
-              <Sparkles className="size-6 text-[#CCFF00]" strokeWidth={2} />
+            <div className="flex size-14 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
+              <Sparkles className="size-6 text-indigo" strokeWidth={2} />
             </div>
 
             <div className="space-y-1.5">
-              <h2 className="text-lg font-semibold tracking-[-0.02em] text-white">
+              <h2 className="text-lg font-semibold tracking-[-0.02em] text-ink">
                 Your coach is ready
               </h2>
-              <p className="mx-auto max-w-sm text-sm leading-relaxed text-white/60">
+              <p className="mx-auto max-w-sm text-sm leading-relaxed text-ink-muted">
                 Ask about training plans, technique, or recovery — or start
                 with one of these.
               </p>
@@ -563,7 +563,7 @@ export function ChatInterface() {
                   key={suggestion}
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-white/[0.07] bg-black/30 px-4 font-normal text-white/60 shadow-none transition-all hover:border-[#CCFF00]/25 hover:bg-black/40 hover:text-white active:scale-[0.99]"
+                  className="rounded-full border-rule bg-ink/30 px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:scale-[0.99]"
                   onClick={() => send(suggestion)}
                 >
                   {suggestion}
@@ -577,11 +577,11 @@ export function ChatInterface() {
               possible — with the Log tab one tap away. This line exists
               so nobody reaches that conclusion again.
             */}
-            <p className="max-w-sm text-[13px] leading-relaxed text-white/50">
+            <p className="max-w-sm text-[13px] leading-relaxed text-ink-muted">
               Already trained today?{" "}
               <Link
                 href="/log"
-                className="text-[#CCFF00]/80 underline underline-offset-4 transition-colors hover:text-[#CCFF00]"
+                className="text-indigo/80 underline underline-offset-4 transition-colors hover:text-indigo"
               >
                 Record it on the Log tab
               </Link>{" "}
@@ -616,7 +616,7 @@ export function ChatInterface() {
         )}
       </div>
 
-      <div className="border-t border-white/[0.06] px-4 py-3.5 md:px-6">
+      <div className="border-t border-rule px-4 py-3.5 md:px-6">
         <form
           className="mx-auto flex max-w-2xl items-center gap-3"
           onSubmit={(event) => {
@@ -631,14 +631,14 @@ export function ChatInterface() {
             placeholder="Message your coach…"
             aria-label="Message your coach"
             disabled={isLoadingHistory}
-            className="h-11 flex-1 rounded-full border-white/[0.07] bg-black/50 px-5 text-[15px] text-white shadow-none placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+            className="h-11 flex-1 rounded-full border-rule bg-paper px-5 text-[15px] text-ink shadow-none placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
           />
           <Button
             type="submit"
             size="icon"
             disabled={!draft.trim() || isBusy || isLoadingHistory}
             aria-label="Send message"
-            className="size-11 shrink-0 rounded-full bg-[#CCFF00] text-black shadow-[0_10px_30px_-10px_rgba(204,255,0,0.5)] transition-all hover:bg-[#d9ff33] active:scale-[0.97] disabled:opacity-30 disabled:shadow-none"
+            className="size-11 shrink-0 rounded-full bg-indigo text-black transition-all hover:bg-indigo-lift active:scale-[0.97] disabled:opacity-30 disabled:shadow-none"
           >
             <SendHorizonal className="size-5" strokeWidth={2} />
           </Button>
@@ -710,13 +710,13 @@ function TranscriptSkeleton() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <div className="flex justify-end">
-        <Skeleton className="h-11 w-2/5 rounded-2xl rounded-br-md bg-white/[0.06]" />
+        <Skeleton className="h-11 w-2/5 rounded-md rounded-br-md bg-paper-sunken" />
       </div>
       <div className="flex justify-start">
-        <Skeleton className="h-24 w-3/4 rounded-2xl rounded-bl-md bg-white/[0.06]" />
+        <Skeleton className="h-24 w-3/4 rounded-md rounded-bl-md bg-paper-sunken" />
       </div>
       <div className="flex justify-end">
-        <Skeleton className="h-11 w-1/3 rounded-2xl rounded-br-md bg-white/[0.06]" />
+        <Skeleton className="h-11 w-1/3 rounded-md rounded-br-md bg-paper-sunken" />
       </div>
     </div>
   );

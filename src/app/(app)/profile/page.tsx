@@ -57,7 +57,7 @@ export default function ProfilePage() {
         <button
           type="button"
           onClick={() => setShowPaywall(false)}
-          className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/12 px-4 py-2 text-[13px] font-medium text-white/60 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="inline-flex w-fit items-center gap-1.5 rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           <ArrowLeft className="size-3.5" strokeWidth={2.5} />
           Back to profile
@@ -74,13 +74,13 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col gap-6">
       <header>
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           {showView ? "Training profile" : "Setup"}
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
           Profile
         </h1>
-        <p className="mt-1.5 text-sm text-white/60">
+        <p className="mt-1.5 text-sm text-ink-muted">
           {showView
             ? "The context your coach plans around."
             : "A few details so your coaching is tailored to you."}
@@ -117,18 +117,18 @@ export default function ProfilePage() {
 function ProfileSkeleton() {
   return (
     <div className="mx-auto w-full max-w-xl space-y-5">
-      <Skeleton className="h-32 rounded-3xl bg-white/[0.06]" />
-      <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6">
+      <Skeleton className="h-32 rounded-lg bg-paper-sunken" />
+      <div className="rounded-lg border border-rule bg-paper-raised p-6">
         <div className="flex flex-row items-center gap-4">
-          <Skeleton className="size-14 rounded-full bg-white/[0.06]" />
+          <Skeleton className="size-14 rounded-full bg-paper-sunken" />
           <div className="flex-1 space-y-2">
-            <Skeleton className="h-5 w-36 rounded-md bg-white/[0.06]" />
-            <Skeleton className="h-3 w-44 rounded bg-white/[0.06]" />
+            <Skeleton className="h-5 w-36 rounded-sm bg-paper-sunken" />
+            <Skeleton className="h-3 w-44 rounded bg-paper-sunken" />
           </div>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-[86px] rounded-2xl bg-white/[0.06]" />
+            <Skeleton key={i} className="h-[86px] rounded-md bg-paper-sunken" />
           ))}
         </div>
       </div>

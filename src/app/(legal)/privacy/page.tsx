@@ -22,9 +22,9 @@ export default function PrivacyPage() {
         </p>
         <p>
           This page explains the detail. It applies to AdimFit, operated by{" "}
-          <strong className="font-medium text-white/80">Lush Techdia</strong>{" "}
+          <strong className="font-medium text-ink">Lush Techdia</strong>{" "}
           of{" "}
-          <strong className="font-medium text-white/80">
+          <strong className="font-medium text-ink">
             28 Adetola Street, Aguda, Surulere, Lagos, Nigeria
           </strong>{" "}
           (&ldquo;we&rdquo;, &ldquo;us&rdquo;).
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         <List
           items={[
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 No employer, gym or trainer can see what you logged.
               </strong>{" "}
               There is no mechanism in AdimFit for granting anyone a view
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
               feature does not exist to be switched on.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Referral partners see counts, not people.
               </strong>{" "}
               A trainer or creator who refers members sees how many people
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
               name, no email address, no session.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 A sponsored account is still a private account.
               </strong>{" "}
               Where an organisation pays for accounts, it receives
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
           Three ordinary limits apply, and they are the same ones that
           apply to any service that stores anything. The providers listed
           under{" "}
-          <strong className="font-medium text-white/80">
+          <strong className="font-medium text-ink">
             Who else processes it
           </strong>{" "}
           handle data on our instructions in order to make the product
@@ -94,35 +94,35 @@ export default function PrivacyPage() {
         <List
           items={[
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Account details
               </strong>{" "}
               — your email address, and your name and profile photo if you
               sign in with Google.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Training profile
               </strong>{" "}
               — first name, age, weight, your goal, preferred activities,
               and optionally where you train and what equipment you have.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Workout log
               </strong>{" "}
               — the sessions you record: activity, date, duration,
               intensity, and any notes you write.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Coach conversations
               </strong>{" "}
               — the messages you exchange with the AI coach, and any
               training plans it produces.
             </>,
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Technical data
               </strong>{" "}
               — standard server logs (IP address, browser type, timestamps)
@@ -168,20 +168,20 @@ export default function PrivacyPage() {
         <List
           items={[
             <>
-              <strong className="font-medium text-white/80">
+              <strong className="font-medium text-ink">
                 Google Cloud and Firebase
               </strong>{" "}
               — authentication, database storage, and hosting. Your account
               and training data are stored here.
             </>,
             <>
-              <strong className="font-medium text-white/80">Anthropic</strong>{" "}
+              <strong className="font-medium text-ink">Anthropic</strong>{" "}
               — provides the AI model behind the coach. When you send a
               message, your message plus relevant profile and workout
               context is transmitted to Anthropic to generate a reply.
             </>,
             <>
-              <strong className="font-medium text-white/80">PostHog</strong>{" "}
+              <strong className="font-medium text-ink">PostHog</strong>{" "}
               — product analytics, hosted in the EU. Receives anonymous
               usage events (for example &ldquo;a workout was logged&rdquo;)
               tied to a random account identifier. We do not send your
@@ -222,7 +222,7 @@ export default function PrivacyPage() {
         />
         <p>
           Email{" "}
-          <strong className="font-medium text-white/80">support@adimfit.com</strong>{" "}
+          <strong className="font-medium text-ink">support@adimfit.com</strong>{" "}
           and we will respond within 30 days. If you are in Nigeria, you may
           also complain to the Nigeria Data Protection Commission; in the
           EU or UK, to your local supervisory authority.
@@ -287,7 +287,7 @@ export default function PrivacyPage() {
       <Section heading="Contact">
         <p>
           Questions about this policy or your data:{" "}
-          <strong className="font-medium text-white/80">support@adimfit.com</strong>
+          <strong className="font-medium text-ink">support@adimfit.com</strong>
           .
         </p>
       </Section>

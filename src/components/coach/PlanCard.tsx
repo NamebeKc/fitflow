@@ -60,27 +60,27 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
       initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="overflow-hidden rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.03]"
+      className="overflow-hidden rounded-md border border-indigo/20 bg-indigo/[0.03]"
     >
       {/* Header */}
-      <div className="flex items-start gap-3 border-b border-[#CCFF00]/10 px-4 py-3.5">
+      <div className="flex items-start gap-3 border-b border-indigo/10 px-4 py-3.5">
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
             {completed ? "Logged session" : "Today's session"}
           </p>
-          <p className="mt-1.5 truncate text-[15px] font-semibold tracking-[-0.02em] text-white">
+          <p className="mt-1.5 truncate text-[15px] font-semibold tracking-[-0.02em] text-ink">
             {plan.title}
           </p>
         </div>
 
-        <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.07] bg-black/40 px-2.5 py-1 font-mono text-[11px] tabular-nums text-white/50">
+        <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule bg-paper px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted">
           <Clock className="size-3" strokeWidth={2} />
           {plan.estimatedMinutes}m
         </div>
       </div>
 
       {/* Exercises */}
-      <ul className="divide-y divide-white/[0.05]">
+      <ul className="divide-y divide-rule">
         {plan.exercises.map((exercise, index) => {
           const checked = done.has(index);
           // A demo for THIS exercise, looked up by name. Not every
@@ -91,7 +91,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
           return (
             <li
               key={`${exercise.name}-${index}`}
-              className="flex items-center gap-2 pr-3 transition-colors hover:bg-white/[0.03]"
+              className="flex items-center gap-2 pr-3 transition-colors hover:bg-paper-sunken"
             >
               {/* Tick and video are separate controls: nesting a button
                   inside a button is invalid markup, and "show me how"
@@ -100,14 +100,14 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                 type="button"
                 onClick={() => toggle(index)}
                 aria-pressed={checked}
-                className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3 text-left outline-none focus-visible:bg-white/[0.03]"
+                className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3 text-left outline-none focus-visible:bg-paper-sunken"
               >
                 <span
                   className={cn(
-                    "flex size-5 shrink-0 items-center justify-center rounded-md border transition-colors",
+                    "flex size-5 shrink-0 items-center justify-center rounded-sm border transition-colors",
                     checked
-                      ? "border-[#CCFF00] bg-[#CCFF00] text-black"
-                      : "border-white/15 bg-black/30",
+                      ? "border-indigo bg-indigo text-black"
+                      : "border-rule bg-ink/30",
                   )}
                 >
                   {checked && <Check className="size-3.5" strokeWidth={3} />}
@@ -117,13 +117,13 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                   <span
                     className={cn(
                       "block text-sm font-medium transition-colors",
-                      checked ? "text-white/50 line-through" : "text-white/80",
+                      checked ? "text-ink-muted line-through" : "text-ink",
                     )}
                   >
                     {exercise.name}
                   </span>
                   {exercise.note && (
-                    <span className="mt-0.5 block text-xs text-white/50">
+                    <span className="mt-0.5 block text-xs text-ink-muted">
                       {exercise.note}
                     </span>
                   )}
@@ -132,7 +132,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                 <span
                   className={cn(
                     "shrink-0 font-mono text-xs tabular-nums transition-colors",
-                    checked ? "text-white/50" : "text-[#CCFF00]",
+                    checked ? "text-ink-muted" : "text-indigo",
                   )}
                 >
                   {exercise.prescription}
@@ -146,9 +146,9 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
       </ul>
 
       {/* Action */}
-      <div className="border-t border-[#CCFF00]/10 px-4 py-3.5">
+      <div className="border-t border-indigo/10 px-4 py-3.5">
         {completed ? (
-          <p className="flex items-center justify-center gap-2 py-1 text-sm font-medium text-[#CCFF00]">
+          <p className="flex items-center justify-center gap-2 py-1 text-sm font-medium text-indigo">
             <CheckCircle2 className="size-4" strokeWidth={2.25} />
             Logged to your history
           </p>
@@ -157,7 +157,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
             type="button"
             onClick={() => void log()}
             disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black shadow-[0_10px_30px_-10px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99] disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-50"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -170,7 +170,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
           </button>
         )}
 
-        <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-white/50">
+        <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">
           {activityLabel(plan.activity)} · {intensityLabel(plan.intensity)} ·{" "}
           {plan.date}
         </p>

@@ -66,7 +66,7 @@ export function ExerciseVideoLink({
 
   /** Shared tile chrome, so both branches keep the same row rhythm. */
   const tileClass =
-    "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-black/40 outline-none transition-all hover:border-[#CCFF00]/40 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95";
+    "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-rule bg-paper outline-none transition-all hover:border-indigo/40 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95";
 
   const thumb = showThumb ? (
     <>
@@ -82,9 +82,9 @@ export function ExerciseVideoLink({
       {/* Scrim: thumbnails vary wildly in brightness and the glyph has
           to stay readable on a white-gym-wall frame as well as a dark
           one. */}
-      <span className="absolute inset-0 bg-black/35" aria-hidden />
+      <span className="absolute inset-0 bg-ink/35" aria-hidden />
       <Play
-        className="relative size-3 fill-white text-white drop-shadow"
+        className="relative size-3 fill-ink text-ink drop-shadow"
         strokeWidth={0}
       />
     </>
@@ -114,10 +114,10 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-[13px] font-medium text-white/60 outline-none transition-all hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.98]"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]"
         }
       >
-        <Search className="size-3 text-[#CCFF00]" strokeWidth={2.5} />
+        <Search className="size-3 text-indigo" strokeWidth={2.5} />
         {!compact && video.exercise}
       </a>
     );
@@ -141,24 +141,24 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-[13px] font-medium text-white/60 outline-none transition-all hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.98]"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]"
         }
       >
         {thumb ?? (
           <Play
-            className="size-3 fill-[#CCFF00] text-[#CCFF00]"
+            className="size-3 fill-indigo text-indigo"
             strokeWidth={0}
           />
         )}
         {!compact && video.exercise}
       </DialogTrigger>
 
-      <DialogContent className="max-w-xl gap-0 overflow-hidden border-white/[0.07] bg-[#14161A] p-0 text-white">
+      <DialogContent className="max-w-xl gap-0 overflow-hidden border-rule bg-paper-raised p-0 text-ink">
         <DialogHeader className="space-y-1 px-5 pb-3 pt-5">
-          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-white">
+          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-ink">
             {video.exercise}
           </DialogTitle>
-          <DialogDescription className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">
+          <DialogDescription className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
             <RotateCw className="size-3" strokeWidth={2} />
             Short demo on loop · muted
           </DialogDescription>
@@ -167,7 +167,7 @@ export function ExerciseVideoLink({
         {/* Mount the player only while open so audio and network stop on close */}
         {open && (
           <iframe
-            className="aspect-video w-full bg-black"
+            className="aspect-video w-full bg-paper"
             src={embedSrc}
             title={video.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -176,12 +176,12 @@ export function ExerciseVideoLink({
         )}
 
         <div className="flex items-center justify-between gap-3 px-5 py-3.5">
-          <p className="truncate text-xs text-white/50">{video.title}</p>
+          <p className="truncate text-xs text-ink-muted">{video.title}</p>
           <a
             href={fullVideoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#CCFF00]/70 outline-none transition-colors hover:text-[#CCFF00] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-indigo/70 outline-none transition-colors hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             YouTube
             <ExternalLink className="size-3" strokeWidth={2} />

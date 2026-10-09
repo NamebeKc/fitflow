@@ -116,13 +116,13 @@ export default function ProgressPage() {
   return (
     <div className="flex flex-col gap-6">
       <header>
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Your record
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
           Progress
         </h1>
-        <p className="mt-1.5 text-sm text-white/60">
+        <p className="mt-1.5 text-sm text-ink-muted">
           Everything you&apos;ve built so far.
         </p>
       </header>
@@ -132,11 +132,11 @@ export default function ProgressPage() {
       ) : (
         <>
           {/* ── Training totals ─────────────────────────────────── */}
-          <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               All time
             </p>
-            <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.06]">
+            <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
               <Stat label="Sessions" value={String(totals.sessions)} />
               <Stat label="Minutes" value={String(totals.minutes)} />
               <Stat
@@ -146,7 +146,7 @@ export default function ProgressPage() {
               />
             </div>
             {streak >= 2 && (
-              <p className="mt-4 text-center text-[13px] leading-relaxed text-white/60">
+              <p className="mt-4 text-center text-[13px] leading-relaxed text-ink-muted">
                 {streak} consecutive weeks with at least two sessions. Rest
                 days included — they&apos;re part of it.
               </p>
@@ -154,14 +154,14 @@ export default function ProgressPage() {
           </section>
 
           {/* ── Milestones ──────────────────────────────────────── */}
-          <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
             <AchievementGrid achievements={achievements} />
           </section>
 
           {/* ── Weight ──────────────────────────────────────────── */}
-          <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
             <div className="flex items-baseline justify-between gap-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
                 Weight
               </p>
               <button
@@ -170,7 +170,7 @@ export default function ProgressPage() {
                   track("weigh_in_opened");
                   setWeighInOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-[12px] font-medium text-white/60 outline-none transition-colors hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+                className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 text-[12px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
               >
                 <Plus className="size-3" strokeWidth={2.5} />
                 Record
@@ -178,7 +178,7 @@ export default function ProgressPage() {
             </div>
 
             {inviteWeighIn && (
-              <p className="mt-4 rounded-2xl border border-white/[0.07] bg-black/30 px-4 py-3 text-[13px] leading-relaxed text-white/60">
+              <p className="mt-4 rounded-md border border-rule bg-ink/30 px-4 py-3 text-[13px] leading-relaxed text-ink-muted">
                 It&apos;s been a couple of weeks since your last entry. Worth
                 recording if you feel like it.
               </p>
@@ -215,13 +215,13 @@ function Stat({
   accent?: boolean;
 }) {
   return (
-    <div className="bg-[#0D0F12] px-3.5 py-4 sm:px-4">
-      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/50">
+    <div className="bg-paper px-3.5 py-4 sm:px-4">
+      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">
         {label}
       </p>
       <p
         className={`mt-2 font-mono text-2xl tabular-nums tracking-tight ${
-          accent ? "text-[#CCFF00]" : "text-white"
+          accent ? "text-indigo" : "text-ink"
         }`}
       >
         {value}
@@ -233,19 +233,19 @@ function Stat({
 function ProgressSkeleton() {
   return (
     <div className="flex flex-col gap-6">
-      <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6">
-        <Skeleton className="h-3 w-20 rounded bg-white/[0.06]" />
+      <div className="rounded-lg border border-rule bg-paper-raised p-6">
+        <Skeleton className="h-3 w-20 rounded bg-paper-sunken" />
         <div className="mt-5 grid grid-cols-3 gap-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-[84px] rounded-2xl bg-white/[0.06]" />
+            <Skeleton key={i} className="h-[84px] rounded-md bg-paper-sunken" />
           ))}
         </div>
       </div>
-      <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6">
-        <Skeleton className="h-3 w-24 rounded bg-white/[0.06]" />
+      <div className="rounded-lg border border-rule bg-paper-raised p-6">
+        <Skeleton className="h-3 w-24 rounded bg-paper-sunken" />
         <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 rounded-2xl bg-white/[0.06]" />
+            <Skeleton key={i} className="h-24 rounded-md bg-paper-sunken" />
           ))}
         </div>
       </div>

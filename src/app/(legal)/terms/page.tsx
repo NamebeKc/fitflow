@@ -16,9 +16,9 @@ export default function TermsPage() {
       <Section heading="Agreement">
         <p>
           These terms govern your use of AdimFit, operated by{" "}
-          <strong className="font-medium text-white/80">Lush Techdia</strong>{" "}
+          <strong className="font-medium text-ink">Lush Techdia</strong>{" "}
           of{" "}
-          <strong className="font-medium text-white/80">
+          <strong className="font-medium text-ink">
             28 Adetola Street, Aguda, Surulere, Lagos, Nigeria
           </strong>{" "}
           (&ldquo;we&rdquo;, &ldquo;us&rdquo;).
@@ -29,7 +29,7 @@ export default function TermsPage() {
 
       <Section heading="Health and safety — read this one">
         <p>
-          <strong className="font-medium text-white/80">
+          <strong className="font-medium text-ink">
             AdimFit is not a medical service and its coach is not a doctor,
             physiotherapist, or qualified personal trainer.
           </strong>{" "}
@@ -105,7 +105,7 @@ export default function TermsPage() {
           period you have already paid for.
         </p>
         <p>
-          <strong className="font-medium text-white/80">
+          <strong className="font-medium text-ink">
             Seven-day money-back guarantee.
           </strong>{" "}
           If you email us within seven days of any charge — including a
@@ -129,7 +129,7 @@ export default function TermsPage() {
           coach can reply. See the{" "}
           <Link
             href="/privacy"
-            className="text-[#CCFF00]/80 underline underline-offset-4 transition-colors hover:text-[#CCFF00]"
+            className="text-indigo/80 underline underline-offset-4 transition-colors hover:text-indigo"
           >
             Privacy Policy
           </Link>{" "}
@@ -190,7 +190,7 @@ export default function TermsPage() {
       <Section heading="Governing law">
         <p>
           These terms are governed by the laws of{" "}
-          <strong className="font-medium text-white/80">the Federal Republic of Nigeria</strong>,
+          <strong className="font-medium text-ink">the Federal Republic of Nigeria</strong>,
           and disputes will be handled by its courts.
         </p>
       </Section>
@@ -198,7 +198,7 @@ export default function TermsPage() {
       <Section heading="Contact">
         <p>
           Questions about these terms:{" "}
-          <strong className="font-medium text-white/80">support@adimfit.com</strong>
+          <strong className="font-medium text-ink">support@adimfit.com</strong>
           .
         </p>
       </Section>

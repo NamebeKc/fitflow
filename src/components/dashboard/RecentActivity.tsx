@@ -39,15 +39,15 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
   const recent = workouts.slice(0, limit);
 
   return (
-    <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
       <div className="flex items-baseline justify-between">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Recent activity
         </p>
         {workouts.length > 0 && (
           <Link
             href="/log"
-            className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#CCFF00]/70 outline-none transition-colors hover:text-[#CCFF00] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="font-mono text-[10px] uppercase tracking-[0.12em] text-indigo/70 outline-none transition-colors hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             View all
           </Link>
@@ -56,23 +56,23 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
 
       {recent.length === 0 ? (
         <div className="flex flex-col items-center gap-4 py-10 text-center">
-          <div className="flex size-12 items-center justify-center rounded-2xl border border-white/[0.07] bg-black/30">
-            <ClipboardList className="size-5 text-white/50" strokeWidth={2} />
+          <div className="flex size-12 items-center justify-center rounded-md border border-rule bg-ink/30">
+            <ClipboardList className="size-5 text-ink-muted" strokeWidth={2} />
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-white/50">
+          <p className="max-w-xs text-sm leading-relaxed text-ink-muted">
             Nothing logged yet. Your sessions appear here — and your coach
             starts learning from them.
           </p>
           <Link
             href="/log"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#CCFF00]/25 bg-[#CCFF00]/[0.07] px-4 py-2 text-sm font-medium text-[#CCFF00] outline-none transition-all hover:bg-[#CCFF00]/[0.12] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.99]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-indigo/25 bg-indigo/[0.07] px-4 py-2 text-sm font-medium text-indigo outline-none transition-all hover:bg-indigo/[0.12] focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]"
           >
             <Plus className="size-3.5" strokeWidth={2.5} />
             Log a workout
           </Link>
         </div>
       ) : (
-        <ul className="mt-4 divide-y divide-white/[0.06]">
+        <ul className="mt-4 divide-y divide-rule">
           {recent.map((workout) => {
             const Icon = ACTIVITY_ICONS[workout.activity];
             return (
@@ -80,21 +80,21 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
                 key={workout.id}
                 className="flex items-center gap-3.5 py-3.5 first:pt-0 last:pb-0"
               >
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-black/30">
-                  <Icon className="size-[18px] text-white/50" strokeWidth={2} />
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-rule bg-ink/30">
+                  <Icon className="size-[18px] text-ink-muted" strokeWidth={2} />
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-white">
+                  <p className="truncate text-sm font-medium text-ink">
                     {workout.title}
                   </p>
-                  <p className="mt-0.5 truncate font-mono text-[10px] uppercase tracking-[0.1em] text-white/50">
+                  <p className="mt-0.5 truncate font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
                     {activityLabel(workout.activity)} ·{" "}
                     {formatDate(workout.date)}
                   </p>
                 </div>
 
-                <p className="shrink-0 font-mono text-xs tabular-nums text-white/60">
+                <p className="shrink-0 font-mono text-xs tabular-nums text-ink-muted">
                   {workout.durationMin}m
                 </p>
               </li>

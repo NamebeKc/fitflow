@@ -71,15 +71,15 @@ export default function ResearchArticlePage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#090A0C] text-white antialiased">
+    <div className="min-h-dvh bg-paper text-ink antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
       />
 
-      <header className="border-b border-white/[0.07]">
+      <header className="border-b border-rule">
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
-          <Link href="/" className="outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50">
+          <Link href="/" className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
             <Image
               src="/logo-horizontal.png"
               alt="AdimFit"
@@ -90,7 +90,7 @@ export default function ResearchArticlePage() {
           </Link>
           <Link
             href="/research"
-            className="text-[13px] text-white/60 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             All research
           </Link>
@@ -98,30 +98,30 @@ export default function ResearchArticlePage() {
       </header>
 
       <article className="mx-auto w-full max-w-[720px] px-5 py-14 md:px-8 md:py-20">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#CCFF00]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
           Evidence review
         </p>
         <h1 className="mt-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
           {ARTICLE.title}
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-white/60">
+        <p className="mt-5 text-[17px] leading-relaxed text-ink-muted">
           {ARTICLE.subtitle}
         </p>
 
-        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
+        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
           <time dateTime={ARTICLE.published}>21 September 2026</time>
-          <span className="px-2 text-white/20">·</span>
+          <span className="px-2 text-ink-faint">·</span>
           {ARTICLE.readingMinutes} min read
-          <span className="px-2 text-white/20">·</span>
+          <span className="px-2 text-ink-faint">·</span>
           {CITATIONS.length} sources
         </p>
 
         {/* ── Disclosure ──────────────────────────────────────────── */}
-        <aside className="mt-10 rounded-2xl border border-[#CCFF00]/25 bg-[#CCFF00]/[0.05] p-5 sm:p-6">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+        <aside className="mt-10 rounded-md border border-indigo/25 bg-indigo/[0.05] p-5 sm:p-6">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
             Commercial interest, declared
           </h2>
-          <p className="mt-3 text-[14px] leading-relaxed text-white/70">
+          <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
             AdimFit sells a fitness coaching app. We have an obvious
             interest in the conclusion that exercise programmes save
             insurers money. The honest answer is more equivocal than that,
@@ -292,28 +292,28 @@ export default function ResearchArticlePage() {
 
           {/* ── Correction ───────────────────────────────────────── */}
           <H2 id="correction">Correction</H2>
-          <div className="not-prose my-8 rounded-2xl border border-amber-400/25 bg-amber-400/[0.05] p-5 sm:p-6">
+          <div className="not-prose my-8 rounded-md border border-amber-400/25 bg-amber-400/[0.05] p-5 sm:p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
               Corrected {CORRECTION.date}
             </p>
-            <p className="mt-3 text-[15px] font-medium leading-relaxed text-white/85">
+            <p className="mt-3 text-[15px] font-medium leading-relaxed text-ink">
               {CORRECTION.summary}
             </p>
-            <p className="mt-3 text-[14px] leading-relaxed text-white/60">
+            <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
               {CORRECTION.detail}
             </p>
 
             <div className="mt-5 overflow-x-auto">
               <table className="w-full min-w-[520px] border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-white/[0.12]">
-                    <th className="pb-2 pr-4 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                  <tr className="border-b border-rule">
+                    <th className="pb-2 pr-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
                       Estimate
                     </th>
-                    <th className="pb-2 pr-4 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                    <th className="pb-2 pr-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
                       Value
                     </th>
-                    <th className="pb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                    <th className="pb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
                       What it is
                     </th>
                   </tr>
@@ -322,25 +322,25 @@ export default function ResearchArticlePage() {
                   {CORRECTION.table.map((row) => (
                     <tr
                       key={row.estimate}
-                      className="border-b border-white/[0.06] last:border-0"
+                      className="border-b border-rule last:border-0"
                     >
                       <td
                         className={`py-3 pr-4 text-[13px] ${
                           row.preferred
-                            ? "font-medium text-white/90"
-                            : "text-white/55"
+                            ? "font-medium text-ink"
+                            : "text-ink-muted"
                         }`}
                       >
                         {row.estimate}
                       </td>
                       <td
                         className={`py-3 pr-4 font-mono text-[13px] tabular-nums ${
-                          row.preferred ? "text-[#CCFF00]" : "text-white/55"
+                          row.preferred ? "text-indigo" : "text-ink-muted"
                         }`}
                       >
                         {row.value}
                       </td>
-                      <td className="py-3 text-[13px] leading-snug text-white/55">
+                      <td className="py-3 text-[13px] leading-snug text-ink-muted">
                         {row.meaning}
                       </td>
                     </tr>
@@ -364,9 +364,9 @@ export default function ResearchArticlePage() {
             ].map((item) => (
               <li
                 key={item}
-                className="flex gap-3 text-[15px] leading-relaxed text-white/60"
+                className="flex gap-3 text-[15px] leading-relaxed text-ink-muted"
               >
-                <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-white/30" />
+                <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-paper-sunken" />
                 <span>{item}</span>
               </li>
             ))}
@@ -387,21 +387,21 @@ export default function ResearchArticlePage() {
           </P>
 
           <H2 id="questions">Common questions</H2>
-          <div className="not-prose mt-6 divide-y divide-white/[0.07] border-y border-white/[0.07]">
+          <div className="not-prose mt-6 divide-y divide-rule border-y border-rule">
             {QUESTIONS.map((item) => (
               <details key={item.question} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50">
-                  <h3 className="text-[16px] font-medium leading-snug text-white/90">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+                  <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {item.question}
                   </h3>
                   <span
                     aria-hidden
-                    className="mt-1 font-mono text-[13px] text-white/40 transition-transform group-open:rotate-45"
+                    className="mt-1 font-mono text-[13px] text-ink-faint transition-transform group-open:rotate-45"
                   >
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
                   {item.answer}
                 </p>
               </details>
@@ -412,27 +412,27 @@ export default function ResearchArticlePage() {
           <ol className="not-prose mt-6 space-y-5">
             {CITATIONS.map((source, index) => (
               <li key={source.id} id={source.id} className="flex gap-4">
-                <span className="mt-0.5 font-mono text-[12px] tabular-nums text-white/30">
+                <span className="mt-0.5 font-mono text-[12px] tabular-nums text-ink-faint">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[14px] leading-snug text-white/80">
+                  <p className="text-[14px] leading-snug text-ink">
                     {source.authors} ({source.year}).{" "}
                     <a
                       href={source.url}
                       rel="noopener noreferrer nofollow"
                       target="_blank"
-                      className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-[#CCFF00]"
+                      className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
                     >
                       {source.title}
                     </a>
                     .
                   </p>
-                  <p className="mt-1 text-[13px] text-white/45">
+                  <p className="mt-1 text-[13px] text-ink-faint">
                     {source.publication}
                     {source.identifier ? ` · ${source.identifier}` : ""}
                   </p>
-                  <p className="mt-1 text-[13px] italic text-white/40">
+                  <p className="mt-1 text-[13px] italic text-ink-faint">
                     {source.weight}
                   </p>
                 </div>
@@ -441,8 +441,8 @@ export default function ResearchArticlePage() {
           </ol>
         </Prose>
 
-        <div className="mt-14 border-t border-white/[0.07] pt-8">
-          <p className="text-[13px] leading-relaxed text-white/45">
+        <div className="mt-14 border-t border-rule pt-8">
+          <p className="text-[13px] leading-relaxed text-ink-faint">
             AdimFit provides general fitness guidance and is not a
             substitute for medical advice. Nothing on this page is a
             recommendation about insurance cover or a claim about any
@@ -450,7 +450,7 @@ export default function ResearchArticlePage() {
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 text-[13px] font-medium text-white/70 outline-none transition-colors hover:border-[#CCFF00]/40 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             What AdimFit is
           </Link>
@@ -472,7 +472,7 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <h2
       id={id}
-      className="mt-14 scroll-mt-8 text-[1.6rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white first:mt-0"
+      className="mt-14 scroll-mt-8 text-[1.6rem] font-semibold leading-[1.15] tracking-[-0.02em] text-ink first:mt-0"
     >
       {children}
     </h2>
@@ -481,21 +481,21 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
 
 function P({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-5 text-[16px] leading-[1.75] text-white/70">{children}</p>
+    <p className="mt-5 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
   );
 }
 
 function Em({ children }: { children: React.ReactNode }) {
-  return <em className="not-italic text-white/90">{children}</em>;
+  return <em className="not-italic text-ink">{children}</em>;
 }
 
 function Strong({ children }: { children: React.ReactNode }) {
-  return <strong className="font-semibold text-[#CCFF00]">{children}</strong>;
+  return <strong className="font-semibold text-indigo">{children}</strong>;
 }
 
 function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-[#CCFF00]/50 pl-5 text-[16px] leading-[1.7] text-white/75">
+    <p className="my-8 border-l-2 border-indigo/50 pl-5 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );
@@ -508,7 +508,7 @@ function Cite({ id }: { id: string }) {
   return (
     <a
       href={`#${id}`}
-      className="ml-0.5 align-super font-mono text-[11px] text-[#CCFF00]/80 no-underline outline-none transition-colors hover:text-[#CCFF00] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+      className="ml-0.5 align-super font-mono text-[11px] text-indigo/80 no-underline outline-none transition-colors hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
       aria-label={`Source ${index + 1}`}
     >
       [{index + 1}]

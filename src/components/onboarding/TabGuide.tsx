@@ -104,14 +104,14 @@ export function TabGuide() {
         animate={{ opacity: 1, y: 0 }}
         exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6"
+        className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6"
       >
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               Where things live
             </p>
-            <p className="mt-2 text-[15px] leading-relaxed text-white/60">
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">
               Four tabs, that&apos;s the whole app.
             </p>
           </div>
@@ -120,7 +120,7 @@ export function TabGuide() {
             type="button"
             onClick={dismiss}
             aria-label="Dismiss"
-            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-lg text-white/50 outline-none transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             <X className="size-4" strokeWidth={2} />
           </button>
@@ -134,21 +134,21 @@ export function TabGuide() {
                 <Link
                   href={tab.href}
                   onClick={() => track("tab_guide_used", { tab: tab.label })}
-                  className="flex items-start gap-3.5 rounded-2xl border border-white/[0.07] bg-black/30 px-4 py-3 outline-none transition-all hover:border-[#CCFF00]/25 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.99]"
+                  className="flex items-start gap-3.5 rounded-md border border-rule bg-ink/30 px-4 py-3 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]"
                 >
-                  <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.03]">
+                  <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-sm border border-rule bg-paper-sunken">
                     <Icon
-                      className="size-4 text-[#CCFF00]"
+                      className="size-4 text-indigo"
                       strokeWidth={2}
                       aria-hidden
                     />
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-ink">
                       {tab.label}
                     </p>
-                    <p className="mt-0.5 text-[13px] leading-relaxed text-white/55">
+                    <p className="mt-0.5 text-[13px] leading-relaxed text-ink-muted">
                       {tab.description}
                     </p>
                   </div>
@@ -161,7 +161,7 @@ export function TabGuide() {
         <button
           type="button"
           onClick={dismiss}
-          className="mt-4 w-full text-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="mt-4 w-full text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           Got it — hide this
         </button>

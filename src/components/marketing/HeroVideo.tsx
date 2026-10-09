@@ -118,18 +118,18 @@ export function HeroVideo() {
 
       {/* Heavy only where the headline sits, clearing by mid-frame so
           the footage is visible on the right. */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#090A0C] from-5% via-[#090A0C]/75 via-45% to-[#090A0C]/15" />
+      <div className="absolute inset-0 bg-gradient-to-r from-paper from-5% via-paper/75 via-45% to-paper/15" />
 
       {/* A light overall wash. Its job is insurance against a bright
           frame in the loop, not darkening — hence 25%, not 70%. */}
-      <div className="absolute inset-0 bg-[#090A0C]/25" />
+      <div className="absolute inset-0 bg-paper/25" />
 
       {/* Bottom fade into the next section, so the band ends rather
           than being cut off. */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#090A0C] via-[#090A0C]/60 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-paper via-paper/60 to-transparent" />
 
       {/* Top fade so the nav bar always has something to sit on. */}
-      <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#090A0C]/80 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-paper/80 to-transparent" />
     </div>
   );
 }

@@ -69,13 +69,13 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
             {greeting()}
           </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+          <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
             {profile ? profile.firstName : "Dashboard"}
           </h1>
-          <p className="mt-1.5 text-sm text-white/60">
+          <p className="mt-1.5 text-sm text-ink-muted">
             {subline(isLoading, stats.sessions)}
           </p>
         </div>
@@ -156,7 +156,7 @@ function WeekStrip({ workouts }: { workouts: WorkoutEntry[] }) {
           <span
             className={cn(
               "font-mono text-[9px] uppercase tracking-wider",
-              day.isToday ? "text-white/50" : "text-white/50",
+              day.isToday ? "text-ink-muted" : "text-ink-muted",
             )}
           >
             {day.letter}
@@ -166,9 +166,9 @@ function WeekStrip({ workouts }: { workouts: WorkoutEntry[] }) {
             className={cn(
               "size-2.5 rounded-full border transition-colors",
               day.active
-                ? "border-[#CCFF00] bg-[#CCFF00]"
-                : "border-white/15 bg-transparent",
-              day.isToday && !day.active && "border-white/40",
+                ? "border-indigo bg-indigo"
+                : "border-rule bg-transparent",
+              day.isToday && !day.active && "border-rule",
             )}
           />
         </div>
@@ -197,43 +197,43 @@ function DashboardSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
-        <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6 lg:col-span-2">
-          <Skeleton className="h-3 w-24 rounded bg-white/[0.06]" />
+        <div className="rounded-lg border border-rule bg-paper-raised p-6 lg:col-span-2">
+          <Skeleton className="h-3 w-24 rounded bg-paper-sunken" />
           <div className="mt-5 grid grid-cols-3 gap-3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-[84px] rounded-2xl bg-white/[0.06]" />
+              <Skeleton key={i} className="h-[84px] rounded-md bg-paper-sunken" />
             ))}
           </div>
           <div className="mt-6 space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-7 w-full rounded bg-white/[0.06]" />
+              <Skeleton key={i} className="h-7 w-full rounded bg-paper-sunken" />
             ))}
           </div>
         </div>
 
-        <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6">
-          <Skeleton className="h-3 w-20 rounded bg-white/[0.06]" />
-          <Skeleton className="mt-5 h-12 w-full rounded-xl bg-white/[0.06]" />
+        <div className="rounded-lg border border-rule bg-paper-raised p-6">
+          <Skeleton className="h-3 w-20 rounded bg-paper-sunken" />
+          <Skeleton className="mt-5 h-12 w-full rounded-md bg-paper-sunken" />
           <div className="mt-5 space-y-2">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-11 w-full rounded-xl bg-white/[0.06]" />
+              <Skeleton key={i} className="h-11 w-full rounded-md bg-paper-sunken" />
             ))}
           </div>
-          <Skeleton className="mt-5 h-11 w-full rounded-full bg-white/[0.06]" />
+          <Skeleton className="mt-5 h-11 w-full rounded-full bg-paper-sunken" />
         </div>
       </div>
 
-      <div className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-6">
-        <Skeleton className="h-3 w-28 rounded bg-white/[0.06]" />
-        <div className="mt-4 divide-y divide-white/[0.06]">
+      <div className="rounded-lg border border-rule bg-paper-raised p-6">
+        <Skeleton className="h-3 w-28 rounded bg-paper-sunken" />
+        <div className="mt-4 divide-y divide-rule">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="flex items-center gap-3.5 py-3.5">
-              <Skeleton className="size-10 shrink-0 rounded-xl bg-white/[0.06]" />
+              <Skeleton className="size-10 shrink-0 rounded-md bg-paper-sunken" />
               <div className="flex-1 space-y-2">
-                <Skeleton className="h-4 w-2/5 rounded bg-white/[0.06]" />
-                <Skeleton className="h-3 w-1/4 rounded bg-white/[0.06]" />
+                <Skeleton className="h-4 w-2/5 rounded bg-paper-sunken" />
+                <Skeleton className="h-3 w-1/4 rounded bg-paper-sunken" />
               </div>
-              <Skeleton className="h-4 w-10 rounded bg-white/[0.06]" />
+              <Skeleton className="h-4 w-10 rounded bg-paper-sunken" />
             </div>
           ))}
         </div>

@@ -68,12 +68,12 @@ export function WeighInDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm border-white/[0.09] bg-[#14161A] text-white">
+      <DialogContent className="max-w-sm border-rule bg-paper-raised text-ink">
         <DialogHeader className="space-y-1.5">
-          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-white">
+          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-ink">
             Record your weight
           </DialogTitle>
-          <DialogDescription className="text-[13px] leading-relaxed text-white/50">
+          <DialogDescription className="text-[13px] leading-relaxed text-ink-muted">
             Optional, and only visible to you. Fitflow uses it to calibrate
             training loads.
           </DialogDescription>
@@ -81,7 +81,7 @@ export function WeighInDialog({
 
         <div className="space-y-4 pt-2">
           <label className="block">
-            <span className="text-[13px] font-medium text-white/60">
+            <span className="text-[13px] font-medium text-ink-muted">
               Weight (kg)
             </span>
             <input
@@ -96,7 +96,7 @@ export function WeighInDialog({
               onKeyDown={(event) => {
                 if (event.key === "Enter") void save();
               }}
-              className="mt-1.5 w-full rounded-xl border border-white/[0.09] bg-black/50 px-4 py-3 font-mono text-lg tabular-nums text-white outline-none transition-colors placeholder:font-sans placeholder:text-white/50 focus:border-[#CCFF00]/60 focus:bg-black/70"
+              className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 font-mono text-lg tabular-nums text-ink outline-none transition-colors placeholder:font-sans placeholder:text-ink-muted focus:border-indigo/60 focus:bg-paper"
               placeholder="78.5"
             />
           </label>
@@ -104,7 +104,7 @@ export function WeighInDialog({
           {error && (
             <p
               role="alert"
-              className="rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] text-red-200"
+              className="rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] text-red-200"
             >
               {error}
             </p>
@@ -114,7 +114,7 @@ export function WeighInDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="flex-1 rounded-full border border-white/10 px-5 py-3 text-sm font-medium text-white/60 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="flex-1 rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Not now
             </button>
@@ -122,7 +122,7 @@ export function WeighInDialog({
               type="button"
               onClick={() => void save()}
               disabled={!valid || busy}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99] disabled:opacity-40"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-40"
             >
               {busy ? (
                 <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

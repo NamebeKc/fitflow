@@ -99,10 +99,10 @@ function PartnerDashboard() {
   if (state === "denied") {
     return (
       <Frame>
-        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-ink">
           This link isn&apos;t valid
         </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+        <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
           It may have been rotated. Ask us for a fresh one and we&apos;ll send
           it over.
         </p>
@@ -113,10 +113,10 @@ function PartnerDashboard() {
   if (state === "error" || !stats) {
     return (
       <Frame>
-        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-ink">
           Can&apos;t load your numbers right now
         </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+        <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
           Nothing is lost — try again in a minute.
         </p>
       </Frame>
@@ -130,13 +130,13 @@ function PartnerDashboard() {
 
   return (
     <Frame>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
         AdimFit partner
       </p>
-      <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+      <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
         {stats.name}
       </h1>
-      <p className="mt-2 text-[15px] leading-relaxed text-white/60">
+      <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">
         {money(stats.perConversion)} per person who subscribes through your
         link.
       </p>
@@ -156,24 +156,24 @@ function PartnerDashboard() {
       </div>
 
       {stats.capTotal !== null && (
-        <p className="mt-4 text-[13px] leading-relaxed text-white/45">
+        <p className="mt-4 text-[13px] leading-relaxed text-ink-faint">
           Capped at {money(stats.capTotal)} for this campaign.
         </p>
       )}
 
       {stats.status !== "active" && (
-        <p className="mt-4 rounded-xl border border-white/[0.07] bg-black/30 px-3.5 py-3 text-[13px] leading-relaxed text-white/60">
+        <p className="mt-4 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
           This campaign is paused, so new signups won&apos;t earn. Anything
           already shown above is still owed and still paid.
         </p>
       )}
 
-      <p className="mt-7 border-t border-white/[0.07] pt-5 text-[12px] leading-relaxed text-white/40">
+      <p className="mt-7 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
         Updated live. Payouts run monthly — we&apos;ll email you the reference
         when each one is sent. Questions:{" "}
         <a
           href="mailto:support@adimfit.com?subject=Partner%20payout"
-          className="underline underline-offset-4 hover:text-white/70"
+          className="underline underline-offset-4 hover:text-ink-muted"
         >
           support@adimfit.com
         </a>
@@ -193,18 +193,18 @@ function Stat({
 }) {
   return (
     <div
-      className={`rounded-2xl border p-4 ${
+      className={`rounded-md border p-4 ${
         accent
-          ? "border-[#CCFF00]/20 bg-[#CCFF00]/[0.05]"
-          : "border-white/[0.09] bg-black/30"
+          ? "border-indigo/20 bg-indigo/[0.05]"
+          : "border-rule bg-ink/30"
       }`}
     >
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
         {label}
       </p>
       <p
         className={`mt-2 font-mono text-2xl tabular-nums ${
-          accent ? "text-[#CCFF00]" : "text-white"
+          accent ? "text-indigo" : "text-ink"
         }`}
       >
         {value}
@@ -215,8 +215,8 @@ function Stat({
 
 function Frame({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-dvh bg-[#090A0C] px-4 py-12 sm:px-6">
-      <div className="mx-auto w-full max-w-md rounded-3xl border border-white/[0.09] bg-[#14161A] p-6 sm:p-7">
+    <main className="min-h-dvh bg-paper px-4 py-12 sm:px-6">
+      <div className="mx-auto w-full max-w-md rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
         {children}
       </div>
     </main>

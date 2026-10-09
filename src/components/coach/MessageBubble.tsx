@@ -33,7 +33,7 @@ function renderEmphasis(content: string, isUser: boolean) {
         <strong
           key={index}
           className={
-            isUser ? "font-semibold" : "font-semibold text-[#CCFF00]"
+            isUser ? "font-semibold" : "font-semibold text-indigo"
           }
         >
           {part.slice(2, -2)}
@@ -78,10 +78,10 @@ export function MessageBubble({
     >
       <div
         className={cn(
-          "max-w-[88%] space-y-3 rounded-2xl px-4 py-3 text-[15px] leading-relaxed sm:max-w-[78%]",
+          "max-w-[88%] space-y-3 rounded-md px-4 py-3 text-[15px] leading-relaxed sm:max-w-[78%]",
           isUser
-            ? "rounded-br-md bg-[#CCFF00] font-medium text-black"
-            : "rounded-bl-md border border-white/[0.07] bg-[#1F2228] text-white/80",
+            ? "rounded-br-md bg-indigo font-medium text-black"
+            : "rounded-bl-md border border-rule bg-paper-raised text-ink",
         )}
       >
         <p className="whitespace-pre-wrap break-words">
@@ -89,7 +89,7 @@ export function MessageBubble({
           {isStreaming && (
             <span
               aria-hidden
-              className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.15em] animate-pulse rounded-full bg-[#CCFF00] align-baseline"
+              className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.15em] animate-pulse rounded-full bg-indigo align-baseline"
             />
           )}
         </p>

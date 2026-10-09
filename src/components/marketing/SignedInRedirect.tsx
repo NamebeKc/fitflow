@@ -44,7 +44,7 @@ export function SignedInRedirect() {
   // the moment between the decision and the navigation. Matching the
   // app's base colour is what prevents a white flash mid-transition.
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-[#090A0C]">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-paper">
       <Image
         src="/logo-lockup.png"
         alt="AdimFit"
@@ -52,7 +52,7 @@ export function SignedInRedirect() {
         height={429}
         className="h-24 w-auto animate-pulse"
       />
-      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/30">
+      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-faint">
         Opening your dashboard
       </p>
     </div>

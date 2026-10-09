@@ -192,18 +192,18 @@ export function ShareWorkoutDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md gap-0 overflow-hidden border-white/[0.07] bg-[#14161A] p-0 text-white">
+      <DialogContent className="max-w-md gap-0 overflow-hidden border-rule bg-paper-raised p-0 text-ink">
         <DialogHeader className="space-y-1 px-5 pb-4 pt-5">
-          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-white">
+          <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-ink">
             Share your session
           </DialogTitle>
-          <DialogDescription className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">
+          <DialogDescription className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
             1080 × 1080 · ready to post
           </DialogDescription>
         </DialogHeader>
 
         <div className="px-5">
-          <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-white/[0.07] bg-black/40">
+          <div className="relative aspect-square w-full overflow-hidden rounded-md border border-rule bg-paper">
             {previewUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -212,7 +212,7 @@ export function ShareWorkoutDialog({
                 className="ph-no-capture size-full object-cover"
               />
             ) : (
-              <Skeleton className="size-full rounded-2xl bg-white/[0.04]" />
+              <Skeleton className="size-full rounded-md bg-paper-sunken" />
             )}
 
             <AnimatePresence>
@@ -222,13 +222,13 @@ export function ShareWorkoutDialog({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="absolute inset-0 flex items-end bg-black/30 backdrop-blur-[2px]"
+                  className="absolute inset-0 flex items-end bg-ink/30 backdrop-blur-[2px]"
                 >
                   <motion.div
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.9, ease: "easeInOut" }}
-                    className="h-[3px] w-full origin-left bg-[#CCFF00]"
+                    className="h-[3px] w-full origin-left bg-indigo"
                   />
                 </motion.div>
               ) : null}
@@ -238,12 +238,12 @@ export function ShareWorkoutDialog({
 
         {/* ── Photo controls ───────────────────────────────────────── */}
         <div className="px-5 pt-4">
-          <div className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3">
+          <div className="flex items-center gap-3 rounded-md border border-rule bg-paper-sunken px-4 py-3">
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
                 {photo ? "Photo attached" : "Photo"}
               </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-white/55">
+              <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
                 {photo
                   ? "Added to the card. Location data is stripped."
                   : "Optional. It stays on your device — we never upload it."}
@@ -257,7 +257,7 @@ export function ShareWorkoutDialog({
                   variant="ghost"
                   size="sm"
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-white/70 hover:bg-white/[0.06] hover:text-white"
+                  className="text-ink-muted hover:bg-paper-sunken hover:text-ink"
                 >
                   Change
                 </Button>
@@ -267,7 +267,7 @@ export function ShareWorkoutDialog({
                   size="icon-sm"
                   aria-label="Remove photo"
                   onClick={handleRemovePhoto}
-                  className="text-white/50 hover:bg-white/[0.06] hover:text-white"
+                  className="text-ink-muted hover:bg-paper-sunken hover:text-ink"
                 >
                   <X strokeWidth={2.5} />
                 </Button>
@@ -278,7 +278,7 @@ export function ShareWorkoutDialog({
                 variant="secondary"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
-                className="shrink-0 border-white/[0.08] bg-white/[0.06] text-white hover:bg-white/[0.12]"
+                className="shrink-0 border-rule bg-paper-sunken text-ink hover:bg-paper-sunken"
               >
                 <ImagePlus data-icon="inline-start" strokeWidth={2.5} />
                 Attach
@@ -322,7 +322,7 @@ export function ShareWorkoutDialog({
             type="button"
             onClick={() => void handleShare()}
             disabled={!blob || busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black shadow-[0_10px_30px_-10px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99] disabled:opacity-40 disabled:shadow-none"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-40 disabled:shadow-none"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -334,7 +334,7 @@ export function ShareWorkoutDialog({
             )}
           </button>
 
-          <p className="mt-3 text-center text-[11px] leading-relaxed text-white/50">
+          <p className="mt-3 text-center text-[11px] leading-relaxed text-ink-muted">
             On desktop this saves the image so you can post it yourself.
           </p>
         </div>

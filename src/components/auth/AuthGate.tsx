@@ -39,7 +39,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (isLoading || !user) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-[#090A0C]">
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-paper">
         <Image
           src="/logo-lockup.png"
           alt="AdimFit"
@@ -48,7 +48,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
           priority
           className="h-24 w-auto animate-pulse"
         />
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/30">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-faint">
           Initializing
         </p>
       </div>

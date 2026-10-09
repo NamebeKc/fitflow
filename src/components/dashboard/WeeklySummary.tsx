@@ -25,18 +25,18 @@ export function WeeklySummary({ stats }: WeeklySummaryProps) {
   );
 
   return (
-    <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
       <div className="flex items-baseline justify-between">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           This week
         </p>
-        <p className="font-mono text-[10px] tracking-[0.1em] text-white/50">
+        <p className="font-mono text-[10px] tracking-[0.1em] text-ink-muted">
           LAST 7 DAYS
         </p>
       </div>
 
       {/* Headline numbers */}
-      <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.06]">
+      <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
         <StatTile
           icon={Dumbbell}
           label="Sessions"
@@ -54,23 +54,23 @@ export function WeeklySummary({ stats }: WeeklySummaryProps) {
       {/* Where the time went */}
       {stats.breakdown.length > 0 && (
         <div className="mt-6 space-y-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
             Activity mix
           </p>
           <ul className="space-y-3">
             {stats.breakdown.map((entry) => (
               <li key={entry.activity} className="space-y-1.5">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="truncate text-sm font-medium text-white/80">
+                  <span className="truncate text-sm font-medium text-ink">
                     {entry.label}
                   </span>
-                  <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/50">
+                  <span className="shrink-0 font-mono text-[11px] tabular-nums text-ink-muted">
                     {entry.minutes}m · {entry.sessions}×
                   </span>
                 </div>
-                <div className="h-1 overflow-hidden rounded-full bg-white/[0.06]">
+                <div className="h-1 overflow-hidden rounded-full bg-paper-sunken">
                   <div
-                    className="h-full rounded-full bg-[#CCFF00]/70"
+                    className="h-full rounded-full bg-indigo/70"
                     style={{
                       width: `${Math.round((entry.minutes / maxMinutes) * 100)}%`,
                     }}
@@ -97,10 +97,10 @@ function StatTile({
   accent?: boolean;
 }) {
   return (
-    <div className="bg-[#0D0F12] px-3.5 py-4 sm:px-4">
-      <p className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-white/50">
+    <div className="bg-paper px-3.5 py-4 sm:px-4">
+      <p className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">
         <Icon
-          className={cn("size-3", accent ? "text-[#CCFF00]/70" : "")}
+          className={cn("size-3", accent ? "text-indigo/70" : "")}
           strokeWidth={2.5}
         />
         <span className="truncate">{label}</span>
@@ -108,7 +108,7 @@ function StatTile({
       <p
         className={cn(
           "mt-2 font-mono text-2xl tabular-nums tracking-tight",
-          accent ? "text-[#CCFF00]" : "text-white",
+          accent ? "text-indigo" : "text-ink",
         )}
       >
         {value}

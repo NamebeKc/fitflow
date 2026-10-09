@@ -40,23 +40,23 @@ export function FeatureSection() {
   return (
     <section
       id="how-it-works"
-      className="relative border-t border-white/[0.06] py-20 md:py-28"
+      className="relative border-t border-rule py-20 md:py-28"
     >
       {/* A single radial bloom, not one per card. One light source reads
           as deliberate; six read as decoration. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-[#CCFF00] opacity-[0.05] blur-[130px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-indigo opacity-[0.05] blur-[130px]"
       />
 
       <div className="relative mx-auto w-full max-w-[1180px] px-5 md:px-8">
         <header className="rise max-w-xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
             How it works
           </p>
-          <h2 className="mt-5 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-white sm:text-[2.75rem]">
+          <h2 className="mt-5 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-ink sm:text-[2.75rem]">
             Three things, on a loop.
-            <span className="block text-white/50">
+            <span className="block text-ink-muted">
               Each one makes the next better.
             </span>
           </h2>
@@ -128,40 +128,40 @@ function FeatureCard({
   wide?: boolean;
 }) {
   return (
-    <article className="group h-full rounded-3xl bg-gradient-to-b from-white/[0.10] to-white/[0.02] p-px transition-colors duration-300 hover:from-[#CCFF00]/30">
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(1.5rem-1px)] bg-[#101216] p-6 sm:p-8">
+    <article className="group h-full rounded-lg bg-gradient-to-b from-rule to-rule/40 p-px transition-colors duration-300 hover:from-indigo/30">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(1.5rem-1px)] bg-paper p-6 sm:p-8">
         {/* Interior top-light. Suggests a surface catching light from
             above, which is what actually makes a flat rectangle read
             as a physical card. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/[0.05] to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-paper-sunken to-transparent"
         />
 
         <div className="relative flex items-start justify-between gap-4">
           <div
             className={
               wide
-                ? "size-14 text-[#CCFF00] sm:size-16"
-                : "size-12 text-[#CCFF00]"
+                ? "size-14 text-indigo sm:size-16"
+                : "size-12 text-indigo"
             }
           >
             {glyph}
           </div>
-          <span className="font-mono text-[11px] tabular-nums tracking-[0.14em] text-white/50">
+          <span className="font-mono text-[11px] tabular-nums tracking-[0.14em] text-ink-muted">
             {index}
           </span>
         </div>
 
         <h3
-          className={`relative mt-8 font-semibold tracking-[-0.02em] text-white ${
+          className={`relative mt-8 font-semibold tracking-[-0.02em] text-ink ${
             wide ? "text-2xl" : "text-lg"
           }`}
         >
           {title}
         </h3>
         <p
-          className={`relative mt-3 leading-relaxed text-white/55 ${
+          className={`relative mt-3 leading-relaxed text-ink-muted ${
             wide ? "max-w-lg text-[15px]" : "text-sm"
           }`}
         >
@@ -170,7 +170,7 @@ function FeatureCard({
 
         {/* Grows on hover — a transform-only cue that costs nothing. */}
         <div className="relative mt-auto pt-8">
-          <div className="h-px w-10 bg-[#CCFF00]/60 transition-all duration-300 group-hover:w-20" />
+          <div className="h-px w-10 bg-indigo/60 transition-all duration-300 group-hover:w-20" />
         </div>
       </div>
     </article>

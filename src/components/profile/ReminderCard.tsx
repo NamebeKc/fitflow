@@ -99,17 +99,17 @@ export function ReminderCard() {
   // ── iOS, not installed ───────────────────────────────────────────
   if (support === "needs-install") {
     return (
-      <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+      <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
         <div className="flex items-center gap-2">
-          <Bell className="size-4 text-white/60" strokeWidth={2} />
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+          <Bell className="size-4 text-ink-muted" strokeWidth={2} />
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
             Reminders
           </p>
         </div>
-        <p className="mt-3 text-[15px] font-semibold text-white">
+        <p className="mt-3 text-[15px] font-semibold text-ink">
           Add AdimFit to your home screen first
         </p>
-        <p className="mt-2 text-[14px] leading-relaxed text-white/60">
+        <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
           iPhone only allows reminders for installed apps. Use the install
           card above, then come back — this will be waiting.
         </p>
@@ -122,29 +122,29 @@ export function ReminderCard() {
   return (
     <section
       className={cn(
-        "rounded-3xl border p-5 sm:p-6",
+        "rounded-lg border p-5 sm:p-6",
         enabled
-          ? "border-[#CCFF00]/20 bg-[#CCFF00]/[0.04]"
-          : "border-white/[0.07] bg-[#14161A]",
+          ? "border-indigo/20 bg-indigo/[0.04]"
+          : "border-rule bg-paper-raised",
       )}
     >
       <div className="flex items-center gap-2">
         {enabled ? (
-          <Bell className="size-4 text-[#CCFF00]" strokeWidth={2} />
+          <Bell className="size-4 text-indigo" strokeWidth={2} />
         ) : (
-          <BellOff className="size-4 text-white/60" strokeWidth={2} />
+          <BellOff className="size-4 text-ink-muted" strokeWidth={2} />
         )}
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Reminders
         </p>
       </div>
 
       {enabled ? (
         <>
-          <p className="mt-3 text-[15px] font-semibold text-white">
+          <p className="mt-3 text-[15px] font-semibold text-ink">
             On, around {TIMES.find((t) => t.hour === hour)?.detail ?? "6pm"}
           </p>
-          <p className="mt-2 text-[14px] leading-relaxed text-white/60">
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
             Only on days you haven&apos;t already logged something. Train and
             record it, and you won&apos;t hear from us.
           </p>
@@ -153,17 +153,17 @@ export function ReminderCard() {
             type="button"
             onClick={() => void disable()}
             disabled={busy}
-            className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white disabled:opacity-50"
+            className="mt-5 w-full rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink disabled:opacity-50"
           >
             {busy ? "Turning off…" : "Turn off reminders"}
           </button>
         </>
       ) : (
         <>
-          <p className="mt-3 text-[15px] font-semibold text-white">
+          <p className="mt-3 text-[15px] font-semibold text-ink">
             A nudge on days you haven&apos;t trained
           </p>
-          <p className="mt-2 text-[14px] leading-relaxed text-white/60">
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
             One notification, at a time you choose. Nothing on days
             you&apos;ve already logged a session.
           </p>
@@ -175,17 +175,17 @@ export function ReminderCard() {
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-xl border border-white/[0.09] bg-black/30 px-4 py-3 text-left outline-none transition-all hover:border-[#CCFF00]/30 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.99] disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-ink/30 px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99] disabled:opacity-50"
               >
                 <span>
-                  <span className="block text-sm font-medium text-white">
+                  <span className="block text-sm font-medium text-ink">
                     {time.label}
                   </span>
-                  <span className="block font-mono text-[11px] text-white/50">
+                  <span className="block font-mono text-[11px] text-ink-muted">
                     {time.detail}
                   </span>
                 </span>
-                {busy && <Loader2 className="size-3.5 animate-spin text-white/50" />}
+                {busy && <Loader2 className="size-3.5 animate-spin text-ink-muted" />}
               </button>
             ))}
           </div>
@@ -195,14 +195,14 @@ export function ReminderCard() {
       {error && (
         <p
           role="alert"
-          className="mt-4 rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+          className="mt-4 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
         >
           {error}
         </p>
       )}
 
       {enabled && (
-        <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-white/50">
+        <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-ink-muted">
           <Check className="size-3" strokeWidth={3} />
           Change the time by turning off and choosing again
         </p>

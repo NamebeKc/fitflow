@@ -152,13 +152,13 @@ export function RestTimer() {
   /* ── Idle: presets only ─────────────────────────────────────────── */
   if (!isActive && !finished) {
     return (
-      <div className="flex items-center gap-2 overflow-x-auto rounded-2xl border border-white/[0.07] bg-[#14161A] px-3 py-2">
+      <div className="flex items-center gap-2 overflow-x-auto rounded-md border border-rule bg-paper-raised px-3 py-2">
         <TimerIcon
-          className="size-3.5 shrink-0 text-white/50"
+          className="size-3.5 shrink-0 text-ink-muted"
           strokeWidth={2}
           aria-hidden
         />
-        <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-white/50">
+        <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
           Rest
         </span>
 
@@ -168,7 +168,7 @@ export function RestTimer() {
               key={preset.seconds}
               type="button"
               onClick={() => start(preset.seconds)}
-              className="shrink-0 rounded-full border border-white/[0.09] bg-black/30 px-2.5 py-1 font-mono text-[11px] tabular-nums text-white/60 outline-none transition-all hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.97]"
+              className="shrink-0 rounded-full border border-rule bg-ink/30 px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.97]"
             >
               {preset.label}
             </button>
@@ -184,16 +184,16 @@ export function RestTimer() {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border px-3 py-2 transition-colors",
+        "relative overflow-hidden rounded-md border px-3 py-2 transition-colors",
         finished
-          ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.10]"
-          : "border-white/[0.07] bg-[#14161A]",
+          ? "border-indigo/40 bg-indigo/[0.10]"
+          : "border-rule bg-paper-raised",
       )}
     >
       {/* Progress drains left to right beneath the content */}
       {!finished && (
         <div
-          className="absolute inset-y-0 left-0 bg-[#CCFF00]/[0.07] transition-[width] duration-200 ease-linear"
+          className="absolute inset-y-0 left-0 bg-indigo/[0.07] transition-[width] duration-200 ease-linear"
           style={{ width: `${progress * 100}%` }}
           aria-hidden
         />
@@ -212,7 +212,7 @@ export function RestTimer() {
           <TimerIcon
             className={cn(
               "size-4",
-              finished ? "text-[#CCFF00]" : "text-white/60",
+              finished ? "text-indigo" : "text-ink-muted",
             )}
             strokeWidth={2}
             aria-hidden
@@ -224,7 +224,7 @@ export function RestTimer() {
           aria-live="polite"
           className={cn(
             "font-mono text-xl tabular-nums tracking-tight",
-            finished ? "text-[#CCFF00]" : "text-white",
+            finished ? "text-indigo" : "text-ink",
           )}
         >
           {finished ? "Time" : display}
@@ -279,10 +279,10 @@ function KeepAwakeToggle({
       }
       title={wakeLock.active ? "Screen stays on" : "Keep screen on"}
       className={cn(
-        "ml-auto flex size-8 shrink-0 items-center justify-center rounded-full border outline-none transition-all focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95",
+        "ml-auto flex size-8 shrink-0 items-center justify-center rounded-full border outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
         wakeLock.active
-          ? "border-[#CCFF00]/40 bg-[#CCFF00]/10 text-[#CCFF00]"
-          : "border-white/[0.09] bg-black/30 text-white/50 hover:text-white",
+          ? "border-indigo/40 bg-indigo/10 text-indigo"
+          : "border-rule bg-ink/30 text-ink-muted hover:text-ink",
       )}
     >
       <Smartphone className="size-3.5" strokeWidth={2} />
@@ -307,10 +307,10 @@ function TimerButton({
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "flex size-8 items-center justify-center rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95",
+        "flex size-8 items-center justify-center rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
         accent
-          ? "bg-[#CCFF00] text-black hover:bg-[#d9ff33]"
-          : "border border-white/[0.09] bg-black/30 text-white/60 hover:text-white",
+          ? "bg-indigo text-black hover:bg-indigo-lift"
+          : "border border-rule bg-ink/30 text-ink-muted hover:text-ink",
       )}
     >
       {children}

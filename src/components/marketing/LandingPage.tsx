@@ -56,7 +56,7 @@ export function LandingPage({ variant = "default" }: { variant?: HeadlineKey }) 
   const headline = HEADLINES[variant];
 
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-[#090A0C] text-white antialiased">
+    <div className="relative min-h-dvh overflow-hidden bg-paper text-ink antialiased">
       <StructuredData />
       <LandingAnalytics />
 
@@ -76,16 +76,16 @@ export function LandingPage({ variant = "default" }: { variant?: HeadlineKey }) 
             <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-16">
               <div>
                 <div className="rise">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#CCFF00]">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
                     {headline.eyebrow}
                   </p>
 
                   <h1 className="mt-6 text-[2.5rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-[3.25rem] lg:text-[3.6rem]">
                     {headline.title}{" "}
-                    <span className="text-[#CCFF00]">{headline.emphasis}</span>
+                    <span className="text-indigo">{headline.emphasis}</span>
                   </h1>
 
-                  <p className="mt-6 max-w-lg text-[17px] leading-relaxed text-white/70">
+                  <p className="mt-6 max-w-lg text-[17px] leading-relaxed text-ink-muted">
                     {headline.subtitle}
                   </p>
                 </div>
@@ -212,13 +212,13 @@ function NavBar() {
             looking for a coach. They stay in the footer. */}
         <Link
           href="/guides"
-          className="hidden text-[13px] text-white/60 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 sm:block"
+          className="hidden text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 sm:block"
         >
           Guides
         </Link>
         <a
           href="#auth"
-          className="rounded-full border border-white/12 px-4 py-2 text-[13px] font-medium text-white/70 outline-none transition-colors hover:border-[#CCFF00]/40 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           Sign in
         </a>
@@ -238,9 +238,9 @@ function NavBar() {
  */
 function MemoryProof() {
   return (
-    <div className="rounded-3xl border border-white/[0.09] bg-[#14161A] p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6">
+    <div className="rounded-lg border border-rule bg-paper-raised p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6">
       <div className="step delay-350">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Your last few sessions
         </p>
         <div className="mt-3 space-y-2">
@@ -250,34 +250,34 @@ function MemoryProof() {
         </div>
       </div>
 
-      <div className="my-5 h-px bg-white/[0.07]" />
+      <div className="my-5 h-px bg-paper-sunken" />
 
       <div className="space-y-3.5">
         <div className="step delay-600 flex justify-end">
-          <p className="max-w-[80%] rounded-2xl rounded-br-md bg-[#CCFF00] px-4 py-2.5 text-[15px] font-medium leading-relaxed text-black">
+          <p className="max-w-[80%] rounded-md rounded-br-md bg-indigo px-4 py-2.5 text-[15px] font-medium leading-relaxed text-black">
             What should I do today?
           </p>
         </div>
 
         <div className="step delay-900 flex justify-start">
-          <div className="max-w-[94%] rounded-2xl rounded-bl-md border border-white/[0.09] bg-[#1F2228] px-4 py-3.5 text-[15px] leading-relaxed text-white/80">
+          <div className="max-w-[94%] rounded-md rounded-bl-md border border-rule bg-paper-raised px-4 py-3.5 text-[15px] leading-relaxed text-ink">
             <p>
               You walked Tuesday and did push-ups Wednesday, then rested
               yesterday — so your legs are fresh.
             </p>
             <p className="mt-2.5">
               25 minutes lower body. Squats{" "}
-              <span className="font-mono text-[#CCFF00]">3 × 12</span>, up from
+              <span className="font-mono text-indigo">3 × 12</span>, up from
               your 3 × 10 last week.
             </p>
           </div>
         </div>
       </div>
 
-      <p className="step delay-1150 mt-5 border-t border-white/[0.07] pt-4 text-center text-[13px] leading-relaxed text-white/50">
+      <p className="step delay-1150 mt-5 border-t border-rule pt-4 text-center text-[13px] leading-relaxed text-ink-muted">
         A general chatbot starts from zero every time.
         <br />
-        <span className="text-white/70">AdimFit doesn&apos;t.</span>
+        <span className="text-ink-muted">AdimFit doesn&apos;t.</span>
       </p>
     </div>
   );
@@ -295,19 +295,19 @@ function LogRow({
   muted?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-black/30 px-3.5 py-2.5">
-      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">
+    <div className="flex items-center gap-3 rounded-md border border-rule bg-ink/30 px-3.5 py-2.5">
+      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-muted">
         {day}
       </span>
       <span
         className={cn(
           "min-w-0 flex-1 truncate text-[14px]",
-          muted ? "text-white/50" : "text-white/80",
+          muted ? "text-ink-muted" : "text-ink",
         )}
       >
         {activity}
       </span>
-      <span className="font-mono text-[12px] tabular-nums text-white/50">
+      <span className="font-mono text-[12px] tabular-nums text-ink-muted">
         {detail}
       </span>
     </div>
@@ -328,14 +328,14 @@ function WhyDifferent() {
     <section className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
             Built for real weeks
           </p>
           <h2 className="mt-4 text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl">
             Life gets in the way.
-            <span className="text-white/50"> Your plan shouldn&apos;t break.</span>
+            <span className="text-ink-muted"> Your plan shouldn&apos;t break.</span>
           </h2>
-          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/60">
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink-muted">
             Most plans assume an ideal week that never happens. Tell your
             coach you&apos;re in a hotel with 20 minutes and it rebuilds the
             session — without losing your progress.
@@ -346,13 +346,13 @@ function WhyDifferent() {
           {points.map((point) => (
             <li
               key={point}
-              className="flex items-start gap-3 rounded-2xl border border-white/[0.09] bg-[#14161A] px-4 py-3.5"
+              className="flex items-start gap-3 rounded-md border border-rule bg-paper-raised px-4 py-3.5"
             >
               <Check
-                className="mt-0.5 size-4 shrink-0 text-[#CCFF00]"
+                className="mt-0.5 size-4 shrink-0 text-indigo"
                 strokeWidth={3}
               />
-              <span className="text-[15px] leading-relaxed text-white/70">
+              <span className="text-[15px] leading-relaxed text-ink-muted">
                 {point}
               </span>
             </li>
@@ -404,12 +404,12 @@ function WhyNotChatGpt() {
   return (
     <section
       id="why-not-chatgpt"
-      className="border-t border-white/[0.07]"
+      className="border-t border-rule"
       aria-labelledby="compare-heading"
     >
       <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
         <div className="max-w-2xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
             The obvious question
           </p>
           <h2
@@ -417,9 +417,9 @@ function WhyNotChatGpt() {
             className="mt-4 text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl"
           >
             Why not just ask a chatbot
-            <span className="text-white/50"> for a workout plan?</span>
+            <span className="text-ink-muted"> for a workout plan?</span>
           </h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-white/60">
+          <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
             You can, and for one session it works. The difference shows up in
             week three. A general chatbot has no record of what you did, so
             every conversation starts from whatever you can be bothered to
@@ -427,25 +427,25 @@ function WhyNotChatGpt() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-3xl border border-white/[0.09]">
-          <div className="grid grid-cols-[1.1fr_1fr_1fr] gap-px bg-white/[0.07]">
-            <div className="bg-[#0D0F13] px-4 py-3.5 sm:px-6" />
-            <div className="bg-[#0D0F13] px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 sm:px-6">
+        <div className="mt-10 overflow-hidden rounded-lg border border-rule">
+          <div className="grid grid-cols-[1.1fr_1fr_1fr] gap-px bg-paper-sunken">
+            <div className="bg-paper px-4 py-3.5 sm:px-6" />
+            <div className="bg-paper px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted sm:px-6">
               General chatbot
             </div>
-            <div className="bg-[#0D0F13] px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#CCFF00] sm:px-6">
+            <div className="bg-paper px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-indigo sm:px-6">
               AdimFit
             </div>
 
             {rows.map((row) => (
               <Fragment key={row.question}>
-                <div className="bg-[#14161A] px-4 py-4 text-[13px] font-medium leading-snug text-white/80 sm:px-6 sm:text-[14px]">
+                <div className="bg-paper-raised px-4 py-4 text-[13px] font-medium leading-snug text-ink sm:px-6 sm:text-[14px]">
                   {row.question}
                 </div>
-                <div className="bg-[#14161A] px-4 py-4 text-[13px] leading-relaxed text-white/50 sm:px-6 sm:text-[14px]">
+                <div className="bg-paper-raised px-4 py-4 text-[13px] leading-relaxed text-ink-muted sm:px-6 sm:text-[14px]">
                   {row.chatbot}
                 </div>
-                <div className="bg-[#14161A] px-4 py-4 text-[13px] leading-relaxed text-white/80 sm:px-6 sm:text-[14px]">
+                <div className="bg-paper-raised px-4 py-4 text-[13px] leading-relaxed text-ink sm:px-6 sm:text-[14px]">
                   {row.adimfit}
                 </div>
               </Fragment>
@@ -473,25 +473,25 @@ function PricingBand() {
   const annual = PLANS.annual_usd_2026;
 
   return (
-    <section id="pricing" className="border-t border-white/[0.07]">
+    <section id="pricing" className="border-t border-rule">
       <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
-        <div className="overflow-hidden rounded-3xl border border-[#CCFF00]/20 bg-gradient-to-b from-[#CCFF00]/[0.07] to-transparent">
+        <div className="overflow-hidden rounded-lg border border-indigo/20 bg-gradient-to-b from-indigo/[0.07] to-transparent">
           <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-md">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#CCFF00]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
                 Simple pricing
               </p>
               <h2 className="mt-4 text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl">
                 One plan. Cancel anytime.
               </h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
                 A single hour with a personal trainer costs more than a year
                 of AdimFit. In Nigeria that is{" "}
-                <span className="text-white/80">
+                <span className="text-ink">
                   {PLANS.monthly_ngn.display}
                 </span>{" "}
                 a month or{" "}
-                <span className="text-white/80">
+                <span className="text-ink">
                   {PLANS.annual_ngn_2026.display}
                 </span>{" "}
                 a year.
@@ -503,22 +503,22 @@ function PricingBand() {
                 <span className="text-5xl font-semibold tracking-[-0.04em]">
                   {monthly.display}
                 </span>
-                <span className="text-[15px] text-white/50">/ month</span>
+                <span className="text-[15px] text-ink-muted">/ month</span>
               </p>
-              <p className="mt-1.5 font-mono text-[12px] text-[#CCFF00]">
+              <p className="mt-1.5 font-mono text-[12px] text-indigo">
                 or {annual.display} / year
                 {annual.saving ? ` — ${annual.saving.toLowerCase()}` : ""}
               </p>
 
               <a
                 href="#auth"
-                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-7 py-3.5 text-[15px] font-semibold text-black shadow-[0_10px_40px_-10px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99]"
+                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-indigo px-7 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
               >
                 Start free
                 <ArrowRight className="size-4" strokeWidth={2.5} />
               </a>
 
-              <p className="mt-3 text-center text-[12px] text-white/50">
+              <p className="mt-3 text-center text-[12px] text-ink-muted">
                 {TRIAL_DAYS}-day free trial · No card required
               </p>
             </div>
@@ -533,7 +533,7 @@ function PricingBand() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/[0.07]">
+    <footer className="border-t border-rule">
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-8 px-5 py-10 md:flex-row md:items-start md:justify-between md:px-8">
         <div className="space-y-5">
           <Image
@@ -543,8 +543,8 @@ function Footer() {
             height={430}
             className="h-9 w-auto opacity-90"
           />
-          <p className="max-w-xs text-[12px] leading-relaxed text-white/50">
-            <span className="text-white/70">A dị m</span> — Igbo for
+          <p className="max-w-xs text-[12px] leading-relaxed text-ink-muted">
+            <span className="text-ink-muted">A dị m</span> — Igbo for
             &ldquo;I am&rdquo;. Fitness as something you become, not
             something you attempt.
           </p>
@@ -552,25 +552,25 @@ function Footer() {
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
             <Link
               href="/guides"
-              className="text-[13px] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Guides
             </Link>
             <Link
               href="/research"
-              className="text-[13px] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Research
             </Link>
             <Link
               href="/privacy"
-              className="text-[13px] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="text-[13px] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Terms
             </Link>
@@ -579,7 +579,7 @@ function Footer() {
           <SocialLinks className="-ml-2.5" />
         </div>
 
-        <p className="max-w-md text-[12px] leading-relaxed text-white/50">
+        <p className="max-w-md text-[12px] leading-relaxed text-ink-muted">
           AdimFit provides general fitness guidance and is not a substitute for
           medical advice. Consult a healthcare professional before starting a
           new exercise programme, particularly with an existing injury or

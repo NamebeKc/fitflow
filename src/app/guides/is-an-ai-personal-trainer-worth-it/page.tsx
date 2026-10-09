@@ -221,7 +221,7 @@ export default function Page() {
       <P>
         <Link
           href="/"
-          className="text-white underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-[#CCFF00]"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
         >
           AdimFit
         </Link>{" "}
@@ -231,7 +231,7 @@ export default function Page() {
         And if what you actually need is a human,{" "}
         <Link
           href="/guides/personal-trainer-alternatives"
-          className="text-white underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-[#CCFF00]"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
         >
           small-group training
         </Link>{" "}

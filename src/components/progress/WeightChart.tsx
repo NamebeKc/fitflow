@@ -32,8 +32,8 @@ export function WeightChart({ measurements }: WeightChartProps) {
 
   if (measurements.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-2xl border border-white/[0.07] bg-black/30 px-6 text-center">
-        <p className="max-w-xs text-sm leading-relaxed text-white/50">
+      <div className="flex h-40 items-center justify-center rounded-md border border-rule bg-ink/30 px-6 text-center">
+        <p className="max-w-xs text-sm leading-relaxed text-ink-muted">
           Record a weight to start tracking. Entirely optional.
         </p>
       </div>
@@ -49,17 +49,17 @@ export function WeightChart({ measurements }: WeightChartProps) {
     return (
       <div className="space-y-4">
         <div>
-          <p className="font-mono text-2xl tabular-nums text-white">
+          <p className="font-mono text-2xl tabular-nums text-ink">
             {only.weightKg}
-            <span className="ml-1 text-sm text-white/50">kg</span>
+            <span className="ml-1 text-sm text-ink-muted">kg</span>
           </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">
+          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
             Recorded {formatDate(only.date)}
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.07] bg-black/30 px-4 py-5 text-center">
-          <p className="text-sm leading-relaxed text-white/50">
+        <div className="rounded-md border border-rule bg-ink/30 px-4 py-5 text-center">
+          <p className="text-sm leading-relaxed text-ink-muted">
             Your trend line appears once you record a second reading.
           </p>
         </div>
@@ -97,27 +97,27 @@ export function WeightChart({ measurements }: WeightChartProps) {
     <div className="space-y-4">
       <div className="flex items-baseline justify-between gap-4">
         <div>
-          <p className="font-mono text-2xl tabular-nums text-white">
+          <p className="font-mono text-2xl tabular-nums text-ink">
             {latest.weightKg}
-            <span className="ml-1 text-sm text-white/50">kg</span>
+            <span className="ml-1 text-sm text-ink-muted">kg</span>
           </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">
+          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
             Latest · {formatDate(latest.date)}
           </p>
         </div>
 
         <div className="text-right">
-          <p className="font-mono text-sm tabular-nums text-white/70">
+          <p className="font-mono text-sm tabular-nums text-ink-muted">
             {change > 0 ? "+" : ""}
             {change.toFixed(1)} kg
           </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">
+          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
             Since {formatDate(first.date)}
           </p>
         </div>
       </div>
 
-      <div className="relative h-32 w-full rounded-2xl border border-white/[0.07] bg-black/30 p-3">
+      <div className="relative h-32 w-full rounded-md border border-rule bg-ink/30 p-3">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="none"
@@ -127,8 +127,8 @@ export function WeightChart({ measurements }: WeightChartProps) {
         >
           <defs>
             <linearGradient id="weightFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#CCFF00" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="#CCFF00" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--indigo)" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="var(--indigo)" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -137,7 +137,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
           <motion.polyline
             points={line}
             fill="none"
-            stroke="#CCFF00"
+            stroke="var(--indigo)"
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
             strokeLinecap="round"
@@ -153,8 +153,8 @@ export function WeightChart({ measurements }: WeightChartProps) {
               cx={point.x}
               cy={point.y}
               r="2"
-              fill="#090A0C"
-              stroke="#CCFF00"
+              fill="var(--paper)"
+              stroke="var(--indigo)"
               strokeWidth="1.5"
               vectorEffect="non-scaling-stroke"
             />
@@ -162,7 +162,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
         </svg>
       </div>
 
-      <p className="text-center text-[11px] leading-relaxed text-white/50">
+      <p className="text-center text-[11px] leading-relaxed text-ink-muted">
         Weight moves 2–3 kg on water, salt, and sleep alone. Look at the
         direction over weeks, not the number today.
       </p>

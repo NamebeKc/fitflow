@@ -221,14 +221,14 @@ export function Paywall({
 
   return (
     <div className="mx-auto w-full max-w-lg">
-      <div className="rounded-3xl border border-white/[0.09] bg-[#14161A] p-6 sm:p-7">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+      <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
           Subscribe
         </p>
-        <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">
           {headline}
         </h2>
-        <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">
+        <p className="mt-2.5 text-[15px] leading-relaxed text-ink-muted">
           {subline}
         </p>
 
@@ -242,10 +242,10 @@ export function Paywall({
           {included.map((item) => (
             <li key={item} className="flex items-start gap-2.5">
               <Check
-                className="mt-0.5 size-3.5 shrink-0 text-[#CCFF00]"
+                className="mt-0.5 size-3.5 shrink-0 text-indigo"
                 strokeWidth={3}
               />
-              <span className="text-[14px] leading-relaxed text-white/70">
+              <span className="text-[14px] leading-relaxed text-ink-muted">
                 {item}
               </span>
             </li>
@@ -258,10 +258,10 @@ export function Paywall({
           it is not a permanent discount, it is a cohort that closes.
         */}
         {seatsLeft !== null && seatsLeft > 0 && (
-          <p className="mt-6 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-[#CCFF00]">
+          <p className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-indigo">
             Founding member pricing — {seatsLeft} of {FOUNDING_LIMIT} seats
             left
-            <span className="mt-0.5 block text-[12px] text-white/50">
+            <span className="mt-0.5 block text-[12px] text-ink-muted">
               Half price, locked for as long as you stay subscribed.
             </span>
           </p>
@@ -274,7 +274,7 @@ export function Paywall({
           be charged.
         */}
         {ENABLED_CURRENCIES.length > 1 && (
-          <div className="mt-6 flex rounded-full bg-black/50 p-1">
+          <div className="mt-6 flex rounded-full bg-paper p-1">
             {ENABLED_CURRENCIES.map((value) => (
               <button
                 key={value}
@@ -283,8 +283,8 @@ export function Paywall({
                 className={cn(
                   "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
                   currency === value
-                    ? "bg-[#CCFF00] text-black"
-                    : "text-white/50 hover:text-white/80",
+                    ? "bg-indigo text-black"
+                    : "text-ink-muted hover:text-ink",
                 )}
               >
                 {value === "NGN" ? "₦ Naira" : "$ Dollars"}
@@ -304,19 +304,19 @@ export function Paywall({
                 onClick={() => setSelected(plan.id)}
                 aria-pressed={active}
                 className={cn(
-                  "flex w-full items-center gap-3.5 rounded-2xl border px-4 py-4 text-left outline-none transition-all active:scale-[0.99]",
-                  "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
+                  "flex w-full items-center gap-3.5 rounded-md border px-4 py-4 text-left outline-none transition-all active:scale-[0.99]",
+                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   active
-                    ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.07]"
-                    : "border-white/[0.09] bg-black/30 hover:border-white/20",
+                    ? "border-indigo/40 bg-indigo/[0.07]"
+                    : "border-rule bg-ink/30 hover:border-rule",
                 )}
               >
                 <span
                   className={cn(
                     "flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
                     active
-                      ? "border-[#CCFF00] bg-[#CCFF00]"
-                      : "border-white/25",
+                      ? "border-indigo bg-indigo"
+                      : "border-rule",
                   )}
                 >
                   {active && (
@@ -326,36 +326,36 @@ export function Paywall({
 
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="text-[15px] font-semibold text-white">
+                    <span className="text-[15px] font-semibold text-ink">
                       {plan.label}
                     </span>
                     {plan.saving && (
-                      <span className="rounded-full bg-[#CCFF00]/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#CCFF00]">
+                      <span className="rounded-full bg-indigo/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-indigo">
                         {plan.saving}
                       </span>
                     )}
                     {plan.badge && (
-                      <span className="rounded-full border border-white/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-white/60">
+                      <span className="rounded-full border border-rule px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-ink-muted">
                         {plan.badge}
                       </span>
                     )}
                   </span>
-                  <span className="mt-0.5 block text-[13px] text-white/50">
+                  <span className="mt-0.5 block text-[13px] text-ink-muted">
                     {plan.cadence}
                   </span>
                 </span>
 
                 <span className="shrink-0 text-right">
                   {plan.standardDisplay && (
-                    <span className="block font-mono text-[11px] tabular-nums text-white/35 line-through">
+                    <span className="block font-mono text-[11px] tabular-nums text-ink-faint line-through">
                       {plan.standardDisplay}
                     </span>
                   )}
-                  <span className="block font-mono text-lg tabular-nums text-white">
+                  <span className="block font-mono text-lg tabular-nums text-ink">
                     {plan.display}
                   </span>
                   {plan.perWeek && (
-                    <span className="mt-0.5 block font-mono text-[11px] tabular-nums text-white/40">
+                    <span className="mt-0.5 block font-mono text-[11px] tabular-nums text-ink-faint">
                       {plan.perWeek}
                     </span>
                   )}
@@ -368,7 +368,7 @@ export function Paywall({
         {error && (
           <p
             role="alert"
-            className="mt-4 rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+            className="mt-4 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
           >
             {error}
           </p>
@@ -378,7 +378,7 @@ export function Paywall({
           type="button"
           onClick={() => void checkout()}
           disabled={busy}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-6 py-3.5 text-[15px] font-semibold text-black shadow-[0_10px_40px_-12px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99] disabled:opacity-50"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-50"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -404,11 +404,11 @@ export function Paywall({
           which the terms page and the subscription card also read, so
           the promise cannot quietly differ by surface.
         */}
-        <div className="mt-4 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] px-3.5 py-3 text-center">
-          <p className="text-[13px] font-medium leading-relaxed text-[#CCFF00]">
+        <div className="mt-4 rounded-md border border-indigo/20 bg-indigo/[0.05] px-3.5 py-3 text-center">
+          <p className="text-[13px] font-medium leading-relaxed text-indigo">
             {GUARANTEE_DAYS}-day money-back guarantee
           </p>
-          <p className="mt-1 text-[12px] leading-relaxed text-white/60">
+          <p className="mt-1 text-[12px] leading-relaxed text-ink-muted">
             Not for you? Email us within {GUARANTEE_DAYS} days and we refund
             it in full. No reason needed, no forms.
           </p>
@@ -422,7 +422,7 @@ export function Paywall({
           the bank's version of the same request carries a fee and
           counts against the merchant account.
         */}
-        <p className="mt-3.5 text-center text-[12px] leading-relaxed text-white/50">
+        <p className="mt-3.5 text-center text-[12px] leading-relaxed text-ink-muted">
           {selectedPlan.interval === "lifetime" ? (
             <>One payment of {selectedPlan.display}. No renewal, ever.</>
           ) : (
@@ -436,12 +436,12 @@ export function Paywall({
         </p>
       </div>
 
-      <p className="mt-4 px-2 text-center text-[12px] leading-relaxed text-white/50">
+      <p className="mt-4 px-2 text-center text-[12px] leading-relaxed text-ink-muted">
         Your training log stays yours whether you subscribe or not — nothing is
         deleted if you decide not to continue.{" "}
         <a
           href="mailto:support@adimfit.com?subject=AdimFit%20refund%20request"
-          className="underline underline-offset-4 transition-colors hover:text-white/80"
+          className="underline underline-offset-4 transition-colors hover:text-ink"
         >
           Request a refund
         </a>

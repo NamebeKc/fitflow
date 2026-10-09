@@ -1,6 +1,5 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
@@ -9,15 +8,15 @@ import { ProfileProvider } from "@/components/providers/ProfileProvider";
 import { ServiceWorkerRegistrar } from "@/components/pwa/ServiceWorkerRegistrar";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-});
+/**
+ * FONTS ARE NOT LOADED HERE. They are @font-face declarations in
+ * globals.css, self-hosted and subset from public/fonts.
+ *
+ * Geist was removed on 9 October 2026. Its cmap contains no NAIRA
+ * SIGN (U+20A6), so every price on the site was rendering its
+ * currency symbol in a browser fallback; it also lacks the Yoruba
+ * s-dot-below and the Igbo n-dot-above. See design.md section 4.2.2.
+ */
 
 export const metadata: Metadata = {
   // Resolves every relative URL in page-level metadata — canonicals,
@@ -42,7 +41,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#090A0C",
+  // Matches --paper. The browser chrome should not be a different
+  // colour from the page it frames.
+  themeColor: "#FAF7F3",
 };
 
 /**
@@ -64,10 +65,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en">
       <body
         suppressHydrationWarning
-        className="min-h-dvh bg-[#090A0C] font-sans text-white antialiased selection:bg-[#CCFF00] selection:text-black"
+        className="min-h-dvh bg-paper font-sans text-ink antialiased selection:bg-indigo-wash selection:text-ink"
       >
         <ServiceWorkerRegistrar />
 

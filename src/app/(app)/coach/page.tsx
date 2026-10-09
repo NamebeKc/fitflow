@@ -28,10 +28,10 @@ export default function CoachPage() {
   return (
     <div className="flex h-[calc(100dvh-12.5rem-env(safe-area-inset-bottom))] flex-col gap-3 md:h-[calc(100dvh-10rem)] md:gap-4">
       <header>
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Adaptive coaching
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
           AI Coach
         </h1>
       </header>

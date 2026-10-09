@@ -81,9 +81,9 @@ export function InstallCard() {
 
   if (installed) {
     return (
-      <section className="flex items-center gap-3 rounded-3xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.04] p-5">
-        <Check className="size-4 shrink-0 text-[#CCFF00]" strokeWidth={3} />
-        <p className="text-sm text-white/70">
+      <section className="flex items-center gap-3 rounded-lg border border-indigo/20 bg-indigo/[0.04] p-5">
+        <Check className="size-4 shrink-0 text-indigo" strokeWidth={3} />
+        <p className="text-sm text-ink-muted">
           AdimFit is installed on this device.
         </p>
       </section>
@@ -91,18 +91,18 @@ export function InstallCard() {
   }
 
   return (
-    <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
       <div className="flex items-center gap-2">
-        <Download className="size-4 text-[#CCFF00]" strokeWidth={2} />
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <Download className="size-4 text-indigo" strokeWidth={2} />
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Install
         </p>
       </div>
 
-      <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-white">
+      <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-ink">
         Put AdimFit on your home screen
       </p>
-      <p className="mt-1.5 text-[14px] leading-relaxed text-white/60">
+      <p className="mt-1.5 text-[14px] leading-relaxed text-ink-muted">
         Opens full screen with no browser bar, straight to your coach —
         the same as any other app on your phone.
       </p>
@@ -116,7 +116,7 @@ export function InstallCard() {
           <IOSStep n="2">
             Scroll down and choose{" "}
             <SquarePlus className="inline size-3.5 align-[-2px]" />{" "}
-            <span className="font-medium text-white/80">Add to Home Screen</span>
+            <span className="font-medium text-ink">Add to Home Screen</span>
           </IOSStep>
           <IOSStep n="3">Tap Add. The icon appears with your other apps.</IOSStep>
         </ol>
@@ -125,7 +125,7 @@ export function InstallCard() {
           type="button"
           onClick={() => void install()}
           disabled={!deferred || busy}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99] disabled:opacity-40"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-40"
         >
           <Download className="size-4" strokeWidth={2.5} />
           {deferred ? "Install AdimFit" : "Open in Chrome to install"}
@@ -133,7 +133,7 @@ export function InstallCard() {
       )}
 
       {!isIOS && !deferred && (
-        <p className="mt-3 text-center text-[12px] leading-relaxed text-white/50">
+        <p className="mt-3 text-center text-[12px] leading-relaxed text-ink-muted">
           Your browser hasn&apos;t offered installation yet. It usually
           appears after a few visits, or use Chrome&apos;s menu → Add to
           Home screen.
@@ -146,10 +146,10 @@ export function InstallCard() {
 function IOSStep({ n, children }: { n: string; children: React.ReactNode }) {
   return (
     <li className="flex gap-3">
-      <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-white/15 font-mono text-[10px] text-white/60">
+      <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-rule font-mono text-[10px] text-ink-muted">
         {n}
       </span>
-      <span className="text-[13px] leading-relaxed text-white/60">
+      <span className="text-[13px] leading-relaxed text-ink-muted">
         {children}
       </span>
     </li>

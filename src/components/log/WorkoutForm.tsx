@@ -174,14 +174,14 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
   }
 
   return (
-    <section className="rounded-3xl border border-white/[0.07] bg-[#14161A] p-5 sm:p-6">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
         Log a workout
       </p>
 
       {/* ── Activity ─────────────────────────────────────────────── */}
       <div className="mt-5 space-y-2.5">
-        <p className="text-sm font-medium text-white/70">Activity</p>
+        <p className="text-sm font-medium text-ink-muted">Activity</p>
         <div className="flex flex-wrap gap-2">
           {ACTIVITIES.map(({ id, label }) => {
             const Icon = ACTIVITY_ICONS[id];
@@ -197,16 +197,16 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 aria-pressed={selected}
                 className={cn(
                   "flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:scale-[0.98]",
-                  "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
+                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
-                    ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08] text-white"
-                    : "border-white/[0.07] bg-black/30 text-white/60 hover:border-white/15 hover:text-white",
+                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
                 <Icon
                   className={cn(
                     "size-4",
-                    selected ? "text-[#CCFF00]" : "text-white/50",
+                    selected ? "text-indigo" : "text-ink-muted",
                   )}
                   strokeWidth={2}
                 />
@@ -222,14 +222,14 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         <div className="space-y-2">
           <label
             htmlFor="workout-duration"
-            className="flex items-baseline gap-2 text-sm font-medium text-white/70"
+            className="flex items-baseline gap-2 text-sm font-medium text-ink-muted"
           >
             Duration (min)
             {/* A number that appears on its own reads as a glitch. Say
                 where it came from, and stop saying it the moment the
                 user edits it — at that point it is their number. */}
             {fromTimer && (
-              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#CCFF00]/70">
+              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-indigo/70">
                 from timer
               </span>
             )}
@@ -246,13 +246,13 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               setFromTimer(false);
             }}
             placeholder="e.g. 45"
-            className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 font-mono text-white tabular-nums placeholder:font-sans placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
           />
         </div>
         <div className="space-y-2">
           <label
             htmlFor="workout-date"
-            className="text-sm font-medium text-white/70"
+            className="text-sm font-medium text-ink-muted"
           >
             Date
           </label>
@@ -262,14 +262,14 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             value={date}
             max={todayISO()}
             onChange={(event) => setDate(event.target.value)}
-            className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white [color-scheme:dark] focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 text-ink [color-scheme:dark] focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
           />
         </div>
       </div>
 
       {/* ── Intensity ────────────────────────────────────────────── */}
       <div className="mt-5 space-y-2.5">
-        <p className="text-sm font-medium text-white/70">Intensity</p>
+        <p className="text-sm font-medium text-ink-muted">Intensity</p>
         <div className="grid grid-cols-3 gap-2">
           {INTENSITIES.map(({ id, label }) => {
             const selected = intensity === id;
@@ -280,11 +280,11 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 onClick={() => setIntensity(id)}
                 aria-pressed={selected}
                 className={cn(
-                  "rounded-xl border px-3 py-2.5 text-sm font-medium outline-none transition-all active:scale-[0.98]",
-                  "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
+                  "rounded-md border px-3 py-2.5 text-sm font-medium outline-none transition-all active:scale-[0.98]",
+                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
-                    ? "border-[#CCFF00]/40 bg-[#CCFF00]/[0.08] text-white"
-                    : "border-white/[0.07] bg-black/30 text-white/60 hover:border-white/15 hover:text-white",
+                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
                 {label}
@@ -299,10 +299,10 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         <div className="mt-5 space-y-2">
           <label
             htmlFor="workout-steps"
-            className="text-sm font-medium text-white/70"
+            className="text-sm font-medium text-ink-muted"
           >
             Steps{" "}
-            <span className="font-normal text-white/50">(optional)</span>
+            <span className="font-normal text-ink-muted">(optional)</span>
           </label>
           <Input
             id="workout-steps"
@@ -313,9 +313,9 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             value={steps}
             onChange={(event) => setSteps(event.target.value)}
             placeholder="e.g. 6500"
-            className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 font-mono text-white tabular-nums placeholder:font-sans placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
           />
-          <p className="text-xs leading-relaxed text-white/50">
+          <p className="text-xs leading-relaxed text-ink-muted">
             Copy this from your phone&apos;s health app. AdimFit can&apos;t
             read your pedometer from the browser, so a number you enter is
             the only honest one.
@@ -327,14 +327,14 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
       {showStrength && (
         <div className="mt-5 space-y-3">
           <div className="flex items-baseline justify-between gap-3">
-            <p className="text-sm font-medium text-white/70">
+            <p className="text-sm font-medium text-ink-muted">
               Exercises{" "}
-              <span className="font-normal text-white/50">(optional)</span>
+              <span className="font-normal text-ink-muted">(optional)</span>
             </p>
             <button
               type="button"
               onClick={addSet}
-              className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[#CCFF00] outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] text-indigo outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               <Plus className="size-3" strokeWidth={3} />
               Add
@@ -342,7 +342,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
           </div>
 
           {strength.length === 0 ? (
-            <p className="rounded-xl border border-white/[0.07] bg-black/30 px-4 py-3 text-xs leading-relaxed text-white/50">
+            <p className="rounded-md border border-rule bg-ink/30 px-4 py-3 text-xs leading-relaxed text-ink-muted">
               Recording what you lifted is what lets your coach progress
               you — &ldquo;3 × 8 at 60kg last week, let&apos;s try 3 × 10&rdquo;.
               Skip it and the session still logs.
@@ -352,7 +352,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               {strength.map((entry, index) => (
                 <li
                   key={index}
-                  className="rounded-xl border border-white/[0.07] bg-black/30 p-3"
+                  className="rounded-md border border-rule bg-ink/30 p-3"
                 >
                   <div className="flex items-center gap-2">
                     <Input
@@ -361,13 +361,13 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                         updateSet(index, { exercise: event.target.value })
                       }
                       placeholder="Exercise, e.g. Squat"
-                      className="h-9 flex-1 rounded-lg border-white/[0.07] bg-black/50 px-3 text-sm text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:ring-0"
+                      className="h-9 flex-1 rounded-sm border-rule bg-paper px-3 text-sm text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:ring-0"
                     />
                     <button
                       type="button"
                       onClick={() => removeSet(index)}
                       aria-label="Remove exercise"
-                      className="flex size-9 shrink-0 items-center justify-center rounded-lg text-white/50 outline-none transition-colors hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+                      className="flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-indigo/50"
                     >
                       <Trash2 className="size-3.5" strokeWidth={2} />
                     </button>
@@ -410,14 +410,14 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
 
       {/* ── Optional detail ──────────────────────────────────────── */}
       {showDetail ? (
-        <div className="mt-5 space-y-4 border-t border-white/[0.06] pt-5">
+        <div className="mt-5 space-y-4 border-t border-rule pt-5">
           <div className="space-y-2">
             <label
               htmlFor="workout-title"
-              className="text-sm font-medium text-white/70"
+              className="text-sm font-medium text-ink-muted"
             >
               Title{" "}
-              <span className="font-normal text-white/50">
+              <span className="font-normal text-ink-muted">
                 (auto if left blank)
               </span>
             </label>
@@ -430,17 +430,17 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                   ? defaultTitle(activity, date)
                   : "e.g. Upper body strength"
               }
-              className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+              className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
             />
           </div>
 
           <div className="space-y-2">
             <label
               htmlFor="workout-notes"
-              className="text-sm font-medium text-white/70"
+              className="text-sm font-medium text-ink-muted"
             >
               Notes{" "}
-              <span className="font-normal text-white/50">(optional)</span>
+              <span className="font-normal text-ink-muted">(optional)</span>
             </label>
             <Textarea
               id="workout-notes"
@@ -448,7 +448,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               onChange={(event) => setNotes(event.target.value)}
               placeholder="e.g. Squats 3×8 @ 60kg, felt strong"
               rows={3}
-              className="resize-none rounded-xl border-white/[0.07] bg-black/50 px-4 py-3 text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
+              className="resize-none rounded-md border-rule bg-paper px-4 py-3 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
             />
           </div>
         </div>
@@ -456,7 +456,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         <button
           type="button"
           onClick={() => setShowDetail(true)}
-          className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           + Add title or notes
         </button>
@@ -467,7 +467,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         type="button"
         onClick={submit}
         disabled={!valid}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black shadow-[0_10px_30px_-10px_rgba(204,255,0,0.5)] outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
       >
         <Plus className="size-4" strokeWidth={2.5} />
         Log workout
@@ -494,7 +494,7 @@ function NumberField({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/50">
+      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-muted">
         {label}
       </span>
       <Input
@@ -505,7 +505,7 @@ function NumberField({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         placeholder={placeholder}
-        className="mt-1 h-9 rounded-lg border-white/[0.07] bg-black/50 px-2.5 text-center font-mono text-sm tabular-nums text-white placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:ring-0"
+        className="mt-1 h-9 rounded-sm border-rule bg-paper px-2.5 text-center font-mono text-sm tabular-nums text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:ring-0"
       />
     </label>
   );

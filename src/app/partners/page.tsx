@@ -103,15 +103,15 @@ export default function PartnersPage() {
   if (state === "none") {
     return (
       <Frame>
-        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-ink">
           This account isn&apos;t a partner
         </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+        <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
           You&apos;re signed in, but there&apos;s no partner campaign attached
           to this email. If you think there should be,{" "}
           <a
             href="mailto:support@adimfit.com?subject=Partner%20access"
-            className="underline underline-offset-4 hover:text-white/85"
+            className="underline underline-offset-4 hover:text-ink"
           >
             let us know
           </a>
@@ -125,10 +125,10 @@ export default function PartnersPage() {
   if (state === "error" || !stats) {
     return (
       <Frame>
-        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+        <h1 className="text-2xl font-semibold tracking-[-0.03em] text-ink">
           Can&apos;t load your numbers
         </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+        <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
           Nothing is lost — try again in a minute.
         </p>
         <SignOutButton onClick={signOutUser} />
@@ -165,13 +165,13 @@ function SignIn({
 
   return (
     <Frame>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
         AdimFit partners
       </p>
-      <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
+      <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink">
         Sign in
       </h1>
-      <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">
+      <p className="mt-2.5 text-[15px] leading-relaxed text-ink-muted">
         Track your link, your signups and what you&apos;re owed.
       </p>
 
@@ -194,7 +194,7 @@ function SignIn({
         {error && (
           <p
             role="alert"
-            className="rounded-xl border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+            className="rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
           >
             {error}
           </p>
@@ -203,7 +203,7 @@ function SignIn({
         <button
           type="submit"
           disabled={busy || !email || !password}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99] disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -216,12 +216,12 @@ function SignIn({
         </button>
       </form>
 
-      <p className="mt-6 border-t border-white/[0.07] pt-5 text-[12px] leading-relaxed text-white/40">
+      <p className="mt-6 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
         Partner accounts are set up by us — there&apos;s no signup here. Lost
         your password, or think you should have access?{" "}
         <a
           href="mailto:support@adimfit.com?subject=Partner%20access"
-          className="underline underline-offset-4 hover:text-white/70"
+          className="underline underline-offset-4 hover:text-ink-muted"
         >
           support@adimfit.com
         </a>
@@ -266,10 +266,10 @@ function Dashboard({
     <Frame>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
             AdimFit partner
           </p>
-          <h1 className="mt-3 truncate text-2xl font-semibold tracking-[-0.03em] text-white">
+          <h1 className="mt-3 truncate text-2xl font-semibold tracking-[-0.03em] text-ink">
             {stats.name}
           </h1>
         </div>
@@ -277,7 +277,7 @@ function Dashboard({
           type="button"
           onClick={onSignOut}
           aria-label="Sign out"
-          className="flex size-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-white/40 outline-none transition-colors hover:bg-white/[0.05] hover:text-white/75"
+          className="flex size-9 shrink-0 items-center justify-center rounded-full border border-rule text-ink-faint outline-none transition-colors hover:bg-paper-sunken hover:text-ink-muted"
         >
           <LogOut className="size-3.5" strokeWidth={2} />
         </button>
@@ -288,15 +288,15 @@ function Dashboard({
         <motion.div
           initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 rounded-2xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.05] p-5"
+          className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] p-5"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#CCFF00]/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-indigo/70">
             Due to you
           </p>
-          <p className="mt-2 font-mono text-4xl tabular-nums text-[#CCFF00]">
+          <p className="mt-2 font-mono text-4xl tabular-nums text-indigo">
             {money(stats.amountDue)}
           </p>
-          <p className="mt-2 text-[13px] leading-relaxed text-white/55">
+          <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
             {money(stats.perConversion)} per subscriber.
             {stats.amountPaid > 0 &&
               ` ${money(stats.amountPaid)} already paid out.`}
@@ -311,7 +311,7 @@ function Dashboard({
       </div>
 
       {(stats.viewToSignup !== null || stats.signupToPaid !== null) && (
-        <p className="mt-3 text-[13px] leading-relaxed text-white/45">
+        <p className="mt-3 text-[13px] leading-relaxed text-ink-faint">
           {stats.viewToSignup !== null && (
             <>{stats.viewToSignup}% of views sign up</>
           )}
@@ -322,18 +322,18 @@ function Dashboard({
         </p>
       )}
 
-      <div className="mt-6 rounded-2xl border border-white/[0.09] bg-black/30 p-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+      <div className="mt-6 rounded-md border border-rule bg-ink/30 p-4">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
           Your link
         </p>
         <div className="mt-2.5 flex items-center gap-2">
-          <code className="min-w-0 flex-1 truncate font-mono text-[13px] text-white/80">
+          <code className="min-w-0 flex-1 truncate font-mono text-[13px] text-ink">
             {link}
           </code>
           <button
             type="button"
             onClick={() => void copy()}
-            className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/12 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-white/60 outline-none transition-colors hover:bg-white/[0.05] hover:text-white"
+            className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink"
           >
             <Copy className="size-3" strokeWidth={2.5} />
             {copied ? "Copied" : "Copy"}
@@ -342,25 +342,25 @@ function Dashboard({
       </div>
 
       {stats.capTotal !== null && (
-        <p className="mt-4 text-[13px] leading-relaxed text-white/45">
+        <p className="mt-4 text-[13px] leading-relaxed text-ink-faint">
           This campaign is capped at {money(stats.capTotal)} total.
         </p>
       )}
 
       {stats.status !== "active" && (
-        <p className="mt-4 rounded-xl border border-white/[0.07] bg-black/30 px-3.5 py-3 text-[13px] leading-relaxed text-white/60">
+        <p className="mt-4 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
           This campaign is paused, so new signups won&apos;t earn. Anything
           shown above is still owed and still paid.
         </p>
       )}
 
-      <p className="mt-7 border-t border-white/[0.07] pt-5 text-[12px] leading-relaxed text-white/40">
+      <p className="mt-7 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
         Views are counted once per person per day, so previews and crawlers
         don&apos;t inflate them. Payouts run monthly — we&apos;ll email the
         transfer reference.{" "}
         <a
           href="mailto:support@adimfit.com?subject=Partner%20payout"
-          className="underline underline-offset-4 hover:text-white/70"
+          className="underline underline-offset-4 hover:text-ink-muted"
         >
           support@adimfit.com
         </a>
@@ -386,7 +386,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
         {label}
       </span>
       <input
@@ -394,7 +394,7 @@ function Field({
         value={value}
         autoComplete={autoComplete}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-xl border border-white/[0.09] bg-black/40 px-3.5 py-3 text-[15px] text-white outline-none transition-colors placeholder:text-white/25 focus:border-[#CCFF00]/40 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/30"
+        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-3.5 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-indigo/40 focus-visible:ring-2 focus-visible:ring-indigo/30"
       />
     </label>
   );
@@ -402,11 +402,11 @@ function Field({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/[0.09] bg-black/30 p-3.5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+    <div className="rounded-md border border-rule bg-ink/30 p-3.5">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
         {label}
       </p>
-      <p className="mt-1.5 font-mono text-xl tabular-nums text-white">
+      <p className="mt-1.5 font-mono text-xl tabular-nums text-ink">
         {value}
       </p>
     </div>
@@ -419,8 +419,8 @@ function SignOutButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "mt-6 flex items-center gap-2 rounded-full border border-white/12 px-4 py-2.5",
-        "text-[13px] text-white/60 outline-none transition-colors hover:bg-white/[0.05] hover:text-white",
+        "mt-6 flex items-center gap-2 rounded-full border border-rule px-4 py-2.5",
+        "text-[13px] text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink",
       )}
     >
       <LogOut className="size-3.5" strokeWidth={2} />
@@ -431,8 +431,8 @@ function SignOutButton({ onClick }: { onClick: () => void }) {
 
 function Frame({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-dvh bg-[#090A0C] px-4 py-12 sm:px-6">
-      <div className="mx-auto w-full max-w-md rounded-3xl border border-white/[0.09] bg-[#14161A] p-6 sm:p-7">
+    <main className="min-h-dvh bg-paper px-4 py-12 sm:px-6">
+      <div className="mx-auto w-full max-w-md rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
         {children}
       </div>
     </main>

@@ -55,9 +55,9 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-3 rounded-3xl border border-white/[0.07] bg-[#14161A] p-5">
-        <Loader2 className="size-4 animate-spin text-white/50" strokeWidth={2} />
-        <p className="text-sm text-white/50">Checking your subscription…</p>
+      <div className="flex items-center gap-3 rounded-lg border border-rule bg-paper-raised p-5">
+        <Loader2 className="size-4 animate-spin text-ink-muted" strokeWidth={2} />
+        <p className="text-sm text-ink-muted">Checking your subscription…</p>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   if (comped) {
     return (
       <Card
-        icon={<Gift className="size-4 text-[#CCFF00]" strokeWidth={2} />}
+        icon={<Gift className="size-4 text-indigo" strokeWidth={2} />}
         accent
         label="Complimentary access"
         title="You're on the house"
@@ -101,7 +101,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
 
     return (
       <Card
-        icon={<ShieldCheck className="size-4 text-[#CCFF00]" strokeWidth={2} />}
+        icon={<ShieldCheck className="size-4 text-indigo" strokeWidth={2} />}
         accent
         label="Subscription"
         title={plan ? `${plan.label} · ${plan.display}` : "Active"}
@@ -116,7 +116,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   if (billing?.status === "cancelled" && entitled) {
     return (
       <Card
-        icon={<Timer className="size-4 text-white/60" strokeWidth={2} />}
+        icon={<Timer className="size-4 text-ink-muted" strokeWidth={2} />}
         label="Subscription"
         title="Cancelled"
         body={`You keep full access until ${formatDate(
@@ -132,7 +132,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   if (billing?.status === "trialing" && entitled) {
     return (
       <Card
-        icon={<Timer className="size-4 text-[#CCFF00]" strokeWidth={2} />}
+        icon={<Timer className="size-4 text-indigo" strokeWidth={2} />}
         accent={daysLeft <= 3}
         label="Free trial"
         title={`${daysLeft} day${daysLeft === 1 ? "" : "s"} left`}
@@ -164,7 +164,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   // ── Expired ──────────────────────────────────────────────────────
   return (
     <Card
-      icon={<Timer className="size-4 text-white/60" strokeWidth={2} />}
+      icon={<Timer className="size-4 text-ink-muted" strokeWidth={2} />}
       label="Subscription"
       title="No active subscription"
       body="Your training log is safe and nothing has been deleted. Subscribe to start coaching again."
@@ -192,23 +192,23 @@ function Card({
   return (
     <section
       className={cn(
-        "rounded-3xl border p-5 sm:p-6",
+        "rounded-lg border p-5 sm:p-6",
         accent
-          ? "border-[#CCFF00]/20 bg-[#CCFF00]/[0.04]"
-          : "border-white/[0.07] bg-[#14161A]",
+          ? "border-indigo/20 bg-indigo/[0.04]"
+          : "border-rule bg-paper-raised",
       )}
     >
       <div className="flex items-center gap-2">
         {icon}
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           {label}
         </p>
       </div>
 
-      <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-white">
+      <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-ink">
         {title}
       </p>
-      <p className="mt-1.5 text-[14px] leading-relaxed text-white/60">{body}</p>
+      <p className="mt-1.5 text-[14px] leading-relaxed text-ink-muted">{body}</p>
 
       {children && <div className="mt-5">{children}</div>}
     </section>
@@ -229,7 +229,7 @@ function SubscribeButton({
         track("paywall_shown", { trigger: "profile" });
         onSubscribe();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99]"
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
     >
       {label}
       <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -249,7 +249,7 @@ function CancelLink() {
   return (
     <a
       href="mailto:support@adimfit.com?subject=Cancel%20my%20AdimFit%20subscription"
-      className="block text-center text-[13px] text-white/50 underline underline-offset-4 outline-none transition-colors hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+      className="block text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
     >
       Cancel subscription
     </a>

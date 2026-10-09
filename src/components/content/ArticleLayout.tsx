@@ -83,7 +83,7 @@ export function ArticleLayout({
   };
 
   return (
-    <div className="min-h-dvh bg-[#090A0C] text-white antialiased">
+    <div className="min-h-dvh bg-paper text-ink antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
@@ -93,15 +93,15 @@ export function ArticleLayout({
 
       <article className="mx-auto w-full max-w-[720px] px-5 py-12 md:px-8 md:py-16">
         <nav aria-label="Breadcrumb" className="mb-8">
-          <ol className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+          <ol className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
             <li>
-              <Link href="/" className="transition-colors hover:text-white/70">
+              <Link href="/" className="transition-colors hover:text-ink-muted">
                 Home
               </Link>
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link href="/guides" className="transition-colors hover:text-white/70">
+              <Link href="/guides" className="transition-colors hover:text-ink-muted">
                 Guides
               </Link>
             </li>
@@ -111,12 +111,12 @@ export function ArticleLayout({
         <h1 className="text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.5rem]">
           {entry.h1}
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-white/60">
+        <p className="mt-5 text-[17px] leading-relaxed text-ink-muted">
           {entry.summary}
         </p>
-        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
+        <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
           <time dateTime={entry.published}>{guideDate(entry.published)}</time>
-          <span className="px-2 text-white/20">·</span>
+          <span className="px-2 text-ink-faint">·</span>
           {entry.readingMinutes} min read
         </p>
 
@@ -136,11 +136,11 @@ export function ArticleLayout({
 
 function SiteHeader() {
   return (
-    <header className="border-b border-white/[0.07]">
+    <header className="border-b border-rule">
       <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
         <Link
           href="/"
-          className="outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           <Image
             src="/logo-horizontal.png"
@@ -153,13 +153,13 @@ function SiteHeader() {
         <nav className="flex items-center gap-4">
           <Link
             href="/guides"
-            className="text-[13px] text-white/60 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             Guides
           </Link>
           <Link
             href="/#auth"
-            className="rounded-full border border-white/12 px-4 py-2 text-[13px] font-medium text-white/70 outline-none transition-colors hover:border-[#CCFF00]/40 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             Try AdimFit
           </Link>
@@ -171,23 +171,23 @@ function SiteHeader() {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-white/[0.07]">
-      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 px-5 py-8 text-[13px] text-white/45 md:flex-row md:items-center md:justify-between md:px-8">
+    <footer className="border-t border-rule">
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 px-5 py-8 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between md:px-8">
         <p>
           AdimFit provides general fitness guidance and is not a substitute
           for medical advice.
         </p>
         <nav className="flex flex-wrap gap-x-6 gap-y-2">
-          <Link href="/guides" className="transition-colors hover:text-white/80">
+          <Link href="/guides" className="transition-colors hover:text-ink">
             Guides
           </Link>
-          <Link href="/research" className="transition-colors hover:text-white/80">
+          <Link href="/research" className="transition-colors hover:text-ink">
             Research
           </Link>
-          <Link href="/privacy" className="transition-colors hover:text-white/80">
+          <Link href="/privacy" className="transition-colors hover:text-ink">
             Privacy
           </Link>
-          <Link href="/terms" className="transition-colors hover:text-white/80">
+          <Link href="/terms" className="transition-colors hover:text-ink">
             Terms
           </Link>
         </nav>
@@ -205,21 +205,21 @@ function FaqBlock({ entry }: { entry: Guide }) {
       >
         Common questions
       </h2>
-      <div className="mt-6 divide-y divide-white/[0.07] border-y border-white/[0.07]">
+      <div className="mt-6 divide-y divide-rule border-y border-rule">
         {entry.faqs.map((faq) => (
           <details key={faq.question} className="group py-5">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50">
-              <h3 className="text-[16px] font-medium leading-snug text-white/90">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+              <h3 className="text-[16px] font-medium leading-snug text-ink">
                 {faq.question}
               </h3>
               <span
                 aria-hidden
-                className="mt-1 font-mono text-[13px] text-white/40 transition-transform group-open:rotate-45"
+                className="mt-1 font-mono text-[13px] text-ink-faint transition-transform group-open:rotate-45"
               >
                 +
               </span>
             </summary>
-            <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+            <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
               {faq.answer}
             </p>
           </details>
@@ -240,7 +240,7 @@ function Related({ entry }: { entry: Guide }) {
     <section className="mt-16" aria-labelledby="related-heading">
       <h2
         id="related-heading"
-        className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50"
+        className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted"
       >
         Read next
       </h2>
@@ -249,18 +249,18 @@ function Related({ entry }: { entry: Guide }) {
           <li key={other.slug}>
             <Link
               href={`/guides/${other.slug}`}
-              className="group flex items-start justify-between gap-6 rounded-2xl border border-white/[0.09] bg-[#14161A] px-5 py-4 outline-none transition-colors hover:border-[#CCFF00]/30 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+              className="group flex items-start justify-between gap-6 rounded-md border border-rule bg-paper-raised px-5 py-4 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               <span>
-                <span className="block text-[15px] font-medium text-white/90">
+                <span className="block text-[15px] font-medium text-ink">
                   {other.h1}
                 </span>
-                <span className="mt-1 block text-[13px] leading-relaxed text-white/50">
+                <span className="mt-1 block text-[13px] leading-relaxed text-ink-muted">
                   {other.summary}
                 </span>
               </span>
               <ArrowRight
-                className="mt-1 size-4 shrink-0 text-white/30 transition-transform group-hover:translate-x-1"
+                className="mt-1 size-4 shrink-0 text-ink-faint transition-transform group-hover:translate-x-1"
                 strokeWidth={2.5}
                 aria-hidden
               />
@@ -274,11 +274,11 @@ function Related({ entry }: { entry: Guide }) {
 
 function CallToAction() {
   return (
-    <aside className="mt-16 rounded-3xl border border-[#CCFF00]/20 bg-gradient-to-b from-[#CCFF00]/[0.07] to-transparent p-6 sm:p-8">
+    <aside className="mt-16 rounded-lg border border-indigo/20 bg-gradient-to-b from-indigo/[0.07] to-transparent p-6 sm:p-8">
       <h2 className="text-[1.4rem] font-semibold leading-[1.15] tracking-[-0.02em]">
         A coach that keeps the record for you
       </h2>
-      <p className="mt-3 text-[15px] leading-relaxed text-white/60">
+      <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
         AdimFit logs each session in seconds and builds the next one from
         what you actually did. {PLANS.monthly_usd.display} a month, or{" "}
         {PLANS.annual_usd_2026.display} a year. {TRIAL_DAYS}-day free trial,
@@ -286,7 +286,7 @@ function CallToAction() {
       </p>
       <Link
         href="/#auth"
-        className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#CCFF00] px-6 py-3 text-[14px] font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99]"
+        className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo px-6 py-3 text-[14px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
       >
         Start free
         <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -304,7 +304,7 @@ export function H2({ id, children }: { id: string; children: ReactNode }) {
   return (
     <h2
       id={id}
-      className="mt-14 scroll-mt-8 text-[1.6rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white first:mt-0"
+      className="mt-14 scroll-mt-8 text-[1.6rem] font-semibold leading-[1.15] tracking-[-0.02em] text-ink first:mt-0"
     >
       {children}
     </h2>
@@ -313,7 +313,7 @@ export function H2({ id, children }: { id: string; children: ReactNode }) {
 
 export function H3({ children }: { children: ReactNode }) {
   return (
-    <h3 className="mt-9 text-[1.15rem] font-semibold leading-snug tracking-[-0.01em] text-white/90">
+    <h3 className="mt-9 text-[1.15rem] font-semibold leading-snug tracking-[-0.01em] text-ink">
       {children}
     </h3>
   );
@@ -321,21 +321,21 @@ export function H3({ children }: { children: ReactNode }) {
 
 export function P({ children }: { children: ReactNode }) {
   return (
-    <p className="mt-5 text-[16px] leading-[1.75] text-white/70">{children}</p>
+    <p className="mt-5 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
   );
 }
 
 export function Em({ children }: { children: ReactNode }) {
-  return <em className="not-italic text-white/90">{children}</em>;
+  return <em className="not-italic text-ink">{children}</em>;
 }
 
 export function Strong({ children }: { children: ReactNode }) {
-  return <strong className="font-semibold text-[#CCFF00]">{children}</strong>;
+  return <strong className="font-semibold text-indigo">{children}</strong>;
 }
 
 export function Callout({ children }: { children: ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-[#CCFF00]/50 pl-5 text-[16px] leading-[1.7] text-white/75">
+    <p className="my-8 border-l-2 border-indigo/50 pl-5 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );
@@ -347,11 +347,11 @@ export function Bullets({ items }: { items: ReactNode[] }) {
       {items.map((item, index) => (
         <li
           key={index}
-          className="flex gap-3 text-[16px] leading-[1.7] text-white/70"
+          className="flex gap-3 text-[16px] leading-[1.7] text-ink-muted"
         >
           <span
             aria-hidden
-            className="mt-[0.6rem] size-1.5 shrink-0 rounded-full bg-[#CCFF00]/60"
+            className="mt-[0.6rem] size-1.5 shrink-0 rounded-full bg-indigo/60"
           />
           <span>{item}</span>
         </li>
@@ -369,11 +369,11 @@ export function PromptBlock({
   children: ReactNode;
 }) {
   return (
-    <figure className="my-8 overflow-hidden rounded-2xl border border-white/[0.09] bg-black/40">
-      <figcaption className="border-b border-white/[0.07] px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+    <figure className="my-8 overflow-hidden rounded-md border border-rule bg-paper">
+      <figcaption className="border-b border-rule px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
         {label}
       </figcaption>
-      <pre className="overflow-x-auto px-5 py-5 font-mono text-[13px] leading-[1.7] text-white/75">
+      <pre className="overflow-x-auto px-5 py-5 font-mono text-[13px] leading-[1.7] text-ink-muted">
         <code className="whitespace-pre-wrap">{children}</code>
       </pre>
     </figure>
@@ -391,25 +391,25 @@ export function CompareTable({
   rows: { aspect: string; left: string; right: string }[];
 }) {
   return (
-    <div className="my-8 overflow-hidden rounded-2xl border border-white/[0.09]">
-      <div className="grid grid-cols-[1fr_1fr] gap-px bg-white/[0.07] sm:grid-cols-[0.9fr_1fr_1fr]">
-        <div className="hidden bg-[#0D0F13] px-4 py-3 sm:block" />
-        <div className="bg-[#0D0F13] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
+    <div className="my-8 overflow-hidden rounded-md border border-rule">
+      <div className="grid grid-cols-[1fr_1fr] gap-px bg-paper-sunken sm:grid-cols-[0.9fr_1fr_1fr]">
+        <div className="hidden bg-paper px-4 py-3 sm:block" />
+        <div className="bg-paper px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
           {left}
         </div>
-        <div className="bg-[#0D0F13] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#CCFF00]">
+        <div className="bg-paper px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-indigo">
           {right}
         </div>
 
         {rows.map((row) => (
           <div key={row.aspect} className="contents">
-            <div className="col-span-2 bg-[#101216] px-4 py-3 text-[13px] font-medium text-white/80 sm:col-span-1 sm:bg-[#14161A] sm:py-4">
+            <div className="col-span-2 bg-paper px-4 py-3 text-[13px] font-medium text-ink sm:col-span-1 sm:bg-paper-raised sm:py-4">
               {row.aspect}
             </div>
-            <div className="bg-[#14161A] px-4 py-4 text-[13px] leading-relaxed text-white/50">
+            <div className="bg-paper-raised px-4 py-4 text-[13px] leading-relaxed text-ink-muted">
               {row.left}
             </div>
-            <div className="bg-[#14161A] px-4 py-4 text-[13px] leading-relaxed text-white/80">
+            <div className="bg-paper-raised px-4 py-4 text-[13px] leading-relaxed text-ink">
               {row.right}
             </div>
           </div>
@@ -437,15 +437,15 @@ export function DataTable({
 }) {
   return (
     <figure className="my-8">
-      <div className="overflow-x-auto rounded-2xl border border-white/[0.09]">
+      <div className="overflow-x-auto rounded-md border border-rule">
         <table className="w-full min-w-[520px] border-collapse text-left">
           <thead>
-            <tr className="bg-[#0D0F13]">
+            <tr className="bg-paper">
               {columns.map((col) => (
                 <th
                   key={col}
                   scope="col"
-                  className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50 sm:px-5"
+                  className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted sm:px-5"
                 >
                   {col}
                 </th>
@@ -456,15 +456,15 @@ export function DataTable({
             {rows.map((row) => (
               <tr
                 key={row[0]}
-                className="border-t border-white/[0.07] bg-[#14161A]"
+                className="border-t border-rule bg-paper-raised"
               >
                 {row.map((cell, i) => (
                   <td
                     key={i}
                     className={
                       i === 0
-                        ? "px-4 py-3.5 text-[14px] font-medium text-white/85 sm:px-5"
-                        : "px-4 py-3.5 font-mono text-[13px] tabular-nums text-white/65 sm:px-5"
+                        ? "px-4 py-3.5 text-[14px] font-medium text-ink sm:px-5"
+                        : "px-4 py-3.5 font-mono text-[13px] tabular-nums text-ink-muted sm:px-5"
                     }
                   >
                     {cell}
@@ -475,7 +475,7 @@ export function DataTable({
           </tbody>
         </table>
       </div>
-      <figcaption className="mt-3 text-[13px] leading-relaxed text-white/40">
+      <figcaption className="mt-3 text-[13px] leading-relaxed text-ink-faint">
         {caption}
       </figcaption>
     </figure>
@@ -494,21 +494,21 @@ export function Sources({ items }: { items: SourceRef[] }) {
     <ol className="mt-6 space-y-4">
       {items.map((item, index) => (
         <li key={item.url} className="flex gap-4">
-          <span className="mt-0.5 font-mono text-[12px] tabular-nums text-white/30">
+          <span className="mt-0.5 font-mono text-[12px] tabular-nums text-ink-faint">
             {String(index + 1).padStart(2, "0")}
           </span>
           <div className="min-w-0">
-            <p className="text-[14px] leading-snug text-white/80">
+            <p className="text-[14px] leading-snug text-ink">
               <a
                 href={item.url}
                 rel="noopener noreferrer nofollow"
                 target="_blank"
-                className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-[#CCFF00]"
+                className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
               >
                 {item.name}
               </a>
             </p>
-            <p className="mt-1 text-[13px] italic text-white/40">{item.detail}</p>
+            <p className="mt-1 text-[13px] italic text-ink-faint">{item.detail}</p>
           </div>
         </li>
       ))}

@@ -46,9 +46,19 @@ const SIZE = 1080;
  */
 const PHOTO_BAND = 600;
 
-const OBSIDIAN = "#090A0C";
-const SURFACE = "#14161A";
-const LIME = "#CCFF00";
+/**
+ * The card carries LITERAL colours because canvas cannot read CSS
+ * custom properties. These are the dark ("press") theme values from
+ * globals.css, copied by hand — a shared card lands in a feed, not
+ * in the app, and dark is the right ground there.
+ *
+ * KEEP IN SYNC WITH globals.css .dark BY HAND. There is no import
+ * that can do it for you, and a drift here shows up as a card that
+ * is subtly the wrong brand.
+ */
+const PRESS = "#13100C";
+const ACCENT = "#80A5E7";
+const INK = "#EEEBE5";
 
 export interface ShareCardData {
   workout: WorkoutEntry;
@@ -78,8 +88,10 @@ export async function renderShareCard(
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
-  // next/font loads Geist asynchronously. Drawing before it's ready
-  // silently falls back to a system font, so wait for it.
+  // The @font-face faces in globals.css load asynchronously. Drawing
+  // before they are ready silently falls back to a system font, so
+  // wait. (This used to say next/font and Geist; the mechanism changed
+  // with the redesign, the hazard did not.)
   try {
     await document.fonts.ready;
   } catch {
@@ -131,27 +143,16 @@ function drawBackground(
   ctx: CanvasRenderingContext2D,
   photo: SharePhoto | null,
 ) {
-  ctx.fillStyle = OBSIDIAN;
+  ctx.fillStyle = PRESS;
   ctx.fillRect(0, 0, SIZE, SIZE);
 
   if (photo) drawPhoto(ctx, photo);
 
-  // Lime bloom, top-left — the same ambient glow the app uses, so a
-  // shared card is recognisably the same product.
-  //
-  // DELIBERATELY ABSENT FROM THE PHOTO LAYOUT. It was tried in the
-  // solid lower half and rendered as an olive stain behind the
-  // headline: a low-alpha lime wash over near-black reads as dirt, not
-  // as light. On the plain card it has a dark field and a corner to
-  // fall off; in the photo card the photo is already supplying the
-  // visual interest the bloom exists to create.
-  if (!photo) {
-    const bloom = ctx.createRadialGradient(220, 140, 0, 220, 140, 760);
-    bloom.addColorStop(0, "rgba(204, 255, 0, 0.14)");
-    bloom.addColorStop(1, "rgba(204, 255, 0, 0)");
-    ctx.fillStyle = bloom;
-    ctx.fillRect(0, 0, SIZE, SIZE);
-  }
+  // NO BLOOM. The lime radial glow that used to sit top-left is gone
+  // with the rest of the glows (design.md section 4.4). It was already
+  // suppressed on the photo layout for reading as an olive stain; the
+  // honest conclusion was that a low-alpha accent wash over near-black
+  // reads as dirt in every layout, not just that one.
 
   // Inner card edge
   ctx.strokeStyle = photo
@@ -212,7 +213,9 @@ function drawPhoto(ctx: CanvasRenderingContext2D, photo: SharePhoto) {
 
   // Flat knock-back. Enough to stop a blown-out highlight glaring in a
   // feed, light enough that the photo still reads as a photograph.
-  ctx.fillStyle = "rgba(9, 10, 12, 0.20)";
+  // Indigo-deep, not neutral black: a cool scrim keeps skin tones warm
+  // by contrast instead of greying them. design.md section 6.9.
+  ctx.fillStyle = "rgba(28, 43, 83, 0.22)";
   ctx.fillRect(0, 0, SIZE, PHOTO_BAND);
 
   // Top scrim: the logo sits at y=96 and has to survive a white sky or
@@ -261,19 +264,19 @@ function drawPhotoContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
   const WIDTH = RIGHT - LEFT;
 
   // ── Caption, over the foot of the photo ───────────────────────────
-  ctx.strokeStyle = LIME;
+  ctx.strokeStyle = ACCENT;
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.moveTo(LEFT, 470);
   ctx.lineTo(LEFT + 52, 470);
   ctx.stroke();
 
-  ctx.fillStyle = "#FFFFFF";
+  ctx.fillStyle = INK;
   ctx.font = `500 32px ${sansStack()}`;
   wrapText(ctx, quote(workout), LEFT, 512, WIDTH - 40, 42);
 
   // ── Eyebrow ───────────────────────────────────────────────────────
-  ctx.fillStyle = LIME;
+  ctx.fillStyle = ACCENT;
   ctx.font = `500 26px ${monoStack()}`;
   ctx.letterSpacing = "5px";
   ctx.fillText("SESSION COMPLETE", LEFT, 650);
@@ -283,12 +286,12 @@ function drawPhotoContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
   // Shrunk to fit rather than wrapped: a second line here would push
   // into the duration, and there is no slack below to absorb it.
   const label = activityLabel(workout.activity);
-  ctx.fillStyle = "#FFFFFF";
+  ctx.fillStyle = INK;
   fitFont(ctx, label, WIDTH, 72, 40, 600, sansStack());
   ctx.fillText(label, LEFT, 728);
 
   // ── Duration ──────────────────────────────────────────────────────
-  ctx.fillStyle = LIME;
+  ctx.fillStyle = ACCENT;
   ctx.font = `500 100px ${monoStack()}`;
   const minutes = String(workout.durationMin);
   ctx.fillText(minutes, LEFT, 836);
@@ -346,7 +349,7 @@ async function drawLogo(ctx: CanvasRenderingContext2D) {
     ctx.drawImage(logo, 96, 96, width, height);
   } catch {
     // If the logo fails to load, the card still works — draw a dot.
-    ctx.fillStyle = LIME;
+    ctx.fillStyle = ACCENT;
     ctx.beginPath();
     ctx.arc(120, 132, 12, 0, Math.PI * 2);
     ctx.fill();
@@ -400,7 +403,7 @@ function drawContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
   let y = 240;
 
   // Eyebrow
-  ctx.fillStyle = LIME;
+  ctx.fillStyle = ACCENT;
   ctx.font = `500 26px ${monoStack()}`;
   ctx.letterSpacing = "5px";
   ctx.fillText("SESSION COMPLETE", LEFT, y);
@@ -408,13 +411,13 @@ function drawContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
 
   // Activity
   y += 84;
-  ctx.fillStyle = "#FFFFFF";
+  ctx.fillStyle = INK;
   ctx.font = `600 72px ${sansStack()}`;
   y = wrapText(ctx, activityLabel(workout.activity), LEFT, y, WIDTH, 80);
 
   // Duration
   y += 140;
-  ctx.fillStyle = LIME;
+  ctx.fillStyle = ACCENT;
   ctx.font = `500 128px ${monoStack()}`;
   const minutes = String(workout.durationMin);
   ctx.fillText(minutes, LEFT, y);
@@ -466,7 +469,7 @@ function drawContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
       const overflow = all.length > MAX_ROWS && index === MAX_ROWS - 1;
 
       if (!overflow) {
-        ctx.fillStyle = LIME;
+        ctx.fillStyle = ACCENT;
         ctx.font = `400 24px ${monoStack()}`;
         ctx.fillText("—", LEFT, y);
       }
@@ -484,7 +487,7 @@ function drawContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
   // Fixed position, chosen so the bounded list above always clears it.
   const quoteTop = rows.length > 0 ? 806 : 748;
 
-  ctx.strokeStyle = LIME;
+  ctx.strokeStyle = ACCENT;
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.moveTo(LEFT, quoteTop - 46);
@@ -555,7 +558,7 @@ function drawFooter(ctx: CanvasRenderingContext2D) {
 
   // Right: where to get it. Lime, because it's the call to action and
   // the eye should land here last.
-  ctx.fillStyle = LIME;
+  ctx.fillStyle = ACCENT;
   ctx.font = `500 34px ${monoStack()}`;
   const width = ctx.measureText(SHARE_DOMAIN).width;
   ctx.fillText(SHARE_DOMAIN, SIZE - 96 - width, y + 14);
@@ -685,11 +688,14 @@ function wrapText(
 }
 
 function sansStack(): string {
-  return `"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif`;
+  return `"Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif`;
 }
 
 function monoStack(): string {
-  return `"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace`;
+  // Archivo, not a monospace. Canvas2D exposes no font-feature-settings,
+  // so tabular figures cannot be requested here anyway, and nothing on
+  // a share card is in a column that needs aligning.
+  return `"Archivo", ui-sans-serif, system-ui, sans-serif`;
 }
 
 function formatDate(isoDate: string): string {

@@ -73,13 +73,13 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="border-t border-white/[0.07]"
+      className="border-t border-rule"
       aria-labelledby="faq-heading"
     >
       <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-12 lg:self-start">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
               Straight answers
             </p>
             <h2
@@ -87,25 +87,25 @@ export function FaqSection() {
               className="mt-4 text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl"
             >
               Questions people
-              <span className="text-white/50"> actually ask.</span>
+              <span className="text-ink-muted"> actually ask.</span>
             </h2>
           </div>
 
-          <div className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+          <div className="divide-y divide-rule border-y border-rule">
             {FAQS.map((faq) => (
               <details key={faq.question} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50">
-                  <h3 className="text-[16px] font-medium leading-snug text-white/90">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+                  <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {faq.question}
                   </h3>
                   <ChevronDown
-                    className="mt-0.5 size-4 shrink-0 text-white/40 transition-transform group-open:rotate-180"
+                    className="mt-0.5 size-4 shrink-0 text-ink-faint transition-transform group-open:rotate-180"
                     strokeWidth={2.5}
                     aria-hidden
                   />
                 </summary>
 
-                <p className="mt-3 max-w-prose pr-10 text-[15px] leading-relaxed text-white/60">
+                <p className="mt-3 max-w-prose pr-10 text-[15px] leading-relaxed text-ink-muted">
                   {faq.answer}
                 </p>
               </details>

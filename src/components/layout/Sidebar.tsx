@@ -76,7 +76,7 @@ export function Sidebar() {
     <>
       {/* ── Desktop / tablet rail ─────────────────────────────────── */}
       <aside
-        className="fixed inset-y-0 left-0 z-40 hidden w-[76px] flex-col border-r border-white/[0.06] bg-[#0D0F12] md:flex lg:w-64"
+        className="fixed inset-y-0 left-0 z-40 hidden w-[76px] flex-col border-r border-rule bg-paper md:flex lg:w-64"
         aria-label="Primary"
       >
         {/* The full lockup needs horizontal room, so the collapsed
@@ -101,10 +101,10 @@ export function Sidebar() {
           />
         </div>
 
-        <div className="h-px bg-white/[0.06]" />
+        <div className="h-px bg-paper-sunken" />
 
         <nav className="flex flex-1 flex-col gap-1.5 px-3 py-6" aria-label="Main">
-          <p className="mb-2 hidden px-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 lg:block">
+          <p className="mb-2 hidden px-3 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted lg:block">
             Menu
           </p>
 
@@ -122,9 +122,9 @@ export function Sidebar() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium outline-none transition-colors",
-                    "focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50",
-                    active ? "text-[#CCFF00]" : "text-white/60 hover:text-white",
+                    "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium outline-none transition-colors",
+                    "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                    active ? "text-indigo" : "text-ink-muted hover:text-ink",
                   )}
                 >
                   {active && (
@@ -135,7 +135,7 @@ export function Sidebar() {
                           ? { duration: 0 }
                           : { type: "spring", stiffness: 380, damping: 32 }
                       }
-                      className="absolute inset-0 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/[0.07]"
+                      className="absolute inset-0 rounded-md border border-indigo/20 bg-indigo/[0.07]"
                       aria-hidden
                     />
                   )}
@@ -144,8 +144,8 @@ export function Sidebar() {
                     className={cn(
                       "relative z-10 size-5 shrink-0 transition-colors",
                       active
-                        ? "text-[#CCFF00]"
-                        : "text-white/50 group-hover:text-white/80",
+                        ? "text-indigo"
+                        : "text-ink-muted group-hover:text-ink",
                     )}
                     strokeWidth={2}
                   />
@@ -160,33 +160,33 @@ export function Sidebar() {
 
         {/* User footer */}
         <div className="px-3 pb-5">
-          <div className="mb-4 h-px bg-white/[0.06]" />
+          <div className="mb-4 h-px bg-paper-sunken" />
 
           {isLoading ? (
             <div className="flex items-center gap-3 px-2 py-1.5 lg:px-3">
-              <Skeleton className="size-9 shrink-0 rounded-full bg-white/[0.06]" />
+              <Skeleton className="size-9 shrink-0 rounded-full bg-paper-sunken" />
               <div className="hidden flex-1 space-y-1.5 lg:block">
-                <Skeleton className="h-3.5 w-24 rounded bg-white/[0.06]" />
-                <Skeleton className="h-3 w-32 rounded bg-white/[0.06]" />
+                <Skeleton className="h-3.5 w-24 rounded bg-paper-sunken" />
+                <Skeleton className="h-3 w-32 rounded bg-paper-sunken" />
               </div>
             </div>
           ) : (
             <div className="flex items-center gap-1.5">
               <Link
                 href="/profile"
-                className="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-1.5 outline-none transition-colors hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 lg:px-3"
+                className="flex min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-1.5 outline-none transition-colors hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo/50 lg:px-3"
               >
-                <Avatar className="size-9 border border-white/10">
+                <Avatar className="size-9 border border-rule">
                   {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
-                  <AvatarFallback className="bg-[#1F2228] text-xs font-semibold text-[#CCFF00]">
+                  <AvatarFallback className="bg-paper-raised text-xs font-semibold text-indigo">
                     {initial}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden min-w-0 lg:block">
-                  <p className="truncate text-sm font-medium text-white">
+                  <p className="truncate text-sm font-medium text-ink">
                     {displayName}
                   </p>
-                  <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-white/50">
+                  <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">
                     {subline}
                   </p>
                 </div>
@@ -196,7 +196,7 @@ export function Sidebar() {
                 type="button"
                 onClick={() => void signOutUser()}
                 aria-label="Sign out"
-                className="hidden size-8 shrink-0 items-center justify-center rounded-lg text-white/50 outline-none transition-colors hover:bg-white/[0.06] hover:text-white/80 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 lg:flex"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 lg:flex"
               >
                 <LogOut className="size-4" strokeWidth={2} />
               </button>
@@ -207,7 +207,7 @@ export function Sidebar() {
 
       {/* ── Mobile bottom tab bar ─────────────────────────────────── */}
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] bg-[#0D0F12]/95 backdrop-blur-md md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-paper/95 backdrop-blur-md md:hidden"
         aria-label="Primary"
       >
         <div className="mx-auto flex max-w-md items-stretch justify-around px-1 pb-[env(safe-area-inset-bottom)]">
@@ -221,9 +221,9 @@ export function Sidebar() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex min-h-14 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-0.5 font-mono text-[9px] uppercase tracking-[0.04em] outline-none transition-colors active:bg-white/[0.04]",
-                  "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#CCFF00]/50",
-                  active ? "text-[#CCFF00]" : "text-white/50",
+                  "flex min-h-14 flex-1 flex-col items-center justify-center gap-1 rounded-md px-0.5 font-mono text-[9px] uppercase tracking-[0.04em] outline-none transition-colors active:bg-paper-sunken",
+                  "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo/50",
+                  active ? "text-indigo" : "text-ink-muted",
                 )}
               >
                 <Icon className="size-5" strokeWidth={active ? 2.25 : 2} />

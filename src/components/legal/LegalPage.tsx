@@ -25,7 +25,7 @@ interface LegalPageProps {
  */
 export function LegalPage({ title, updated, children }: LegalPageProps) {
   return (
-    <div className="min-h-dvh bg-[#090A0C] text-white">
+    <div className="min-h-dvh bg-paper text-ink">
       <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-6 md:px-8">
         <Link href="/" className="flex items-center gap-3 outline-none">
           <Image
@@ -39,7 +39,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
 
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/60 outline-none transition-colors hover:border-[#CCFF00]/30 hover:text-[#CCFF00] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="inline-flex items-center gap-1.5 rounded-full border border-rule px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted outline-none transition-colors hover:border-indigo/30 hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           <ArrowLeft className="size-3" strokeWidth={2.5} />
           Back
@@ -47,28 +47,28 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
       </header>
 
       <main className="mx-auto w-full max-w-3xl px-5 pb-20 pt-6 md:px-8">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#CCFF00]/70">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
           Legal
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
           {title}
         </h1>
-        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-muted">
           Last updated {updated}
         </p>
 
         <div className="mt-10 max-w-[68ch] space-y-8">{children}</div>
       </main>
 
-      <footer className="border-t border-white/[0.06]">
-        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-8 font-mono text-[10px] uppercase tracking-[0.14em] text-white/50 md:px-8">
+      <footer className="border-t border-rule">
+        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-8 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted md:px-8">
           <Link
             href="/privacy"
-            className="transition-colors hover:text-white/80"
+            className="transition-colors hover:text-ink"
           >
             Privacy
           </Link>
-          <Link href="/terms" className="transition-colors hover:text-white/80">
+          <Link href="/terms" className="transition-colors hover:text-ink">
             Terms
           </Link>
           <span className="ml-auto">AdimFit</span>
@@ -88,10 +88,10 @@ export function Section({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-lg font-semibold tracking-[-0.02em] text-white">
+      <h2 className="text-lg font-semibold tracking-[-0.02em] text-ink">
         {heading}
       </h2>
-      <div className="space-y-3 text-[15px] leading-relaxed text-white/60">
+      <div className="space-y-3 text-[15px] leading-relaxed text-ink-muted">
         {children}
       </div>
     </section>
@@ -106,7 +106,7 @@ export function List({ items }: { items: ReactNode[] }) {
         <li key={index} className="flex gap-3">
           <span
             aria-hidden
-            className="mt-[0.6em] size-1 shrink-0 rounded-full bg-[#CCFF00]/50"
+            className="mt-[0.6em] size-1 shrink-0 rounded-full bg-indigo/50"
           />
           <span className="flex-1">{item}</span>
         </li>

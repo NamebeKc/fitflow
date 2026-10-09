@@ -124,7 +124,7 @@ function BillingReturn() {
     return (
       <Shell
         icon={
-          <CheckCircle2 className="size-7 text-[#CCFF00]" strokeWidth={2} />
+          <CheckCircle2 className="size-7 text-indigo" strokeWidth={2} />
         }
         accent
         title="You're all set."
@@ -133,7 +133,7 @@ function BillingReturn() {
         <button
           type="button"
           onClick={() => router.push("/coach")}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#CCFF00] px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-[#d9ff33] focus-visible:ring-2 focus-visible:ring-[#CCFF00]/60 active:scale-[0.99]"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
         >
           Open your coach
           <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -145,13 +145,13 @@ function BillingReturn() {
   if (state === "cancelled") {
     return (
       <Shell
-        icon={<AlertCircle className="size-7 text-white/60" strokeWidth={2} />}
+        icon={<AlertCircle className="size-7 text-ink-muted" strokeWidth={2} />}
         title="Payment cancelled"
         body="Nothing was charged. You can subscribe whenever you're ready."
       >
         <Link
           href="/today"
-          className="flex w-full items-center justify-center rounded-full border border-white/12 px-6 py-3.5 text-[15px] font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
+          className="flex w-full items-center justify-center rounded-full border border-rule px-6 py-3.5 text-[15px] font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
         >
           Back to AdimFit
         </Link>
@@ -171,13 +171,13 @@ function BillingReturn() {
       <div className="space-y-2.5">
         <Link
           href="/today"
-          className="flex w-full items-center justify-center rounded-full border border-white/12 px-6 py-3.5 text-[15px] font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white"
+          className="flex w-full items-center justify-center rounded-full border border-rule px-6 py-3.5 text-[15px] font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink"
         >
           Back to AdimFit
         </Link>
         <a
           href="mailto:support@adimfit.com?subject=AdimFit%20payment%20issue"
-          className="block text-center text-[13px] text-white/50 underline underline-offset-4 transition-colors hover:text-white/80"
+          className="block text-center text-[13px] text-ink-muted underline underline-offset-4 transition-colors hover:text-ink"
         >
           Email support
         </a>
@@ -191,7 +191,7 @@ function Pending() {
     <Shell
       icon={
         <Loader2
-          className="size-7 animate-spin text-white/60"
+          className="size-7 animate-spin text-ink-muted"
           strokeWidth={2}
         />
       }
@@ -217,19 +217,19 @@ function Shell({
   return (
     <div className="mx-auto flex min-h-[60dvh] w-full max-w-md flex-col items-center justify-center text-center">
       <div
-        className={`flex size-14 items-center justify-center rounded-2xl border ${
+        className={`flex size-14 items-center justify-center rounded-md border ${
           accent
-            ? "border-[#CCFF00]/25 bg-[#CCFF00]/[0.07]"
-            : "border-white/[0.09] bg-black/30"
+            ? "border-indigo/25 bg-indigo/[0.07]"
+            : "border-rule bg-ink/30"
         }`}
       >
         {icon}
       </div>
 
-      <h1 className="mt-6 text-2xl font-semibold tracking-[-0.03em] text-white">
+      <h1 className="mt-6 text-2xl font-semibold tracking-[-0.03em] text-ink">
         {title}
       </h1>
-      <p className="mt-3 text-[15px] leading-relaxed text-white/60">{body}</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">{body}</p>
 
       {children && <div className="mt-8 w-full">{children}</div>}
     </div>
