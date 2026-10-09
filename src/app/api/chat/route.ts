@@ -7,6 +7,10 @@ import { getOrCreateBilling } from "@/lib/billing-admin";
 import { isEntitled } from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
 import {
+  buildNutritionContext,
+  nutritionCoachingRules,
+} from "@/lib/nutrition";
+import {
   activityLabel,
   calculateBmi,
   environmentLabel,
@@ -210,7 +214,11 @@ export async function POST(request: Request) {
       try {
         const claudeStream = anthropic.messages.stream({
           model: "claude-sonnet-4-6",
-          max_tokens: 1200,
+          // Raised from 1200 when nutrition coaching shipped. A reply
+          // that carries a full day of eating alongside the usual
+          // reasoning runs past 1200 and was being truncated
+          // mid-meal. This is a ceiling, not a spend.
+          max_tokens: 2000,
           system: [
             {
               type: "text" as const,
@@ -672,6 +680,7 @@ function buildStaticRules(): string {
       "• Never prescribe extreme caloric restriction, crash diets, or fasting protocols. If asked, decline warmly without lecturing and offer a sustainable alternative.",
       "• If the user sets a weight target, keep any rate of change sustainable — at most around 0.5-1% of bodyweight per week — and say plainly that faster is neither safer nor more durable. Never endorse an aggressive deadline.",
       "• If a user's stated target or described eating patterns suggest disordered eating, do not provide numeric targets, meal plans, or deficit calculations. Express care briefly, and suggest speaking with a doctor or dietitian.",
+      "• READ THE THREE RULES ABOVE AS LIMITS ON NUTRITION COACHING, NOT AS A PROHIBITION OF IT. Food is in scope and has its own section below. Until October 2026 these three were the ONLY things this prompt said about food, and the coach consequently refused to engage on diet at all — which was never the intent, and was a complaint from paying users.",
       "• Never frame rest as failure. Recovery days are part of training.",
       "• When in doubt between more and less, prescribe LESS. An under-challenging session costs a few days of progress; an over-challenging one can cost weeks and put someone off training entirely.",
       "• Never comment on the user's body or appearance beyond what training requires.",
@@ -748,6 +757,12 @@ function buildStaticRules(): string {
     ].join("\n"),
   );
 
+  // ── Nutrition ────────────────────────────────────────────────────
+  // Lives in lib/nutrition.ts beside the arithmetic it governs. Safe
+  // in the cached half: it is byte-identical for every user, and all
+  // per-user figures go through buildNutritionContext instead.
+  sections.push(nutritionCoachingRules());
+
   sections.push(
     [
       "STRUCTURED PLAN BLOCK — STRICT RULES:",
@@ -762,7 +777,7 @@ function buildStaticRules(): string {
       "DO NOT emit a plan block when:",
       "• The user asks about the PAST — 'what did I do this week', 'how am I doing', 'summarise my month'. These are reports. Never attach a card to a report.",
       "• The user asks for a WEEK, a split, or any multi-day overview — 'what is the plan for the week', 'build me a 4-day split'. Describe the week in prose and emit NOTHING. If they then say 'give me today's session in detail', that reply gets the block.",
-      "• The user asks a technique, nutrition, recovery, equipment, or general question.",
+      "• The user asks a technique, nutrition, recovery, equipment, or general question. ANSWER IT FULLY — this list governs the CARD, not the reply. A food question gets a complete answer; see the nutrition section.",
       "• You are greeting them, encouraging them, or making conversation.",
       "• You are only suggesting or offering — 'I could put together a session if you like'. Emit the block when you deliver the session, not when you offer it.",
       "• You already prescribed a session for that same day earlier in this conversation and nothing has changed.",
@@ -805,8 +820,6 @@ function buildStaticRules(): string {
       "• NEVER mention the block, JSON, cards, or logging in your prose. The user sees a tidy card; the markup is invisible to them.",
     ].join("\n"),
   );
-
-  return sections.join("\n\n");
 
   return sections.join("\n\n");
 }
@@ -982,6 +995,11 @@ function buildUserContext(
       "The user has no logged workouts yet. This is session one: keep it achievable, explain form briefly, and set a baseline you can progress from next time.",
     );
   }
+
+  // Every number the coach may state about food. Computed in
+  // TypeScript, never by the model — see lib/nutrition.ts. Depends on
+  // the workout log for its activity factor, so it goes last.
+  sections.push(buildNutritionContext(profile, workouts, today));
 
   return sections.join("\n\n");
 }

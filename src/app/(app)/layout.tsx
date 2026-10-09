@@ -8,9 +8,13 @@ import { InstallPrompt } from "@/components/pwa/InstallPrompt";
  * Layout for the product itself.
  *
  * Everything that requires a signed-in user lives under this group:
- * dashboard, coach, log, profile. The gates, the navigation, and the
- * install prompt all belong here rather than at the root, so public
- * pages don't inherit them.
+ * dashboard (`/today`), coach, log, profile. The gates, the
+ * navigation, and the install prompt all belong here rather than at
+ * the root, so public pages don't inherit them.
+ *
+ * `/` is NOT in this group. It is the public landing page, a server
+ * component with no gate in front of it, which is what makes the
+ * homepage indexable.
  *
  * Two gates, in order: AuthGate decides whether there is a user,
  * PaywallGate whether that user has paid. The sidebar sits BETWEEN

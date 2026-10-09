@@ -17,6 +17,8 @@ rules_version = '2';
 //   users/{uid}                      profile.ts        read + write
 //   users/{uid}/workouts             workouts.ts       read + write
 //   users/{uid}/measurements         measurements.ts   read + write
+//   users/{uid}/vitals               vitals.ts         read + write
+//   screenings/{id}                  screenings.ts     read (published only)
 //   users/{uid}/messages             chat.ts           read + write
 //   users/{uid}/plans                plans.ts          read + write
 //   users/{uid}/billing/subscription subscription.ts   read only
@@ -36,6 +38,17 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
+    // Curated free-screening directory. Readable by any signed-in user,
+    // and ONLY the rows a human has published — drafts and cancelled
+    // entries must never reach a client, because an unreviewed listing
+    // is the whole risk this feature carries. Writes are server-side
+    // through the Admin SDK; there is no client path, by design.
+    match /screenings/{screeningId} {
+      allow read: if request.auth != null
+                  && resource.data.status == "published";
+      allow write: if false;
+    }
+
     match /users/{uid} {
       // The profile document. Its mere existence is what tells the app
       // onboarding is complete — which is exactly why attribution is
@@ -47,6 +60,14 @@ service cloud.firestore {
       }
 
       match /measurements/{measurementId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // Blood pressure. Held apart from measurements because it is
+      // health data with its own consent story — the one field that
+      // might later be shared, with explicit permission, outside the
+      // app. Owner-only until that consent exists, with no exception.
+      match /vitals/{vitalsId} {
         allow read, write: if isOwner(uid);
       }
 

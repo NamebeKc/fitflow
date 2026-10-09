@@ -46,6 +46,8 @@ export type AnalyticsEvent =
   | "exercise_video_opened"
   | "conversation_cleared"
   | "rest_timer_started"
+  | "session_timer_started"
+  | "session_timer_stopped"
   | "screen_wake_lock_toggled"
   // ── Logging ──────────────────────────────────────────────────────
   | "workout_log_started"
@@ -54,6 +56,8 @@ export type AnalyticsEvent =
   | "workout_first_logged"
   | "workout_shared"
   | "share_dialog_opened"
+  | "share_photo_attached"
+  | "share_photo_removed"
   // ── Habit & retention ────────────────────────────────────────────
   | "streak_week_reached"
   | "dashboard_viewed"
@@ -86,10 +90,19 @@ export type AnalyticsEvent =
   | "push_permission_denied"
   | "reminders_disabled"
   // ── Not yet built — declared so funnels can be pre-built ─────────
+  //
+  // `strava_connect_started` / `strava_connected` were removed on
+  // 25 Sep 2026. Strava's API Policy (effective 1 June 2026) §5.3
+  // prohibits use of Strava data "in connection with the development,
+  // training, evaluation, or operation of any AI Application",
+  // explicitly naming retrieval-augmented generation and ingestion
+  // into a context window — which is exactly how the coach reads
+  // training history. §5.4 separately forbids combining Strava data
+  // with other customer data. Neither is waivable, so the integration
+  // is not blocked on effort; it is unavailable. See
+  // `claude/adimfit-hmo-evidence-brief.md` for what replaces it.
   | "reminder_opened"
-  | "weekly_summary_viewed"
-  | "strava_connect_started"
-  | "strava_connected";
+  | "weekly_summary_viewed";
 
 type EventProperties = Record<
   string,

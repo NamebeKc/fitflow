@@ -37,12 +37,58 @@ interface ExerciseVideoLinkProps {
  * requires `playlist` set to the same video ID — a YouTube quirk).
  * Muted autoplay is what browsers require for looping; the footer link
  * opens the video on YouTube proper, with sound.
+ *
+ * ── WHY COMPACT MODE SHOWS A PICTURE ────────────────────────────────
+ * It used to be a 32px circle with a play triangle in it. A user who
+ * had been through the app asked us to add exercise images, because
+ * "some naive users might not be conversant with the postures" — the
+ * demos were already there, sitting behind an affordance that looked
+ * like a generic button. The feature was not missing; it was invisible.
+ *
+ * A still frame from the demo fixes that: the row now shows the
+ * movement rather than describing it, which is the actual request.
+ *
+ * Two constraints shape the implementation. Thumbnails are `mqdefault`
+ * (320×180, ~10KB) and lazy-loaded, because a plan card can hold six
+ * rows and a large share of users are on metered Nigerian mobile data.
+ * And `onError` falls back to the glyph, because YouTube serves a
+ * placeholder or a 404 for deleted uploads — a broken-image icon in a
+ * plan card looks far worse than the button we started with.
  */
 export function ExerciseVideoLink({
   video,
   compact = false,
 }: ExerciseVideoLinkProps) {
   const [open, setOpen] = useState(false);
+  const [thumbFailed, setThumbFailed] = useState(false);
+
+  const showThumb = compact && video.youtubeId !== null && !thumbFailed;
+
+  /** Shared tile chrome, so both branches keep the same row rhythm. */
+  const tileClass =
+    "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-black/40 outline-none transition-all hover:border-[#CCFF00]/40 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95";
+
+  const thumb = showThumb ? (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://i.ytimg.com/vi/${video.youtubeId}/mqdefault.jpg`}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        onError={() => setThumbFailed(true)}
+        className="absolute inset-0 size-full object-cover"
+      />
+      {/* Scrim: thumbnails vary wildly in brightness and the glyph has
+          to stay readable on a white-gym-wall frame as well as a dark
+          one. */}
+      <span className="absolute inset-0 bg-black/35" aria-hidden />
+      <Play
+        className="relative size-3 fill-white text-white drop-shadow"
+        strokeWidth={0}
+      />
+    </>
+  ) : null;
 
   const embedSrc =
     `https://www.youtube-nocookie.com/embed/${video.youtubeId}` +
@@ -67,7 +113,7 @@ export function ExerciseVideoLink({
         aria-label={`Search YouTube for ${video.exercise} technique`}
         className={
           compact
-            ? "flex size-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/40 outline-none transition-all hover:border-[#CCFF00]/40 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95"
+            ? tileClass
             : "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-[13px] font-medium text-white/60 outline-none transition-all hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.98]"
         }
       >
@@ -94,18 +140,16 @@ export function ExerciseVideoLink({
         aria-label={`How to do ${video.exercise}`}
         className={
           compact
-            ? "flex size-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/40 outline-none transition-all hover:border-[#CCFF00]/40 focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-95"
+            ? tileClass
             : "inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-[13px] font-medium text-white/60 outline-none transition-all hover:border-[#CCFF00]/30 hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50 active:scale-[0.98]"
         }
       >
-        <Play
-          className={
-            compact
-              ? "size-3 fill-[#CCFF00] text-[#CCFF00]"
-              : "size-3 fill-[#CCFF00] text-[#CCFF00]"
-          }
-          strokeWidth={0}
-        />
+        {thumb ?? (
+          <Play
+            className="size-3 fill-[#CCFF00] text-[#CCFF00]"
+            strokeWidth={0}
+          />
+        )}
         {!compact && video.exercise}
       </DialogTrigger>
 

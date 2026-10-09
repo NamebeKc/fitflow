@@ -42,3 +42,9 @@ next-env.d.ts
 
 # env files
 .env*.local
+
+# Claude session scratch — renders, one-off scripts, copies of project docs
+/Claude outputs/
+
+# Generated bundles: the PNGs beside them are the source of truth
+marketing/**/*.zip

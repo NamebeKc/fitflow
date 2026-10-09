@@ -150,7 +150,7 @@ function BillingReturn() {
         body="Nothing was charged. You can subscribe whenever you're ready."
       >
         <Link
-          href="/"
+          href="/today"
           className="flex w-full items-center justify-center rounded-full border border-white/12 px-6 py-3.5 text-[15px] font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus-visible:ring-2 focus-visible:ring-[#CCFF00]/50"
         >
           Back to AdimFit
@@ -170,7 +170,7 @@ function BillingReturn() {
     >
       <div className="space-y-2.5">
         <Link
-          href="/"
+          href="/today"
           className="flex w-full items-center justify-center rounded-full border border-white/12 px-6 py-3.5 text-[15px] font-medium text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white"
         >
           Back to AdimFit
@@ -234,4 +234,4 @@ function Shell({
       {children && <div className="mt-8 w-full">{children}</div>}
     </div>
   );
-}
+}

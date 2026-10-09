@@ -57,6 +57,20 @@ export interface UserProfile {
   baselineActiveDays?: BaselineActivityId;
   /** When the baseline was answered. Recall degrades; this dates it. */
   baselineCapturedAt?: string;
+  /**
+   * Nigerian state, used to show nearby free health screenings.
+   *
+   * COARSE AND SELF-DECLARED, NEVER SENSED. No geolocation is
+   * requested and none is stored: screening events are advertised at
+   * area granularity, so precise position buys nothing and would cost
+   * a permission prompt, an NDPA obligation over location data, and a
+   * privacy claim the app currently makes truthfully. Absent means the
+   * user has not said, which is a valid state — the directory simply
+   * asks before it lists.
+   */
+  state?: string;
+  /** LGA or neighbourhood, free text. Refines display, not the query. */
+  area?: string;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
 }

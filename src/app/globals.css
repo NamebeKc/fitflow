@@ -141,3 +141,85 @@
     font-size: 16px !important;
   }
 }
+/* ── Entrance motion, without JavaScript ──────────────────────────
+   Framer Motion cannot run in a server component, and the landing
+   page must render its copy in the HTML source for crawlers that do
+   not execute JavaScript. These keyframes reproduce the previous
+   `rise` and `step` transitions exactly — same easing, same offsets,
+   same stagger — so the page looks identical while shipping none of
+   the animation library to the browser for static content.
+
+   `both` fill mode matters: it holds the opening frame before the
+   delay elapses, which is what prevents a flash of finished content
+   ahead of the animation.
+   ───────────────────────────────────────────────────────────────── */
+@keyframes adim-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes adim-step {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: adim-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.step {
+  animation: adim-step 0.45s ease-out both;
+}
+
+.delay-120 {
+  animation-delay: 0.12s;
+}
+.delay-160 {
+  animation-delay: 0.16s;
+}
+.delay-240 {
+  animation-delay: 0.24s;
+}
+.delay-260 {
+  animation-delay: 0.26s;
+}
+.delay-320 {
+  animation-delay: 0.32s;
+}
+.delay-350 {
+  animation-delay: 0.35s;
+}
+.delay-600 {
+  animation-delay: 0.6s;
+}
+.delay-900 {
+  animation-delay: 0.9s;
+}
+.delay-1150 {
+  animation-delay: 1.15s;
+}
+
+/* Someone who has asked the operating system to stop moving things
+   gets the finished state immediately. Overriding `animation` alone
+   is not enough — `both` would otherwise leave the opening frame
+   applied — so the end state is restated. */
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .step {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

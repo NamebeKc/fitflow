@@ -58,12 +58,30 @@ export interface WorkoutEntry {
   /**
    * Steps, entered by hand.
    *
-   * A PWA cannot read the phone's pedometer: `DeviceMotionEvent` only
-   * counts while the page is open and in the foreground, HealthKit is
-   * native-only, and Google Fit's REST API is being retired. Rather
-   * than ship a counter that silently undercounts whenever the screen
-   * locks, this is a number people copy from the health app they
-   * already have. Automatic import arrives with Strava.
+   * MANUAL IS THE PERMANENT ANSWER, NOT A STOPGAP. Two independent
+   * walls close every automatic route:
+   *
+   *   Technical — a PWA cannot read the phone's pedometer.
+   *   `DeviceMotionEvent` only counts while the page is open and in
+   *   the foreground; HealthKit and Health Connect are on-device
+   *   native APIs with no web or server endpoint; Google Fit's REST
+   *   API closed to new developers in May 2024 and is being retired.
+   *
+   *   Contractual — Strava's API Policy (effective 1 June 2026) §5.3
+   *   bars Strava data from "the development, training, evaluation, or
+   *   operation of any AI Application", naming RAG and context-window
+   *   ingestion specifically, and §5.4 bars combining it with other
+   *   customer data. An AI coach reading imported activities is the
+   *   prohibited case, not an edge of it.
+   *
+   * Of the web-reachable providers only Garmin permits AI processing
+   * outright, and its device base among our users is near zero. So this
+   * stays a number people copy from the health app they already have,
+   * rather than a counter that silently undercounts whenever the
+   * screen locks.
+   *
+   * The only route to verified activity is a native Android shell
+   * reading Health Connect. Revisit if an HMO makes it a condition.
    */
   steps?: number;
   createdAt: string; // ISO timestamp

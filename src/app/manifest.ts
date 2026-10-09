@@ -21,7 +21,10 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "AdimFit",
     description:
       "A coach that remembers every session. Adaptive training built from your own training history.",
-    start_url: "/",
+    // The installed app opens the dashboard. `/` is the public
+    // landing page now, and someone who installed the app has
+    // already read it.
+    start_url: "/today",
     // `standalone` is what removes the browser chrome — the difference
     // between a bookmark and something that feels like an app.
     display: "standalone",

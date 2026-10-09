@@ -1,0 +1,43 @@
+# Line endings: normalised in the repository, native in the worktree.
+#
+# WHY THIS FILE EXISTS. Without it, what lands in a commit depends on
+# whoever's `core.autocrlf` happens to run, and any file written by
+# tooling that does not convert arrives as LF into an otherwise CRLF
+# worktree. The cost is not theoretical: staging this repo on 9 October
+# 2026 produced a 1,048-line diff on `src/lib/subscription.ts` of which
+# 372 lines were real changes. Roughly 60% of that commit was
+# line-ending churn — which buries real edits in review and makes
+# `git blame` useless on the files it touches.
+#
+# `text=auto` stores text as LF and checks it out as the platform
+# prefers. Git sniffs binary content and leaves it untouched.
+* text=auto
+
+# Explicit for the extensions worth never guessing about.
+*.ts    text
+*.tsx   text
+*.js    text
+*.mjs   text
+*.cjs   text
+*.json  text
+*.css   text
+*.md    text
+*.html  text
+*.txt   text
+*.yaml  text
+*.yml   text
+*.rules text
+
+# Never touched, never diffed as text.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.webm  binary
+*.mp4   binary
+*.pdf   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary

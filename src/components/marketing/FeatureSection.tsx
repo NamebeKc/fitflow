@@ -1,7 +1,4 @@
 // src/components/marketing/FeatureSection.tsx
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
 
 /**
  * ── WHAT IT DOES ────────────────────────────────────────────────────
@@ -24,26 +21,22 @@ import { motion, useReducedMotion } from "framer-motion";
  * Motion is transform and opacity only — the two properties the
  * compositor can animate without re-layout — and it respects
  * `prefers-reduced-motion`.
+ *
+ * NOW A SERVER COMPONENT. This section used Framer Motion's
+ * `whileInView`, which meant none of its copy existed in the HTML
+ * source: a crawler that does not execute JavaScript — which is every
+ * AI retrieval bot — saw an empty page. The same transitions are now
+ * CSS keyframes in `globals.css`, so the text ships in the document
+ * and the animation library ships nowhere.
+ *
+ * The one behavioural change: these play on load rather than on
+ * scroll. Below the fold that simply means the content is already
+ * settled by the time it is reached, which is the better outcome
+ * anyway — scroll-triggered pop-in is a cost, not a feature.
  * ─────────────────────────────────────────────────────────────────────
  */
 
 export function FeatureSection() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const rise = (delay: number) =>
-    prefersReducedMotion
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, margin: "-80px" },
-          transition: {
-            duration: 0.6,
-            delay,
-            ease: [0.16, 1, 0.3, 1] as const,
-          },
-        };
-
   return (
     <section
       id="how-it-works"
@@ -57,7 +50,7 @@ export function FeatureSection() {
       />
 
       <div className="relative mx-auto w-full max-w-[1180px] px-5 md:px-8">
-        <motion.header {...rise(0)} className="max-w-xl">
+        <header className="rise max-w-xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/50">
             How it works
           </p>
@@ -67,11 +60,11 @@ export function FeatureSection() {
               Each one makes the next better.
             </span>
           </h2>
-        </motion.header>
+        </header>
 
         {/* Asymmetric: the differentiator gets the span. */}
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
-          <motion.div {...rise(0.08)} className="lg:col-span-2">
+          <div className="rise delay-120 lg:col-span-2">
             <FeatureCard
               index="01"
               title="Your coach remembers"
@@ -79,27 +72,27 @@ export function FeatureSection() {
               glyph={<MemoryGlyph />}
               wide
             />
-          </motion.div>
+          </div>
 
-          <motion.div {...rise(0.16)}>
+          <div className="rise delay-160">
             <FeatureCard
               index="02"
-              title="Three taps to log"
+              title="Seconds to log"
               body="Activity, duration, done. No spreadsheets, no barcode scanning."
               glyph={<LogGlyph />}
             />
-          </motion.div>
+          </div>
 
-          <motion.div {...rise(0.24)}>
+          <div className="rise delay-240">
             <FeatureCard
               index="03"
               title="It adapts to your week"
               body="Hotel room and twenty minutes? The session rebuilds without losing progress."
               glyph={<AdaptGlyph />}
             />
-          </motion.div>
+          </div>
 
-          <motion.div {...rise(0.32)} className="lg:col-span-2">
+          <div className="rise delay-320 lg:col-span-2">
             <FeatureCard
               index="04"
               title="Progress you can see"
@@ -107,7 +100,7 @@ export function FeatureSection() {
               glyph={<ProgressGlyph />}
               wide
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -230,7 +223,7 @@ function LogGlyph() {
     >
       <rect x="10" y="8" width="44" height="48" rx="7" strokeOpacity="0.3" />
       <path d="M20 24h16M20 34h24M20 44h10" strokeOpacity="0.55" />
-      {/* Three taps */}
+      {/* One entry, three fields */}
       <circle cx="47" cy="24" r="2.5" fill="currentColor" stroke="none" />
       <circle cx="47" cy="34" r="2.5" fill="currentColor" stroke="none" opacity="0.6" />
       <circle cx="47" cy="44" r="2.5" fill="currentColor" stroke="none" opacity="0.3" />

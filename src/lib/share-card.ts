@@ -6,6 +6,7 @@ import {
   type WorkoutEntry,
 } from "@/lib/workouts";
 import { lineForCard } from "@/lib/share-lines";
+import type { SharePhoto } from "@/lib/share-photo";
 
 /**
  * ── SHAREABLE WORKOUT CARD ──────────────────────────────────────────
@@ -35,6 +36,16 @@ import { lineForCard } from "@/lib/share-lines";
 const SHARE_DOMAIN = "adimfit.com";
 
 const SIZE = 1080;
+
+/**
+ * Height of the photo band in the photo-forward layout.
+ *
+ * 600 of 1080 — the photo has to be the first thing read, or attaching
+ * one is pointless. Everything below is solid obsidian, so text
+ * contrast in the lower 44% does not depend on the image at all.
+ */
+const PHOTO_BAND = 600;
+
 const OBSIDIAN = "#090A0C";
 const SURFACE = "#14161A";
 const LIME = "#CCFF00";
@@ -45,6 +56,15 @@ export interface ShareCardData {
   streakWeeks?: number;
   /** First name, if the user wants it on the card. */
   name?: string;
+  /**
+   * An optional photo the user attached at share time, decoded by
+   * `share-photo.ts`.
+   *
+   * Drawn here and dropped when the dialog closes. Nothing in this
+   * module or that one uploads or persists it — the only artefact that
+   * outlives the share is the composited PNG the user chose to post.
+   */
+  photo?: SharePhoto | null;
 }
 
 /** Draws the card and returns it as a PNG blob. */
@@ -66,33 +86,254 @@ export async function renderShareCard(
     // Non-fatal — system fallback still renders.
   }
 
-  drawBackground(ctx);
+  const photo = data.photo ?? null;
+
+  drawBackground(ctx, photo);
   await drawLogo(ctx);
-  drawContent(ctx, data);
+
+  // Two templates, not one template with a photo switch. The card
+  // without a photo is a dense text card and every measurement in
+  // `drawContent` is tuned for that; the card with one is a poster and
+  // wants different type sizes, a different order, and less of the
+  // session detail. Branching here keeps the original card byte-for-
+  // byte identical rather than slowly compromising both.
+  if (photo) {
+    drawPhotoContent(ctx, data);
+  } else {
+    drawContent(ctx, data);
+  }
+
   drawFooter(ctx);
 
+  // FORMAT FOLLOWS CONTENT, and it matters more than it looks.
+  //
+  // Measured on a 1080² render of this card:
+  //
+  //   no photo, PNG    ~630KB   (flat fields, crisp type — PNG's job)
+  //   photo,    PNG    ~730KB
+  //   photo,    JPEG    ~95KB   ← 7-8× smaller
+  //
+  // A photograph is close to the worst case for PNG, and the gap widens
+  // with real sensor noise — a large file is slow to hand to a share
+  // sheet and gets recompressed by some targets anyway. At q=0.9 the
+  // JPEG is
+  // indistinguishable here: the top band is a photo already, and
+  // everything below it is flat obsidian, which JPEG encodes almost
+  // perfectly.
+  const type = data.photo ? "image/jpeg" : "image/png";
+
   return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), "image/png", 0.95);
+    canvas.toBlob((blob) => resolve(blob), type, 0.9);
   });
 }
 
-function drawBackground(ctx: CanvasRenderingContext2D) {
+function drawBackground(
+  ctx: CanvasRenderingContext2D,
+  photo: SharePhoto | null,
+) {
   ctx.fillStyle = OBSIDIAN;
   ctx.fillRect(0, 0, SIZE, SIZE);
 
+  if (photo) drawPhoto(ctx, photo);
+
   // Lime bloom, top-left — the same ambient glow the app uses, so a
   // shared card is recognisably the same product.
-  const bloom = ctx.createRadialGradient(220, 140, 0, 220, 140, 760);
-  bloom.addColorStop(0, "rgba(204, 255, 0, 0.14)");
-  bloom.addColorStop(1, "rgba(204, 255, 0, 0)");
-  ctx.fillStyle = bloom;
-  ctx.fillRect(0, 0, SIZE, SIZE);
+  //
+  // DELIBERATELY ABSENT FROM THE PHOTO LAYOUT. It was tried in the
+  // solid lower half and rendered as an olive stain behind the
+  // headline: a low-alpha lime wash over near-black reads as dirt, not
+  // as light. On the plain card it has a dark field and a corner to
+  // fall off; in the photo card the photo is already supplying the
+  // visual interest the bloom exists to create.
+  if (!photo) {
+    const bloom = ctx.createRadialGradient(220, 140, 0, 220, 140, 760);
+    bloom.addColorStop(0, "rgba(204, 255, 0, 0.14)");
+    bloom.addColorStop(1, "rgba(204, 255, 0, 0)");
+    ctx.fillStyle = bloom;
+    ctx.fillRect(0, 0, SIZE, SIZE);
+  }
 
   // Inner card edge
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.07)";
+  ctx.strokeStyle = photo
+    ? "rgba(255, 255, 255, 0.14)"
+    : "rgba(255, 255, 255, 0.07)";
   ctx.lineWidth = 2;
   roundedRect(ctx, 48, 48, SIZE - 96, SIZE - 96, 48);
   ctx.stroke();
+}
+
+/**
+ * The user's photo, as the top band of the card.
+ *
+ * WHY A BAND AND NOT A FULL-BLEED BACKGROUND. Full-bleed was the first
+ * version and it worked, but it cost the photo everything: keeping text
+ * legible across a whole 1080² frame means ~0.6–0.8 darkening
+ * everywhere, and a face under 0.7 darkening is no longer a face. The
+ * point of attaching a photo is that the person is in it.
+ *
+ * Confining the image to the top 600px means only the logo and the
+ * caption sit on it. Everything with real contrast demands — the
+ * activity, the duration, the footer — sits on solid obsidian below,
+ * where legibility is guaranteed by construction instead of by scrim
+ * arithmetic.
+ *
+ * THE BAND HAS NO EDGE. The bottom gradient resolves to the same
+ * obsidian the card is filled with, so the photo dissolves rather than
+ * stopping at a visible seam. A hard line there reads as two images
+ * stuck together.
+ *
+ * THE CROP IS ANCHORED ON THE FACE, NOT THE CENTRE. Cover-fit centres
+ * by default, which on a portrait phone photo frames the chest. A fixed
+ * upward bias was tried and fails in the other direction: the same
+ * offset that frames a full-body shot beheads a square selfie, because
+ * the two overflow the band by wildly different amounts. Anchoring on a
+ * fraction of the SOURCE image is stable across both.
+ */
+function drawPhoto(ctx: CanvasRenderingContext2D, photo: SharePhoto) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, SIZE, PHOTO_BAND);
+  ctx.clip();
+
+  const scale = Math.max(SIZE / photo.width, PHOTO_BAND / photo.height);
+  const width = photo.width * scale;
+  const height = photo.height * scale;
+
+  // Faces sit around a third of the way down a portrait. Put that point
+  // at the centre of the band, then clamp so the image can never be
+  // pulled far enough to expose background at either edge.
+  const FOCUS = 0.32;
+  const offsetY = Math.min(
+    0,
+    Math.max(PHOTO_BAND - height, PHOTO_BAND / 2 - height * FOCUS),
+  );
+
+  ctx.drawImage(photo.source, (SIZE - width) / 2, offsetY, width, height);
+
+  // Flat knock-back. Enough to stop a blown-out highlight glaring in a
+  // feed, light enough that the photo still reads as a photograph.
+  ctx.fillStyle = "rgba(9, 10, 12, 0.20)";
+  ctx.fillRect(0, 0, SIZE, PHOTO_BAND);
+
+  // Top scrim: the logo sits at y=96 and has to survive a white sky or
+  // a bright wall.
+  const top = ctx.createLinearGradient(0, 0, 0, 200);
+  top.addColorStop(0, "rgba(9, 10, 12, 0.60)");
+  top.addColorStop(1, "rgba(9, 10, 12, 0)");
+  ctx.fillStyle = top;
+  ctx.fillRect(0, 0, SIZE, 200);
+
+  // Bottom scrim: holds nothing until y≈300, then ramps hard so the
+  // caption at y≈470–554 sits on near-solid ground and the band ends
+  // flush with the card's own background.
+  const bottom = ctx.createLinearGradient(0, 300, 0, PHOTO_BAND);
+  bottom.addColorStop(0, "rgba(9, 10, 12, 0)");
+  bottom.addColorStop(0.55, "rgba(9, 10, 12, 0.66)");
+  bottom.addColorStop(1, "rgba(9, 10, 12, 1)");
+  ctx.fillStyle = bottom;
+  ctx.fillRect(0, 300, SIZE, PHOTO_BAND - 300);
+
+  ctx.restore();
+}
+
+/**
+ * The photo-forward card body.
+ *
+ * WHAT THIS LAYOUT DROPS, AND WHY. No exercise list. There is room for
+ * the photo or for the set-by-set breakdown, not both, and the photo is
+ * the version someone posts. The list was always the lossiest element
+ * on the card anyway — four rows and a "+8 more" is a summary of a
+ * summary. The plain card still carries it in full.
+ *
+ * ORDER IS INVERTED RELATIVE TO `drawContent`. There, the quote sits
+ * last because everything above it is the proof that earns it. Here the
+ * photo is the proof, so the quote becomes its caption and the numbers
+ * follow on solid ground.
+ *
+ * POSITIONS ARE FIXED, NOT FLOWED. This layout has no variable-height
+ * block left in it, so a running Y cursor would buy nothing and would
+ * reintroduce the overlap class of bug documented on `drawContent`.
+ */
+function drawPhotoContent(ctx: CanvasRenderingContext2D, data: ShareCardData) {
+  const { workout, streakWeeks } = data;
+  const LEFT = 96;
+  const RIGHT = SIZE - 96;
+  const WIDTH = RIGHT - LEFT;
+
+  // ── Caption, over the foot of the photo ───────────────────────────
+  ctx.strokeStyle = LIME;
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(LEFT, 470);
+  ctx.lineTo(LEFT + 52, 470);
+  ctx.stroke();
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = `500 32px ${sansStack()}`;
+  wrapText(ctx, quote(workout), LEFT, 512, WIDTH - 40, 42);
+
+  // ── Eyebrow ───────────────────────────────────────────────────────
+  ctx.fillStyle = LIME;
+  ctx.font = `500 26px ${monoStack()}`;
+  ctx.letterSpacing = "5px";
+  ctx.fillText("SESSION COMPLETE", LEFT, 650);
+  ctx.letterSpacing = "0px";
+
+  // ── Activity ──────────────────────────────────────────────────────
+  // Shrunk to fit rather than wrapped: a second line here would push
+  // into the duration, and there is no slack below to absorb it.
+  const label = activityLabel(workout.activity);
+  ctx.fillStyle = "#FFFFFF";
+  fitFont(ctx, label, WIDTH, 72, 40, 600, sansStack());
+  ctx.fillText(label, LEFT, 728);
+
+  // ── Duration ──────────────────────────────────────────────────────
+  ctx.fillStyle = LIME;
+  ctx.font = `500 100px ${monoStack()}`;
+  const minutes = String(workout.durationMin);
+  ctx.fillText(minutes, LEFT, 836);
+
+  const minutesWidth = ctx.measureText(minutes).width;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+  ctx.font = `400 32px ${sansStack()}`;
+  ctx.fillText("min", LEFT + minutesWidth + 16, 836);
+
+  // ── Detail row ────────────────────────────────────────────────────
+  const details: string[] = [
+    intensityLabel(workout.intensity),
+    formatDate(workout.date),
+  ];
+  if (streakWeeks && streakWeeks >= 2) {
+    details.push(`${streakWeeks}-WEEK STREAK`);
+  }
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+  ctx.font = `400 24px ${monoStack()}`;
+  ctx.letterSpacing = "2px";
+  ctx.fillText(details.join("   ·   ").toUpperCase(), LEFT, 872);
+  ctx.letterSpacing = "0px";
+}
+
+/**
+ * Sets the largest font size at or below `start` that fits `text` into
+ * `maxWidth`, and returns it.
+ */
+function fitFont(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  start: number,
+  min: number,
+  weight: number,
+  stack: string,
+): number {
+  let size = start;
+  ctx.font = `${weight} ${size}px ${stack}`;
+  while (size > min && ctx.measureText(text).width > maxWidth) {
+    size -= 2;
+    ctx.font = `${weight} ${size}px ${stack}`;
+  }
+  return size;
 }
 
 async function drawLogo(ctx: CanvasRenderingContext2D) {
@@ -332,8 +573,14 @@ export async function shareCard(
   blob: Blob,
   workout: WorkoutEntry,
 ): Promise<"shared" | "downloaded" | "cancelled"> {
-  const filename = `adimfit-${workout.date}.png`;
-  const file = new File([blob], filename, { type: "image/png" });
+  // Derived from the blob rather than assumed: `renderShareCard`
+  // switches to JPEG when a photo is attached, and a .png named file
+  // carrying JPEG bytes confuses enough share targets to matter.
+  const extension = blob.type === "image/jpeg" ? "jpg" : "png";
+  const filename = `adimfit-${workout.date}.${extension}`;
+  const file = new File([blob], filename, {
+    type: blob.type || "image/png",
+  });
 
   const shareData: ShareData = {
     files: [file],

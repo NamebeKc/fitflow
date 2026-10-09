@@ -27,7 +27,36 @@ import type { NextConfig } from "next";
  */
 const FIREBASE_AUTH_HOST = "gen-lang-client-0453085520.firebaseapp.com";
 
+/**
+ * ── ONE HOSTNAME, NOT TWO ───────────────────────────────────────────
+ * `www.adimfit.com` and `adimfit.com` serving identical content is a
+ * split index: link equity divides between two hosts, and whichever
+ * one a crawler happens to reach first becomes the canonical by
+ * accident rather than by decision.
+ *
+ * 308 rather than 301, because Next uses the method-preserving
+ * status codes. Search engines treat 308 as permanent exactly as they
+ * treat 301; browsers additionally stop turning POSTs into GETs.
+ *
+ * The negative lookahead keeps the Firebase auth handler off this
+ * rule. `/__/auth/*` is proxied above, and redirecting a hostname
+ * mid-OAuth breaks sign-in at the popup with no useful error.
+ * ─────────────────────────────────────────────────────────────────────
+ */
+const APEX_HOST = "adimfit.com";
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/:path((?!__/).*)",
+        has: [{ type: "host", value: `www.${APEX_HOST}` }],
+        destination: `https://${APEX_HOST}/:path`,
+        permanent: true,
+      },
+    ];
+  },
+
   async rewrites() {
     return {
       beforeFiles: [

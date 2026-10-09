@@ -7,6 +7,7 @@ import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ProfileProvider } from "@/components/providers/ProfileProvider";
 import { ServiceWorkerRegistrar } from "@/components/pwa/ServiceWorkerRegistrar";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -19,9 +20,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AdimFit — AI Fitness Coach",
-  description:
-    "A coach that remembers every session. Adaptive training built from your own history.",
+  // Resolves every relative URL in page-level metadata — canonicals,
+  // Open Graph images — against the apex domain. Without it Next
+  // emits relative OG URLs, which several crawlers simply drop.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "AdimFit — AI Fitness Coach",
+    template: "%s · AdimFit",
+  },
+  description: SITE_DESCRIPTION,
   applicationName: "AdimFit",
   appleWebApp: {
     // iOS ignores the web manifest entirely and reads these instead.

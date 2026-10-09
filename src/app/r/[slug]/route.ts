@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 
 import { getAdminDb } from "@/lib/firebase-admin";
+import { SITE_URL } from "@/lib/site";
 
 /**
  * ── THE PARTNER LINK ────────────────────────────────────────────────
@@ -29,6 +30,23 @@ import { getAdminDb } from "@/lib/firebase-admin";
  * It is still an approximation: one person on two devices counts
  * twice, and a preview fetch from a client that stores cookies counts
  * once. Label it "views", never "visitors".
+ *
+ * THE REDIRECT TARGET IS NOT BUILT FROM `request.url`. Inside a Cloud
+ * Run container the app listens on 0.0.0.0:$PORT and Google's front
+ * end proxies to it, so `request.url` carries the INTERNAL address.
+ * `new URL(request.url).origin` is therefore `http://localhost:8080`
+ * in production, and every partner link redirected there — a dead link
+ * for every visitor, while the route itself returned a perfectly
+ * healthy 302. It cost a live partner link on day one.
+ *
+ * `SITE_URL` is used instead, not the `Host` or `x-forwarded-host`
+ * header. Those carry the right value on Cloud Run, but they are
+ * client-supplied, and a redirect built from a header an attacker can
+ * set is an open redirect wearing a hat. The canonical origin is a
+ * constant for exactly this reason.
+ *
+ * The request origin is still used outside production, or `next dev`
+ * on localhost would bounce every test to the live site.
  *
  * COUNTING NEVER BLOCKS THE REDIRECT. A Firestore failure, an unknown
  * slug, a paused partner — all of them still send the visitor to the
@@ -60,7 +78,10 @@ export async function GET(
   const slug = raw.trim().toLowerCase();
 
   const url = new URL(request.url);
-  const target = new URL("/", url.origin);
+  const target = new URL(
+    "/",
+    process.env.NODE_ENV === "production" ? SITE_URL : url.origin,
+  );
 
   // Forward every campaign parameter the partner appended, then set
   // `ref` from the path. The path wins: the link's own slug is what

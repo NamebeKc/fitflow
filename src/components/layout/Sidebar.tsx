@@ -31,7 +31,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Dashboard", shortLabel: "Home", href: "/", icon: LayoutDashboard },
+  { label: "Dashboard", shortLabel: "Home", href: "/today", icon: LayoutDashboard },
   { label: "AI Coach", shortLabel: "Coach", href: "/coach", icon: Sparkles },
   { label: "Workout Log", shortLabel: "Log", href: "/log", icon: Dumbbell },
   {
@@ -61,7 +61,7 @@ export function Sidebar() {
   const { profile, isLoading } = useProfile();
 
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === "/today" ? pathname === "/today" : pathname.startsWith(href);
 
   const displayName = profile?.firstName ?? user?.displayName ?? "Athlete";
   const initial = displayName.charAt(0).toUpperCase();

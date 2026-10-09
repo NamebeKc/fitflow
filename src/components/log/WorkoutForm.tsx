@@ -1,7 +1,7 @@
 // src/components/log/WorkoutForm.tsx
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Bike,
   Dumbbell,
@@ -31,6 +31,7 @@ import {
   type WorkoutEntry,
 } from "@/lib/workouts";
 import { activityLabel } from "@/lib/profile";
+import { takePendingDuration } from "@/lib/session-timer";
 
 const ACTIVITY_ICONS: Record<ActivityId, LucideIcon> = {
   running: Footprints,
@@ -63,11 +64,27 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(todayISO());
   const [duration, setDuration] = useState("");
+  const [fromTimer, setFromTimer] = useState(false);
   const [intensity, setIntensity] = useState<IntensityId>("moderate");
   const [notes, setNotes] = useState("");
   const [showDetail, setShowDetail] = useState(false);
   const [steps, setSteps] = useState("");
   const [strength, setStrength] = useState<StrengthSet[]>([]);
+
+  /**
+   * Prefill the duration when the session stopwatch measured one.
+   *
+   * `takePendingDuration` clears as it reads, so this fires once per
+   * timed session and never resurfaces a stale number against a workout
+   * logged days later. The field stays editable — the clock keeps
+   * running through a phone call, and only the user knows that.
+   */
+  useEffect(() => {
+    const measured = takePendingDuration();
+    if (measured === null) return;
+    setDuration(String(measured));
+    setFromTimer(true);
+  }, []);
 
   // Fired when the first field is touched, so the funnel can separate
   // "never tried to log" from "started and gave up".
@@ -205,9 +222,17 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         <div className="space-y-2">
           <label
             htmlFor="workout-duration"
-            className="text-sm font-medium text-white/70"
+            className="flex items-baseline gap-2 text-sm font-medium text-white/70"
           >
             Duration (min)
+            {/* A number that appears on its own reads as a glitch. Say
+                where it came from, and stop saying it the moment the
+                user edits it — at that point it is their number. */}
+            {fromTimer && (
+              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#CCFF00]/70">
+                from timer
+              </span>
+            )}
           </label>
           <Input
             id="workout-duration"
@@ -216,7 +241,10 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             min={1}
             max={600}
             value={duration}
-            onChange={(event) => setDuration(event.target.value)}
+            onChange={(event) => {
+              setDuration(event.target.value);
+              setFromTimer(false);
+            }}
             placeholder="e.g. 45"
             className="h-11 rounded-xl border-white/[0.07] bg-black/50 px-4 font-mono text-white tabular-nums placeholder:font-sans placeholder:text-white/50 focus-visible:border-[#CCFF00]/60 focus-visible:bg-black/70 focus-visible:ring-0"
           />

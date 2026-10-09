@@ -169,7 +169,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = event.notification.data?.url || "/";
+  const target = event.notification.data?.url || "/today";
 
   event.waitUntil(
     self.clients

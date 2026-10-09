@@ -1,8 +1,9 @@
 // src/components/share/ShareWorkoutDialog.tsx
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Download, Loader2, Share2 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Download, ImagePlus, Loader2, Share2, X } from "lucide-react";
 
 import {
   Dialog,
@@ -11,8 +12,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { track } from "@/lib/analytics";
 import { renderShareCard, shareCard } from "@/lib/share-card";
+import {
+  decodeSharePhoto,
+  sharePhotoMessage,
+  SharePhotoDecodeError,
+  type SharePhoto,
+} from "@/lib/share-photo";
 import type { WorkoutEntry } from "@/lib/workouts";
 
 interface ShareWorkoutDialogProps {
@@ -30,6 +39,27 @@ interface ShareWorkoutDialogProps {
  * rendered and shown before any share action. The preview is the real
  * PNG at display size — not an HTML mock-up of it — so what they post
  * is exactly what they approved.
+ *
+ * ── THE PHOTO ───────────────────────────────────────────────────────
+ * Attaching one is optional and happens here, at share time, not at
+ * log time. That ordering is the whole design: the file is picked,
+ * decoded into memory, drawn onto the card, and released when this
+ * dialog closes. It is never uploaded, never written to Firestore,
+ * never cached, and never attached to an analytics property. The only
+ * thing that survives is the flattened PNG the user chose to post.
+ *
+ * Three implementation details that keep that true:
+ *
+ *   1. `photoRef` mirrors the photo state so `release()` can be called
+ *      from effects and handlers without going through a state updater
+ *      — React 19 invokes updaters twice in development, and a double
+ *      `close()` on a live bitmap is a bug waiting for a dev build.
+ *   2. The preview <img> carries `ph-no-capture`. Session replay is
+ *      env-gated off today, but if it is ever switched on to study
+ *      paywall friction, the user's photo must not be in the recording.
+ *   3. The file input is reset to "" on every pick, so choosing the
+ *      same file twice still fires `change`.
+ * ─────────────────────────────────────────────────────────────────────
  */
 export function ShareWorkoutDialog({
   workout,
@@ -40,34 +70,108 @@ export function ShareWorkoutDialog({
 }: ShareWorkoutDialogProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [blob, setBlob] = useState<Blob | null>(null);
+  const [photo, setPhoto] = useState<SharePhoto | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [rendering, setRendering] = useState(false);
   const [busy, setBusy] = useState(false);
 
-  // Render whenever the dialog opens for a workout.
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const photoRef = useRef<SharePhoto | null>(null);
+  const previewUrlRef = useRef<string | null>(null);
+
+  /** Swaps the preview, revoking the URL the browser is done with. */
+  const setPreview = useCallback((url: string | null) => {
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    previewUrlRef.current = url;
+    setPreviewUrl(url);
+  }, []);
+
+  /** Swaps the photo, freeing whatever it replaces. */
+  const replacePhoto = useCallback((next: SharePhoto | null) => {
+    photoRef.current?.release();
+    photoRef.current = next;
+    setPhoto(next);
+  }, []);
+
+  // Render whenever the dialog opens, or the attached photo changes.
+  // The previous preview is deliberately left on screen while the next
+  // one rasterises — blanking it makes attaching a photo feel like the
+  // card broke and came back.
   useEffect(() => {
     if (!open || !workout) return;
 
     let cancelled = false;
-    let objectUrl: string | null = null;
+    setRendering(true);
 
-    setPreviewUrl(null);
-    setBlob(null);
-
-    renderShareCard({ workout, streakWeeks, name })
+    renderShareCard({ workout, streakWeeks, name, photo })
       .then((rendered) => {
         if (cancelled || !rendered) return;
-        objectUrl = URL.createObjectURL(rendered);
         setBlob(rendered);
-        setPreviewUrl(objectUrl);
+        setPreview(URL.createObjectURL(rendered));
       })
       .catch((error) => {
         console.error("[share] Failed to render card:", error);
+      })
+      .finally(() => {
+        if (!cancelled) setRendering(false);
       });
 
     return () => {
       cancelled = true;
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [open, workout, streakWeeks, name]);
+  }, [open, workout, streakWeeks, name, photo, setPreview]);
+
+  // Closing the dialog is what guarantees the photo is gone. Anything
+  // that leaves this component mounted with a stale bitmap is a leak.
+  useEffect(() => {
+    if (open) return;
+    setPreview(null);
+    setBlob(null);
+    setPhotoError(null);
+    replacePhoto(null);
+  }, [open, setPreview, replacePhoto]);
+
+  useEffect(
+    () => () => {
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+      photoRef.current?.release();
+    },
+    [],
+  );
+
+  const handlePick = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      event.target.value = "";
+      if (!file) return;
+
+      setPhotoError(null);
+      try {
+        const decoded = await decodeSharePhoto(file);
+        replacePhoto(decoded);
+        // No dimensions, no filename, no size — the fact that a photo
+        // was attached is the only thing worth knowing, and the only
+        // thing safe to send.
+        track("share_photo_attached");
+      } catch (error) {
+        replacePhoto(null);
+        setPhotoError(
+          sharePhotoMessage(
+            error instanceof SharePhotoDecodeError
+              ? error.reason
+              : "decode-failed",
+          ),
+        );
+      }
+    },
+    [replacePhoto],
+  );
+
+  const handleRemovePhoto = useCallback(() => {
+    replacePhoto(null);
+    setPhotoError(null);
+    track("share_photo_removed");
+  }, [replacePhoto]);
 
   const handleShare = useCallback(async () => {
     if (!blob || !workout || busy) return;
@@ -78,12 +182,13 @@ export function ShareWorkoutDialog({
         outcome,
         activity: workout.activity,
         duration_min: workout.durationMin,
+        has_photo: photo !== null,
       });
       if (outcome !== "cancelled") onOpenChange(false);
     } finally {
       setBusy(false);
     }
-  }, [blob, workout, busy, onOpenChange]);
+  }, [blob, workout, busy, photo, onOpenChange]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -98,23 +203,118 @@ export function ShareWorkoutDialog({
         </DialogHeader>
 
         <div className="px-5">
-          <div className="aspect-square w-full overflow-hidden rounded-2xl border border-white/[0.07] bg-black/40">
+          <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-white/[0.07] bg-black/40">
             {previewUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={previewUrl}
                 alt="Your workout card"
-                className="size-full object-cover"
+                className="ph-no-capture size-full object-cover"
               />
             ) : (
-              <div className="flex size-full items-center justify-center">
-                <Loader2
-                  className="size-6 animate-spin text-white/50"
-                  strokeWidth={2}
-                />
+              <Skeleton className="size-full rounded-2xl bg-white/[0.04]" />
+            )}
+
+            <AnimatePresence>
+              {rendering && previewUrl ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                  className="absolute inset-0 flex items-end bg-black/30 backdrop-blur-[2px]"
+                >
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.9, ease: "easeInOut" }}
+                    className="h-[3px] w-full origin-left bg-[#CCFF00]"
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* ── Photo controls ───────────────────────────────────────── */}
+        <div className="px-5 pt-4">
+          <div className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3">
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                {photo ? "Photo attached" : "Photo"}
+              </p>
+              <p className="mt-1 text-[11px] leading-relaxed text-white/55">
+                {photo
+                  ? "Added to the card. Location data is stripped."
+                  : "Optional. It stays on your device — we never upload it."}
+              </p>
+            </div>
+
+            {photo ? (
+              <div className="flex shrink-0 items-center gap-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-white/70 hover:bg-white/[0.06] hover:text-white"
+                >
+                  Change
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label="Remove photo"
+                  onClick={handleRemovePhoto}
+                  className="text-white/50 hover:bg-white/[0.06] hover:text-white"
+                >
+                  <X strokeWidth={2.5} />
+                </Button>
               </div>
+            ) : (
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                className="shrink-0 border-white/[0.08] bg-white/[0.06] text-white hover:bg-white/[0.12]"
+              >
+                <ImagePlus data-icon="inline-start" strokeWidth={2.5} />
+                Attach
+              </Button>
             )}
           </div>
+
+          <AnimatePresence>
+            {photoError ? (
+              <motion.p
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="overflow-hidden pt-2 text-[11px] text-red-400/90"
+                role="status"
+              >
+                {photoError}
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
+
+          {/*
+            No `capture` attribute: leaving it off lets the OS offer both
+            the camera and the library. Forcing the camera is the wrong
+            default for a card someone is making after the session.
+          */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={(event) => void handlePick(event)}
+            className="sr-only"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
         </div>
 
         <div className="px-5 pb-5 pt-4">
