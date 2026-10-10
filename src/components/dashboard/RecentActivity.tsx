@@ -39,7 +39,7 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
   const recent = workouts.slice(0, limit);
 
   return (
-    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
       <div className="flex items-baseline justify-between">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Recent activity
@@ -56,7 +56,7 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
 
       {recent.length === 0 ? (
         <div className="flex flex-col items-center gap-4 py-10 text-center">
-          <div className="flex size-12 items-center justify-center rounded-md border border-rule bg-ink/30">
+          <div className="flex size-12 items-center justify-center rounded-md border border-rule bg-paper-sunken">
             <ClipboardList className="size-5 text-ink-muted" strokeWidth={2} />
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-ink-muted">
@@ -80,7 +80,7 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
                 key={workout.id}
                 className="flex items-center gap-3.5 py-3.5 first:pt-0 last:pb-0"
               >
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-rule bg-ink/30">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-rule bg-paper-sunken">
                   <Icon className="size-[18px] text-ink-muted" strokeWidth={2} />
                 </div>
 

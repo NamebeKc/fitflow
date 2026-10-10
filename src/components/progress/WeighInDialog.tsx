@@ -114,7 +114,7 @@ export function WeighInDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="flex-1 rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="flex-1 rounded-full border border-rule px-6 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               Not now
             </button>
@@ -122,7 +122,7 @@ export function WeighInDialog({
               type="button"
               onClick={() => void save()}
               disabled={!valid || busy}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
             >
               {busy ? (
                 <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

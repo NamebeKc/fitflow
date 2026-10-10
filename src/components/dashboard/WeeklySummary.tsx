@@ -25,7 +25,7 @@ export function WeeklySummary({ stats }: WeeklySummaryProps) {
   );
 
   return (
-    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
       <div className="flex items-baseline justify-between">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           This week
@@ -36,7 +36,7 @@ export function WeeklySummary({ stats }: WeeklySummaryProps) {
       </div>
 
       {/* Headline numbers */}
-      <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
+      <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
         <StatTile
           icon={Dumbbell}
           label="Sessions"

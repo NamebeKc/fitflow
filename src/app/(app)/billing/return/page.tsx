@@ -220,7 +220,7 @@ function Shell({
         className={`flex size-14 items-center justify-center rounded-md border ${
           accent
             ? "border-indigo/25 bg-indigo/[0.07]"
-            : "border-rule bg-ink/30"
+            : "border-rule bg-paper-sunken"
         }`}
       >
         {icon}

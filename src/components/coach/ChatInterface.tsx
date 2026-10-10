@@ -537,7 +537,7 @@ export function ChatInterface() {
 
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto scroll-smooth px-5 py-6 md:px-8"
+        className="flex-1 overflow-y-auto scroll-smooth px-6 py-6 md:px-8"
       >
         {isLoadingHistory ? (
           <TranscriptSkeleton />
@@ -563,7 +563,7 @@ export function ChatInterface() {
                   key={suggestion}
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-rule bg-ink/30 px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:translate-y-px"
+                  className="rounded-full border-rule bg-paper-sunken px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:translate-y-px"
                   onClick={() => send(suggestion)}
                 >
                   {suggestion}
@@ -589,7 +589,7 @@ export function ChatInterface() {
             </p>
           </div>
         ) : (
-          <div className="mx-auto flex max-w-2xl flex-col gap-5">
+          <div className="mx-auto flex max-w-2xl flex-col gap-6">
             {visibleMessages.map((message) => (
               <div key={message.id} className="space-y-3">
                 <MessageBubble
@@ -631,7 +631,7 @@ export function ChatInterface() {
             placeholder="Message your coach…"
             aria-label="Message your coach"
             disabled={isLoadingHistory}
-            className="h-11 flex-1 rounded-full border-rule bg-paper px-5 text-[15px] text-ink shadow-none placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+            className="h-11 flex-1 rounded-full border-rule bg-paper px-6 text-[15px] text-ink shadow-none placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
           />
           <Button
             type="submit"
@@ -708,7 +708,7 @@ function stripPartialPlan(text: string): string {
 /** Placeholder bubbles while the stored transcript loads. */
 function TranscriptSkeleton() {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+    <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <div className="flex justify-end">
         <Skeleton className="h-11 w-2/5 rounded-md rounded-br-md bg-paper-sunken" />
       </div>

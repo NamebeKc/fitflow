@@ -98,7 +98,7 @@ export default function ProfilePage() {
       )}
 
       {showView && (
-        <div className="mx-auto w-full max-w-xl space-y-5">
+        <div className="mx-auto w-full max-w-xl space-y-6">
           <SubscriptionCard onSubscribe={() => setShowPaywall(true)} />
           <InstallCard />
           <ReminderCard />
@@ -116,7 +116,7 @@ export default function ProfilePage() {
 /** Mirrors ProfileView's geometry so the load → view swap causes no shift. */
 function ProfileSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-xl space-y-5">
+    <div className="mx-auto w-full max-w-xl space-y-6">
       <Skeleton className="h-32 rounded-lg bg-paper-sunken" />
       <div className="rounded-lg border border-rule bg-paper-raised p-6">
         <div className="flex flex-row items-center gap-4">

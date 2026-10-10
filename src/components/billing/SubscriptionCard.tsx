@@ -55,7 +55,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-3 rounded-lg border border-rule bg-paper-raised p-5">
+      <div className="flex items-center gap-3 rounded-lg border border-rule bg-paper-raised p-6">
         <Loader2 className="size-4 animate-spin text-ink-muted" strokeWidth={2} />
         <p className="text-sm text-ink-muted">Checking your subscription…</p>
       </div>
@@ -192,7 +192,7 @@ function Card({
   return (
     <section
       className={cn(
-        "rounded-lg border p-5 sm:p-6",
+        "rounded-lg border p-6 sm:p-6",
         accent
           ? "border-indigo/20 bg-indigo/[0.04]"
           : "border-rule bg-paper-raised",
@@ -210,7 +210,7 @@ function Card({
       </p>
       <p className="mt-1.5 text-[14px] leading-relaxed text-ink-muted">{body}</p>
 
-      {children && <div className="mt-5">{children}</div>}
+      {children && <div className="mt-6">{children}</div>}
     </section>
   );
 }
@@ -229,7 +229,7 @@ function SubscribeButton({
         track("paywall_shown", { trigger: "profile" });
         onSubscribe();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
     >
       {label}
       <ArrowRight className="size-4" strokeWidth={2.5} />

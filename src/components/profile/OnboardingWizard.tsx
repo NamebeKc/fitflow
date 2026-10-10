@@ -378,7 +378,7 @@ export function OnboardingWizard({
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={step} {...stepMotion}>
             {step === 0 && (
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div className="space-y-2">
                   <label
                     htmlFor="firstName"
@@ -594,7 +594,7 @@ export function OnboardingWizard({
                                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                                   selected
                                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
-                                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
+                                    : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                                 )}
                               >
                                 {label}
@@ -634,7 +634,7 @@ export function OnboardingWizard({
                             "focus-visible:ring-2 focus-visible:ring-indigo/50",
                             selected
                               ? "border-indigo/40 bg-indigo/[0.08]"
-                              : "border-rule bg-ink/30 hover:border-rule",
+                              : "border-rule bg-paper-sunken hover:border-rule",
                           )}
                         >
                           <span
@@ -742,7 +742,7 @@ function SelectTile({
         compact ? "gap-2.5 px-3.5 py-3 text-sm" : "px-4 py-3.5 text-sm",
         selected
           ? "border-indigo/40 bg-indigo/[0.08] text-ink"
-          : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
+          : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
         disabled && "pointer-events-none opacity-35",
       )}
     >
@@ -778,7 +778,7 @@ function IntroPoint({
 }) {
   return (
     <li className="flex items-start gap-3.5">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule bg-ink/30">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule bg-paper-sunken">
         <Icon className="size-4 text-ink-faint" strokeWidth={2} />
       </div>
       <div className="min-w-0 flex-1">

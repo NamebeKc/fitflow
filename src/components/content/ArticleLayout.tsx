@@ -91,7 +91,7 @@ export function ArticleLayout({
 
       <SiteHeader />
 
-      <article className="mx-auto w-full max-w-[720px] px-5 py-12 md:px-8 md:py-16">
+      <article className="mx-auto w-full max-w-[720px] px-6 py-12 md:px-8 md:py-16">
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
             <li>
@@ -111,7 +111,7 @@ export function ArticleLayout({
         <h1 className="text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.5rem]">
           {entry.h1}
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-ink-muted">
+        <p className="mt-6 text-[17px] leading-relaxed text-ink-muted">
           {entry.summary}
         </p>
         <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
@@ -137,7 +137,7 @@ export function ArticleLayout({
 function SiteHeader() {
   return (
     <header className="border-b border-rule">
-      <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
+      <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
         <Link
           href="/"
           className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
@@ -172,7 +172,7 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="border-t border-rule">
-      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 px-5 py-8 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between md:px-8">
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 px-6 py-8 text-[13px] text-ink-faint md:flex-row md:items-center md:justify-between md:px-8">
         <p>
           AdimFit provides general fitness guidance and is not a substitute
           for medical advice.
@@ -207,7 +207,7 @@ function FaqBlock({ entry }: { entry: Guide }) {
       </h2>
       <div className="mt-6 divide-y divide-rule border-y border-rule">
         {entry.faqs.map((faq) => (
-          <details key={faq.question} className="group py-5">
+          <details key={faq.question} className="group py-6">
             <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
               <h3 className="text-[16px] font-medium leading-snug text-ink">
                 {faq.question}
@@ -244,12 +244,12 @@ function Related({ entry }: { entry: Guide }) {
       >
         Read next
       </h2>
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-6 space-y-3">
         {others.map((other) => (
           <li key={other.slug}>
             <Link
               href={`/guides/${other.slug}`}
-              className="group flex items-start justify-between gap-6 rounded-md border border-rule bg-paper-raised px-5 py-4 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="group flex items-start justify-between gap-6 rounded-md border border-rule bg-paper-raised px-6 py-4 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50"
             >
               <span>
                 <span className="block text-[15px] font-medium text-ink">
@@ -321,7 +321,7 @@ export function H3({ children }: { children: ReactNode }) {
 
 export function P({ children }: { children: ReactNode }) {
   return (
-    <p className="mt-5 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
+    <p className="mt-6 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
   );
 }
 
@@ -335,7 +335,7 @@ export function Strong({ children }: { children: ReactNode }) {
 
 export function Callout({ children }: { children: ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-indigo/50 pl-5 text-[16px] leading-[1.7] text-ink-muted">
+    <p className="my-8 border-l-2 border-indigo/50 pl-6 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );
@@ -370,10 +370,10 @@ export function PromptBlock({
 }) {
   return (
     <figure className="my-8 overflow-hidden rounded-md border border-rule bg-paper">
-      <figcaption className="border-b border-rule px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
+      <figcaption className="border-b border-rule px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
         {label}
       </figcaption>
-      <pre className="overflow-x-auto px-5 py-5 font-mono text-[13px] leading-[1.7] text-ink-muted">
+      <pre className="overflow-x-auto px-6 py-6 font-mono text-[13px] leading-[1.7] text-ink-muted">
         <code className="whitespace-pre-wrap">{children}</code>
       </pre>
     </figure>
@@ -445,7 +445,7 @@ export function DataTable({
                 <th
                   key={col}
                   scope="col"
-                  className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted sm:px-5"
+                  className="px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted sm:px-6"
                 >
                   {col}
                 </th>
@@ -463,8 +463,8 @@ export function DataTable({
                     key={i}
                     className={
                       i === 0
-                        ? "px-4 py-3.5 text-[14px] font-medium text-ink sm:px-5"
-                        : "px-4 py-3.5 font-mono text-[13px] tabular-nums text-ink-muted sm:px-5"
+                        ? "px-4 py-3.5 text-[14px] font-medium text-ink sm:px-6"
+                        : "px-4 py-3.5 font-mono text-[13px] tabular-nums text-ink-muted sm:px-6"
                     }
                   >
                     {cell}

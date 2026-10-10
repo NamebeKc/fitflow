@@ -78,7 +78,7 @@ export function DeleteAccountCard() {
   }
 
   return (
-    <section className="rounded-lg border border-red-500/25 bg-red-500/[0.04] p-5 sm:p-6">
+    <section className="rounded-lg border border-red-500/25 bg-red-500/[0.04] p-6 sm:p-6">
       <div className="flex items-center gap-2">
         <AlertTriangle className="size-4 text-red-300" strokeWidth={2} />
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-red-300/80">
@@ -95,7 +95,7 @@ export function DeleteAccountCard() {
         it afterwards.
       </p>
 
-      <label className="mt-5 block">
+      <label className="mt-6 block">
         <span className="text-[13px] font-medium text-ink-muted">
           Type DELETE to confirm
         </span>
@@ -118,7 +118,7 @@ export function DeleteAccountCard() {
         </p>
       )}
 
-      <div className="mt-5 flex gap-2.5">
+      <div className="mt-6 flex gap-2.5">
         <button
           type="button"
           onClick={() => {
@@ -126,7 +126,7 @@ export function DeleteAccountCard() {
             setConfirmText("");
             setError(null);
           }}
-          className="flex-1 rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink"
+          className="flex-1 rounded-full border border-rule px-6 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink"
         >
           Keep my account
         </button>
@@ -134,7 +134,7 @@ export function DeleteAccountCard() {
           type="button"
           onClick={() => void deleteAccount()}
           disabled={!canDelete || busy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-5 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:translate-y-px disabled:opacity-40"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-6 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:translate-y-px disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

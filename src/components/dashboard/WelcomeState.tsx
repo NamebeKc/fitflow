@@ -56,7 +56,7 @@ export function WelcomeState({ displayName, hasProfile }: WelcomeStateProps) {
         </ol>
       </section>
 
-      <section className="flex items-center gap-4 rounded-lg border border-indigo/15 bg-indigo/[0.04] p-5">
+      <section className="flex items-center gap-4 rounded-lg border border-indigo/15 bg-indigo/[0.04] p-6">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
           <Sparkles className="size-4 text-indigo" strokeWidth={2} />
         </div>
@@ -96,7 +96,7 @@ function StepLink({
     <li>
       <Link
         href={href}
-        className="group flex items-start gap-4 rounded-md border border-rule bg-ink/30 p-4 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+        className="group flex items-start gap-4 rounded-md border border-rule bg-paper-sunken p-4 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
       >
         <div
           className={cn(

@@ -113,7 +113,7 @@ export function ConversionCard() {
   return (
     <div
       id="auth"
-      className="rounded-lg border border-rule bg-paper-raised p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6"
+      className="rounded-lg border border-rule bg-paper-raised p-6 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6"
     >
       {/* The one-tap path, given the most weight */}
       <button
@@ -122,7 +122,7 @@ export function ConversionCard() {
           track("signup_started", { method: "google" });
           void signInWithGoogle();
         }}
-        className="flex w-full items-center justify-center gap-3 rounded-sm border border-field-border bg-paper-raised px-5 py-3.5 text-[15px] font-semibold text-ink outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
+        className="flex w-full items-center justify-center gap-3 rounded-sm border border-field-border bg-paper-raised px-6 py-3.5 text-[15px] font-semibold text-ink outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
       >
         <GoogleMark />
         Continue with Google
@@ -133,7 +133,7 @@ export function ConversionCard() {
       </p>
 
       {/* Email, available but not in the way */}
-      <div className="mt-5 border-t border-rule pt-4">
+      <div className="mt-6 border-t border-rule pt-4">
         <button
           type="button"
           onClick={() => setShowEmail((open) => !open)}
@@ -261,7 +261,7 @@ export function ConversionCard() {
                   type="button"
                   onClick={() => void submit()}
                   disabled={busy}
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-[14px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-50"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-[14px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-50"
                 >
                   {busy ? (
                     <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

@@ -76,7 +76,7 @@ export function FaqSection() {
       className="border-t border-rule"
       aria-labelledby="faq-heading"
     >
-      <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+      <div className="mx-auto w-full max-w-[1180px] px-6 py-16 md:px-8 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-16">
           <div className="lg:sticky lg:top-12 lg:self-start">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
@@ -93,7 +93,7 @@ export function FaqSection() {
 
           <div className="divide-y divide-rule border-y border-rule">
             {FAQS.map((faq) => (
-              <details key={faq.question} className="group py-5">
+              <details key={faq.question} className="group py-6">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
                   <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {faq.question}

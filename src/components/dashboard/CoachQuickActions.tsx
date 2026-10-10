@@ -8,6 +8,19 @@ import { ArrowRight, Sparkles } from "lucide-react";
  * Entry points into the coach. Each deep-links to /coach with the
  * prompt in the query string, so one tap goes from dashboard to a real
  * coaching answer.
+ *
+ * SPACING. Every gap here comes from the scale in design.md section
+ * 4.3 — 4 / 8 / 12 / 16 / 24 — and obeys its one rule: the gap between
+ * two blocks is at least the padding inside them. The prompt rows
+ * carry 12px of vertical padding, so they sit 12px apart, not 8px. At
+ * 8px the row and the gap were close enough in size that the three
+ * rows read as one striped block rather than three targets.
+ *
+ * The primary action is separated by 24px, not by whatever `mt-auto`
+ * happens to leave. `mt-auto` alone pushes it to the bottom of a tall
+ * card and flush against the last row in a short one, which is how it
+ * ended up touching "Suggest a recovery day". The wrapper keeps the
+ * push and adds a floor.
  */
 const QUICK_PROMPTS = [
   "Plan today's session",
@@ -17,13 +30,13 @@ const QUICK_PROMPTS = [
 
 export function CoachQuickActions({ firstName }: { firstName?: string }) {
   return (
-    <section className="flex h-full flex-col rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
+    <section className="flex h-full flex-col rounded-md border border-rule bg-paper-raised p-6">
+      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
         AI Coach
       </p>
 
-      <div className="mt-5 flex items-start gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
+      <div className="mt-6 flex items-start gap-3">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-indigo/20 bg-indigo-wash">
           <Sparkles className="size-4 text-indigo" strokeWidth={2} />
         </div>
         <p className="text-sm leading-relaxed text-ink-muted">
@@ -33,12 +46,12 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
         </p>
       </div>
 
-      <div className="mt-5 space-y-2">
+      <div className="mt-6 space-y-3">
         {QUICK_PROMPTS.map((prompt) => (
           <Link
             key={prompt}
             href={`/coach?prompt=${encodeURIComponent(prompt)}`}
-            className="group flex items-center justify-between gap-3 rounded-md border border-rule bg-ink/30 px-4 py-3 text-sm font-medium text-ink-muted outline-none transition-all hover:border-indigo/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+            className="group flex items-center justify-between gap-3 rounded-sm border border-rule bg-paper-sunken px-4 py-3 text-sm font-medium text-ink outline-none transition-colors hover:border-indigo/40 hover:bg-indigo-wash focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
           >
             <span className="truncate">{prompt}</span>
             <ArrowRight
@@ -49,13 +62,15 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
         ))}
       </div>
 
-      <Link
-        href="/coach"
-        className="mt-auto flex items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
-      >
-        Open coach
-        <ArrowRight className="size-4" strokeWidth={2.5} />
-      </Link>
+      <div className="mt-auto pt-6">
+        <Link
+          href="/coach"
+          className="flex w-full items-center justify-center gap-2 rounded-sm bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-colors hover:bg-indigo-deep focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
+        >
+          Open coach
+          <ArrowRight className="size-4" strokeWidth={2.5} />
+        </Link>
+      </div>
     </section>
   );
 }

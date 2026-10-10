@@ -152,7 +152,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-lg border border-indigo/25 bg-indigo/[0.05] p-5 sm:p-6"
+          className="rounded-lg border border-indigo/25 bg-indigo/[0.05] p-6 sm:p-6"
         >
           <div className="flex items-start gap-3">
             <Bell
@@ -184,14 +184,14 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
             </button>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
+          <div className="mt-6 grid grid-cols-2 gap-2">
             {TIMES.map((time) => (
               <button
                 key={time.hour}
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-md border border-rule bg-ink/30 px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
               >
                 <span>
                   <span className="block text-sm font-medium text-ink">
@@ -220,7 +220,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           <button
             type="button"
             onClick={dismiss}
-            className="mt-3 w-full rounded-full px-5 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/40"
+            className="mt-3 w-full rounded-full px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/40"
           >
             Not now
           </button>

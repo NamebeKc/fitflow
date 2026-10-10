@@ -78,7 +78,7 @@ export default function ResearchArticlePage() {
       />
 
       <header className="border-b border-rule">
-        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
+        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
           <Link href="/" className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
             <Image
               src="/logo-horizontal.png"
@@ -97,14 +97,14 @@ export default function ResearchArticlePage() {
         </div>
       </header>
 
-      <article className="mx-auto w-full max-w-[720px] px-5 py-14 md:px-8 md:py-20">
+      <article className="mx-auto w-full max-w-[720px] px-6 py-14 md:px-8 md:py-20">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
           Evidence review
         </p>
-        <h1 className="mt-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
+        <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
           {ARTICLE.title}
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-ink-muted">
+        <p className="mt-6 text-[17px] leading-relaxed text-ink-muted">
           {ARTICLE.subtitle}
         </p>
 
@@ -117,7 +117,7 @@ export default function ResearchArticlePage() {
         </p>
 
         {/* ── Disclosure ──────────────────────────────────────────── */}
-        <aside className="mt-10 rounded-md border border-indigo/25 bg-indigo/[0.05] p-5 sm:p-6">
+        <aside className="mt-10 rounded-md border border-indigo/25 bg-indigo/[0.05] p-6 sm:p-6">
           <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
             Commercial interest, declared
           </h2>
@@ -292,7 +292,7 @@ export default function ResearchArticlePage() {
 
           {/* ── Correction ───────────────────────────────────────── */}
           <H2 id="correction">Correction</H2>
-          <div className="not-prose my-8 rounded-md border border-amber-400/25 bg-amber-400/[0.05] p-5 sm:p-6">
+          <div className="not-prose my-8 rounded-md border border-amber-400/25 bg-amber-400/[0.05] p-6 sm:p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
               Corrected {CORRECTION.date}
             </p>
@@ -303,7 +303,7 @@ export default function ResearchArticlePage() {
               {CORRECTION.detail}
             </p>
 
-            <div className="mt-5 overflow-x-auto">
+            <div className="mt-6 overflow-x-auto">
               <table className="w-full min-w-[520px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-rule">
@@ -389,7 +389,7 @@ export default function ResearchArticlePage() {
           <H2 id="questions">Common questions</H2>
           <div className="not-prose mt-6 divide-y divide-rule border-y border-rule">
             {QUESTIONS.map((item) => (
-              <details key={item.question} className="group py-5">
+              <details key={item.question} className="group py-6">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
                   <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {item.question}
@@ -409,7 +409,7 @@ export default function ResearchArticlePage() {
           </div>
 
           <H2 id="sources">Sources</H2>
-          <ol className="not-prose mt-6 space-y-5">
+          <ol className="not-prose mt-6 space-y-6">
             {CITATIONS.map((source, index) => (
               <li key={source.id} id={source.id} className="flex gap-4">
                 <span className="mt-0.5 font-mono text-[12px] tabular-nums text-ink-faint">
@@ -450,7 +450,7 @@ export default function ResearchArticlePage() {
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-rule px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
           >
             What AdimFit is
           </Link>
@@ -481,7 +481,7 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
 
 function P({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-5 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
+    <p className="mt-6 text-[16px] leading-[1.75] text-ink-muted">{children}</p>
   );
 }
 
@@ -495,7 +495,7 @@ function Strong({ children }: { children: React.ReactNode }) {
 
 function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-indigo/50 pl-5 text-[16px] leading-[1.7] text-ink-muted">
+    <p className="my-8 border-l-2 border-indigo/50 pl-6 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );

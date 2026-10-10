@@ -146,23 +146,23 @@ export default function WorkoutLogPage() {
 function LogSkeleton() {
   return (
     <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-5">
-      <div className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6 lg:col-span-2">
+      <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6 lg:col-span-2">
         <Skeleton className="h-3 w-28 rounded bg-paper-sunken" />
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-6 flex flex-wrap gap-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-9 w-24 rounded-full bg-paper-sunken" />
           ))}
         </div>
-        <Skeleton className="mt-5 h-11 w-full rounded-md bg-paper-sunken" />
+        <Skeleton className="mt-6 h-11 w-full rounded-md bg-paper-sunken" />
         <div className="mt-4 grid grid-cols-2 gap-4">
           <Skeleton className="h-11 rounded-md bg-paper-sunken" />
           <Skeleton className="h-11 rounded-md bg-paper-sunken" />
         </div>
         <Skeleton className="mt-4 h-20 w-full rounded-md bg-paper-sunken" />
-        <Skeleton className="mt-5 h-11 w-full rounded-full bg-paper-sunken" />
+        <Skeleton className="mt-6 h-11 w-full rounded-full bg-paper-sunken" />
       </div>
 
-      <div className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6 lg:col-span-3">
+      <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6 lg:col-span-3">
         <Skeleton className="h-3 w-20 rounded bg-paper-sunken" />
         <div className="mt-4 divide-y divide-rule">
           {Array.from({ length: 3 }).map((_, i) => (

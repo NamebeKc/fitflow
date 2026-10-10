@@ -72,7 +72,7 @@ export function LandingPage({ variant = "default" }: { variant?: HeadlineKey }) 
             <NavBar />
           </div>
 
-          <div className="relative mx-auto w-full max-w-[1180px] px-5 pb-16 pt-6 md:px-8 md:pb-24 md:pt-10">
+          <div className="relative mx-auto w-full max-w-[1180px] px-6 pb-16 pt-6 md:px-8 md:pb-24 md:pt-10">
             <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-16">
               <div>
                 <div className="rise">
@@ -194,7 +194,7 @@ function StructuredData() {
 
 function NavBar() {
   return (
-    <header className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
+    <header className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
       <Image
         src="/logo-horizontal.png"
         alt="AdimFit"
@@ -238,7 +238,7 @@ function NavBar() {
  */
 function MemoryProof() {
   return (
-    <div className="rounded-lg border border-rule bg-paper-raised p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6">
+    <div className="rounded-lg border border-rule bg-paper-raised p-6 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] sm:p-6">
       <div className="step delay-350">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Your last few sessions
@@ -250,7 +250,7 @@ function MemoryProof() {
         </div>
       </div>
 
-      <div className="my-5 h-px bg-paper-sunken" />
+      <div className="my-6 h-px bg-paper-sunken" />
 
       <div className="space-y-3.5">
         <div className="step delay-600 flex justify-end">
@@ -274,7 +274,7 @@ function MemoryProof() {
         </div>
       </div>
 
-      <p className="step delay-1150 mt-5 border-t border-rule pt-4 text-center text-[13px] leading-relaxed text-ink-muted">
+      <p className="step delay-1150 mt-6 border-t border-rule pt-4 text-center text-[13px] leading-relaxed text-ink-muted">
         A general chatbot starts from zero every time.
         <br />
         <span className="text-ink-muted">AdimFit doesn&apos;t.</span>
@@ -295,7 +295,7 @@ function LogRow({
   muted?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-md border border-rule bg-ink/30 px-3.5 py-2.5">
+    <div className="flex items-center gap-3 rounded-md border border-rule bg-paper-sunken px-3.5 py-2.5">
       <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-muted">
         {day}
       </span>
@@ -325,7 +325,7 @@ function WhyDifferent() {
   ];
 
   return (
-    <section className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+    <section className="mx-auto w-full max-w-[1180px] px-6 py-16 md:px-8 md:py-20">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
@@ -407,7 +407,7 @@ function WhyNotChatGpt() {
       className="border-t border-rule"
       aria-labelledby="compare-heading"
     >
-      <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+      <div className="mx-auto w-full max-w-[1180px] px-6 py-16 md:px-8 md:py-20">
         <div className="max-w-2xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
             The obvious question
@@ -474,7 +474,7 @@ function PricingBand() {
 
   return (
     <section id="pricing" className="border-t border-rule">
-      <div className="mx-auto w-full max-w-[1180px] px-5 py-16 md:px-8 md:py-20">
+      <div className="mx-auto w-full max-w-[1180px] px-6 py-16 md:px-8 md:py-20">
         <div className="overflow-hidden rounded-lg border border-indigo/20 bg-gradient-to-b from-indigo/[0.07] to-transparent">
           <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-md">
@@ -534,8 +534,8 @@ function PricingBand() {
 function Footer() {
   return (
     <footer className="border-t border-rule">
-      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-8 px-5 py-10 md:flex-row md:items-start md:justify-between md:px-8">
-        <div className="space-y-5">
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-8 px-6 py-10 md:flex-row md:items-start md:justify-between md:px-8">
+        <div className="space-y-6">
           <Image
             src="/logo-horizontal.png"
             alt="AdimFit"

@@ -84,7 +84,7 @@ export function ExerciseVideoLink({
           one. */}
       <span className="absolute inset-0 bg-ink/35" aria-hidden />
       <Play
-        className="relative size-3 fill-ink text-ink drop-shadow"
+        className="relative size-3 fill-paper text-paper drop-shadow"
         strokeWidth={0}
       />
     </>
@@ -154,7 +154,7 @@ export function ExerciseVideoLink({
       </DialogTrigger>
 
       <DialogContent className="max-w-xl gap-0 overflow-hidden border-rule bg-paper-raised p-0 text-ink">
-        <DialogHeader className="space-y-1 px-5 pb-3 pt-5">
+        <DialogHeader className="space-y-1 px-6 pb-3 pt-6">
           <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-ink">
             {video.exercise}
           </DialogTitle>
@@ -175,7 +175,7 @@ export function ExerciseVideoLink({
           />
         )}
 
-        <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+        <div className="flex items-center justify-between gap-3 px-6 py-3.5">
           <p className="truncate text-xs text-ink-muted">{video.title}</p>
           <a
             href={fullVideoUrl}

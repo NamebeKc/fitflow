@@ -199,7 +199,7 @@ function DashboardSkeleton() {
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
         <div className="rounded-lg border border-rule bg-paper-raised p-6 lg:col-span-2">
           <Skeleton className="h-3 w-24 rounded bg-paper-sunken" />
-          <div className="mt-5 grid grid-cols-3 gap-3">
+          <div className="mt-6 grid grid-cols-3 gap-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-[84px] rounded-md bg-paper-sunken" />
             ))}
@@ -213,13 +213,13 @@ function DashboardSkeleton() {
 
         <div className="rounded-lg border border-rule bg-paper-raised p-6">
           <Skeleton className="h-3 w-20 rounded bg-paper-sunken" />
-          <Skeleton className="mt-5 h-12 w-full rounded-md bg-paper-sunken" />
-          <div className="mt-5 space-y-2">
+          <Skeleton className="mt-6 h-12 w-full rounded-md bg-paper-sunken" />
+          <div className="mt-6 space-y-2">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-11 w-full rounded-md bg-paper-sunken" />
             ))}
           </div>
-          <Skeleton className="mt-5 h-11 w-full rounded-full bg-paper-sunken" />
+          <Skeleton className="mt-6 h-11 w-full rounded-full bg-paper-sunken" />
         </div>
       </div>
 

@@ -308,7 +308,7 @@ export function Paywall({
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   active
                     ? "border-indigo/40 bg-indigo/[0.07]"
-                    : "border-rule bg-ink/30 hover:border-rule",
+                    : "border-rule bg-paper-sunken hover:border-rule",
                 )}
               >
                 <span
@@ -378,7 +378,7 @@ export function Paywall({
           type="button"
           onClick={() => void checkout()}
           disabled={busy}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

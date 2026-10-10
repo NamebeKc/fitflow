@@ -174,13 +174,13 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
   }
 
   return (
-    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
         Log a workout
       </p>
 
       {/* ── Activity ─────────────────────────────────────────────── */}
-      <div className="mt-5 space-y-2.5">
+      <div className="mt-6 space-y-2.5">
         <p className="text-sm font-medium text-ink-muted">Activity</p>
         <div className="flex flex-wrap gap-2">
           {ACTIVITIES.map(({ id, label }) => {
@@ -200,7 +200,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
-                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
+                    : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
                 <Icon
@@ -218,7 +218,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
       </div>
 
       {/* ── Duration + date ──────────────────────────────────────── */}
-      <div className="mt-5 grid grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <label
             htmlFor="workout-duration"
@@ -268,7 +268,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
       </div>
 
       {/* ── Intensity ────────────────────────────────────────────── */}
-      <div className="mt-5 space-y-2.5">
+      <div className="mt-6 space-y-2.5">
         <p className="text-sm font-medium text-ink-muted">Intensity</p>
         <div className="grid grid-cols-3 gap-2">
           {INTENSITIES.map(({ id, label }) => {
@@ -284,7 +284,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
-                    : "border-rule bg-ink/30 text-ink-muted hover:border-rule hover:text-ink",
+                    : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
                 {label}
@@ -296,7 +296,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
 
       {/* ── Steps (walking and running only) ─────────────────────── */}
       {showSteps && (
-        <div className="mt-5 space-y-2">
+        <div className="mt-6 space-y-2">
           <label
             htmlFor="workout-steps"
             className="text-sm font-medium text-ink-muted"
@@ -325,7 +325,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
 
       {/* ── Strength detail ──────────────────────────────────────── */}
       {showStrength && (
-        <div className="mt-5 space-y-3">
+        <div className="mt-6 space-y-3">
           <div className="flex items-baseline justify-between gap-3">
             <p className="text-sm font-medium text-ink-muted">
               Exercises{" "}
@@ -342,7 +342,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
           </div>
 
           {strength.length === 0 ? (
-            <p className="rounded-md border border-rule bg-ink/30 px-4 py-3 text-xs leading-relaxed text-ink-muted">
+            <p className="rounded-md border border-rule bg-paper-sunken px-4 py-3 text-xs leading-relaxed text-ink-muted">
               Recording what you lifted is what lets your coach progress
               you — &ldquo;3 × 8 at 60kg last week, let&apos;s try 3 × 10&rdquo;.
               Skip it and the session still logs.
@@ -352,7 +352,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               {strength.map((entry, index) => (
                 <li
                   key={index}
-                  className="rounded-md border border-rule bg-ink/30 p-3"
+                  className="rounded-md border border-rule bg-paper-sunken p-3"
                 >
                   <div className="flex items-center gap-2">
                     <Input
@@ -410,7 +410,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
 
       {/* ── Optional detail ──────────────────────────────────────── */}
       {showDetail ? (
-        <div className="mt-5 space-y-4 border-t border-rule pt-5">
+        <div className="mt-6 space-y-4 border-t border-rule pt-6">
           <div className="space-y-2">
             <label
               htmlFor="workout-title"
@@ -467,7 +467,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         type="button"
         onClick={submit}
         disabled={!valid}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-30 disabled:shadow-none"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-30 disabled:shadow-none"
       >
         <Plus className="size-4" strokeWidth={2.5} />
         Log workout

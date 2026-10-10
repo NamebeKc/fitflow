@@ -159,7 +159,7 @@ export function Sidebar() {
         </nav>
 
         {/* User footer */}
-        <div className="px-3 pb-5">
+        <div className="px-3 pb-6">
           <div className="mb-4 h-px bg-paper-sunken" />
 
           {isLoading ? (

@@ -86,7 +86,7 @@ export default function GuidesIndexPage() {
       />
 
       <header className="border-b border-rule">
-        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
+        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
           <Link
             href="/"
             className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
@@ -108,14 +108,14 @@ export default function GuidesIndexPage() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[860px] px-5 py-14 md:px-8 md:py-20">
+      <main className="mx-auto w-full max-w-[860px] px-6 py-14 md:px-8 md:py-20">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
           Guides
         </p>
-        <h1 className="mt-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
+        <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
           Training, explained properly.
         </h1>
-        <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-muted">
+        <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-ink-muted">
           Writing about what actually works when you are planning your own
           training — including the parts where the free option is good
           enough and we say so.

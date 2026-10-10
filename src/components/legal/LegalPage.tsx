@@ -26,7 +26,7 @@ interface LegalPageProps {
 export function LegalPage({ title, updated, children }: LegalPageProps) {
   return (
     <div className="min-h-dvh bg-paper text-ink">
-      <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-6 md:px-8">
+      <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-6 py-6 md:px-8">
         <Link href="/" className="flex items-center gap-3 outline-none">
           <Image
             src="/logo-horizontal.png"
@@ -46,7 +46,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
         </Link>
       </header>
 
-      <main className="mx-auto w-full max-w-3xl px-5 pb-20 pt-6 md:px-8">
+      <main className="mx-auto w-full max-w-3xl px-6 pb-20 pt-6 md:px-8">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
           Legal
         </p>
@@ -61,7 +61,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
       </main>
 
       <footer className="border-t border-rule">
-        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-8 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted md:px-8">
+        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-8 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted md:px-8">
           <Link
             href="/privacy"
             className="transition-colors hover:text-ink"

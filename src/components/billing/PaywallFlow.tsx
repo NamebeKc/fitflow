@@ -250,7 +250,7 @@ function GoalsScreen({
         {chips.map((chip) => (
           <span
             key={chip}
-            className="rounded-full border border-rule bg-ink/30 px-3.5 py-2 text-[13px] text-ink-muted"
+            className="rounded-full border border-rule bg-paper-sunken px-3.5 py-2 text-[13px] text-ink-muted"
           >
             {chip}
           </span>
@@ -258,7 +258,7 @@ function GoalsScreen({
       </div>
 
       {(profile?.equipment?.length ?? 0) > 0 && (
-        <p className="mt-5 text-[13px] leading-relaxed text-ink-muted">
+        <p className="mt-6 text-[13px] leading-relaxed text-ink-muted">
           Working with{" "}
           <span className="text-ink-muted">
             {(profile?.equipment ?? []).map(equipmentLabel).join(", ")}
@@ -300,7 +300,7 @@ function PlanScreen({
       </ul>
 
       {secondary && secondary !== primary && (
-        <p className="mt-5 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
+        <p className="mt-6 rounded-md border border-rule bg-paper-sunken px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
           <span className="text-ink">
             {goalLabel(secondary)} gets its own days.
           </span>{" "}
@@ -341,7 +341,7 @@ function EvidenceScreen() {
         limitation a reader has to go looking for is a limitation the
         page is hiding.
       */}
-      <div className="mt-5 rounded-md border border-rule bg-ink/30 px-3.5 py-3">
+      <div className="mt-6 rounded-md border border-rule bg-paper-sunken px-3.5 py-3">
         <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
           What this doesn&apos;t show
         </p>
@@ -370,7 +370,7 @@ function EvidenceScreen() {
 
 function Progress({ step, total }: { step: number; total: number }) {
   return (
-    <div className="mb-5 flex gap-1.5" aria-hidden>
+    <div className="mb-6 flex gap-1.5" aria-hidden>
       {Array.from({ length: total }).map((_, index) => (
         <span
           key={index}

@@ -119,7 +119,7 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
         animate={{ opacity: 1, y: 0 }}
         exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="relative rounded-md border border-rule bg-paper-raised p-5"
+        className="relative rounded-md border border-rule bg-paper-raised p-6"
       >
         <button
           type="button"
@@ -150,7 +150,7 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
               disabled={saving}
               onClick={() => void answer(option.id)}
               className={cn(
-                "rounded-md border border-rule bg-ink/30 px-3 py-3 text-[13px] text-ink-muted outline-none transition-all",
+                "rounded-md border border-rule bg-paper-sunken px-3 py-3 text-[13px] text-ink-muted outline-none transition-all",
                 "hover:border-indigo/40 hover:bg-indigo/[0.06] hover:text-ink",
                 "focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
                 "disabled:opacity-40",

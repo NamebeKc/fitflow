@@ -132,11 +132,11 @@ export default function ProgressPage() {
       ) : (
         <>
           {/* ── Training totals ─────────────────────────────────── */}
-          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+          <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
               All time
             </p>
-            <div className="mt-5 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
+            <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-rule bg-paper-sunken">
               <Stat label="Sessions" value={String(totals.sessions)} />
               <Stat label="Minutes" value={String(totals.minutes)} />
               <Stat
@@ -154,12 +154,12 @@ export default function ProgressPage() {
           </section>
 
           {/* ── Milestones ──────────────────────────────────────── */}
-          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+          <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
             <AchievementGrid achievements={achievements} />
           </section>
 
           {/* ── Weight ──────────────────────────────────────────── */}
-          <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+          <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
             <div className="flex items-baseline justify-between gap-3">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
                 Weight
@@ -178,13 +178,13 @@ export default function ProgressPage() {
             </div>
 
             {inviteWeighIn && (
-              <p className="mt-4 rounded-md border border-rule bg-ink/30 px-4 py-3 text-[13px] leading-relaxed text-ink-muted">
+              <p className="mt-4 rounded-md border border-rule bg-paper-sunken px-4 py-3 text-[13px] leading-relaxed text-ink-muted">
                 It&apos;s been a couple of weeks since your last entry. Worth
                 recording if you feel like it.
               </p>
             )}
 
-            <div className="mt-5">
+            <div className="mt-6">
               <WeightChart measurements={measurements} />
             </div>
           </section>
@@ -235,7 +235,7 @@ function ProgressSkeleton() {
     <div className="flex flex-col gap-6">
       <div className="rounded-lg border border-rule bg-paper-raised p-6">
         <Skeleton className="h-3 w-20 rounded bg-paper-sunken" />
-        <div className="mt-5 grid grid-cols-3 gap-3">
+        <div className="mt-6 grid grid-cols-3 gap-3">
           {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton key={i} className="h-[84px] rounded-md bg-paper-sunken" />
           ))}
@@ -243,7 +243,7 @@ function ProgressSkeleton() {
       </div>
       <div className="rounded-lg border border-rule bg-paper-raised p-6">
         <Skeleton className="h-3 w-24 rounded bg-paper-sunken" />
-        <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+        <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-24 rounded-md bg-paper-sunken" />
           ))}

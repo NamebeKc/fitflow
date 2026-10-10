@@ -162,13 +162,13 @@ function PartnerDashboard() {
       )}
 
       {stats.status !== "active" && (
-        <p className="mt-4 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
+        <p className="mt-4 rounded-md border border-rule bg-paper-sunken px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
           This campaign is paused, so new signups won&apos;t earn. Anything
           already shown above is still owed and still paid.
         </p>
       )}
 
-      <p className="mt-7 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
+      <p className="mt-7 border-t border-rule pt-6 text-[12px] leading-relaxed text-ink-faint">
         Updated live. Payouts run monthly — we&apos;ll email you the reference
         when each one is sent. Questions:{" "}
         <a
@@ -196,7 +196,7 @@ function Stat({
       className={`rounded-md border p-4 ${
         accent
           ? "border-indigo/20 bg-indigo/[0.05]"
-          : "border-rule bg-ink/30"
+          : "border-rule bg-paper-sunken"
       }`}
     >
       <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">

@@ -99,7 +99,7 @@ export function ReminderCard() {
   // ── iOS, not installed ───────────────────────────────────────────
   if (support === "needs-install") {
     return (
-      <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+      <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
         <div className="flex items-center gap-2">
           <Bell className="size-4 text-ink-muted" strokeWidth={2} />
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
@@ -122,7 +122,7 @@ export function ReminderCard() {
   return (
     <section
       className={cn(
-        "rounded-lg border p-5 sm:p-6",
+        "rounded-lg border p-6 sm:p-6",
         enabled
           ? "border-indigo/20 bg-indigo/[0.04]"
           : "border-rule bg-paper-raised",
@@ -153,7 +153,7 @@ export function ReminderCard() {
             type="button"
             onClick={() => void disable()}
             disabled={busy}
-            className="mt-5 w-full rounded-full border border-rule px-5 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink disabled:opacity-50"
+            className="mt-6 w-full rounded-full border border-rule px-6 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink disabled:opacity-50"
           >
             {busy ? "Turning off…" : "Turn off reminders"}
           </button>
@@ -168,14 +168,14 @@ export function ReminderCard() {
             you&apos;ve already logged a session.
           </p>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
+          <div className="mt-6 grid grid-cols-2 gap-2">
             {TIMES.map((time) => (
               <button
                 key={time.hour}
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-md border border-rule bg-ink/30 px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
               >
                 <span>
                   <span className="block text-sm font-medium text-ink">

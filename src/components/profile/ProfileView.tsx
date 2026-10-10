@@ -45,11 +45,11 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
       initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="mx-auto w-full max-w-xl space-y-5"
+      className="mx-auto w-full max-w-xl space-y-6"
     >
       <Card className="border-rule bg-paper-raised text-ink shadow-none">
         {/* ── Identity header ───────────────────────────────────────── */}
-        <CardHeader className="flex flex-row items-center gap-3 pb-5 sm:gap-4">
+        <CardHeader className="flex flex-row items-center gap-3 pb-6 sm:gap-4">
           <Avatar className="size-12 shrink-0 border border-rule sm:size-14">
             {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
             <AvatarFallback className="bg-paper-raised text-lg font-semibold text-indigo">
@@ -80,7 +80,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
         <CardContent className="space-y-6">
           {/* ── Key stats ───────────────────────────────────────────── */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-            <div className="rounded-md border border-rule bg-ink/30 p-3.5 sm:p-4">
+            <div className="rounded-md border border-rule bg-paper-sunken p-3.5 sm:p-4">
               <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">
                 Age
               </p>
@@ -89,7 +89,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
               </p>
             </div>
 
-            <div className="rounded-md border border-rule bg-ink/30 p-3.5 sm:p-4">
+            <div className="rounded-md border border-rule bg-paper-sunken p-3.5 sm:p-4">
               <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">
                 Weight
               </p>
@@ -121,7 +121,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
               {profile.activities.map((activity) => (
                 <span
                   key={activity}
-                  className="rounded-full border border-rule bg-ink/30 px-3.5 py-1.5 text-sm font-medium text-ink-muted"
+                  className="rounded-full border border-rule bg-paper-sunken px-3.5 py-1.5 text-sm font-medium text-ink-muted"
                 >
                   {activityLabel(activity)}
                 </span>
@@ -139,7 +139,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
                 {profile.environment.map((environment) => (
                   <span
                     key={environment}
-                    className="rounded-full border border-rule bg-ink/30 px-3.5 py-1.5 text-sm font-medium text-ink-muted"
+                    className="rounded-full border border-rule bg-paper-sunken px-3.5 py-1.5 text-sm font-medium text-ink-muted"
                   >
                     {environmentLabel(environment)}
                   </span>
@@ -158,7 +158,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
                 {profile.equipment.map((equipment) => (
                   <span
                     key={equipment}
-                    className="rounded-full border border-rule bg-ink/30 px-3.5 py-1.5 text-sm font-medium text-ink-muted"
+                    className="rounded-full border border-rule bg-paper-sunken px-3.5 py-1.5 text-sm font-medium text-ink-muted"
                   >
                     {equipmentLabel(equipment)}
                   </span>
@@ -172,7 +172,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
                 Coaching style
               </p>
-              <span className="inline-block rounded-full border border-rule bg-ink/30 px-3.5 py-1.5 text-sm font-medium text-ink-muted">
+              <span className="inline-block rounded-full border border-rule bg-paper-sunken px-3.5 py-1.5 text-sm font-medium text-ink-muted">
                 {coachingStyleLabel(profile.coachingStyle)}
               </span>
             </div>
@@ -188,7 +188,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
 
       {/* ── Account ───────────────────────────────────────────────── */}
       <Card className="border-rule bg-paper-raised text-ink shadow-none">
-        <CardContent className="flex items-center gap-3 p-4 sm:p-5">
+        <CardContent className="flex items-center gap-3 p-4 sm:p-6">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-ink">Signed in</p>
             <p className="truncate text-sm text-ink-muted">

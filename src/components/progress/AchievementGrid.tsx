@@ -64,7 +64,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
               "rounded-md border p-4 transition-colors",
               achievement.earned
                 ? "border-indigo/25 bg-indigo/[0.05]"
-                : "border-rule bg-ink/30",
+                : "border-rule bg-paper-sunken",
             )}
           >
             <div className="flex items-start gap-3">

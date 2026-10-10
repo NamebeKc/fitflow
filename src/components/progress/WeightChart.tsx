@@ -32,7 +32,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
 
   if (measurements.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-md border border-rule bg-ink/30 px-6 text-center">
+      <div className="flex h-40 items-center justify-center rounded-md border border-rule bg-paper-sunken px-6 text-center">
         <p className="max-w-xs text-sm leading-relaxed text-ink-muted">
           Record a weight to start tracking. Entirely optional.
         </p>
@@ -58,7 +58,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
           </p>
         </div>
 
-        <div className="rounded-md border border-rule bg-ink/30 px-4 py-5 text-center">
+        <div className="rounded-md border border-rule bg-paper-sunken px-4 py-6 text-center">
           <p className="text-sm leading-relaxed text-ink-muted">
             Your trend line appears once you record a second reading.
           </p>
@@ -117,7 +117,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
         </div>
       </div>
 
-      <div className="relative h-32 w-full rounded-md border border-rule bg-ink/30 p-3">
+      <div className="relative h-32 w-full rounded-md border border-rule bg-paper-sunken p-3">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="none"

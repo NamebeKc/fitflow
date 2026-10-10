@@ -62,7 +62,7 @@ export function WorkoutList({
   );
 
   return (
-    <section className="rounded-lg border border-rule bg-paper-raised p-5 sm:p-6">
+    <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
       <div className="flex items-baseline justify-between gap-3">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           History
@@ -76,7 +76,7 @@ export function WorkoutList({
 
       {workouts.length === 0 ? (
         <div className="flex flex-col items-center gap-4 py-12 text-center">
-          <div className="flex size-14 items-center justify-center rounded-md border border-rule bg-ink/30">
+          <div className="flex size-14 items-center justify-center rounded-md border border-rule bg-paper-sunken">
             <ClipboardList className="size-6 text-ink-muted" strokeWidth={2} />
           </div>
           <div className="space-y-1.5">
@@ -108,7 +108,7 @@ export function WorkoutList({
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="group flex items-start gap-3 py-4 first:pt-0 last:pb-0 sm:gap-4"
                 >
-                  <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-md border border-rule bg-ink/30">
+                  <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-md border border-rule bg-paper-sunken">
                     <Icon className="size-[18px] text-ink-muted" strokeWidth={2} />
                   </div>
 

@@ -193,7 +193,7 @@ export function ShareWorkoutDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md gap-0 overflow-hidden border-rule bg-paper-raised p-0 text-ink">
-        <DialogHeader className="space-y-1 px-5 pb-4 pt-5">
+        <DialogHeader className="space-y-1 px-6 pb-4 pt-6">
           <DialogTitle className="text-base font-semibold tracking-[-0.02em] text-ink">
             Share your session
           </DialogTitle>
@@ -202,7 +202,7 @@ export function ShareWorkoutDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="px-5">
+        <div className="px-6">
           <div className="relative aspect-square w-full overflow-hidden rounded-md border border-rule bg-paper">
             {previewUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -237,7 +237,7 @@ export function ShareWorkoutDialog({
         </div>
 
         {/* ── Photo controls ───────────────────────────────────────── */}
-        <div className="px-5 pt-4">
+        <div className="px-6 pt-4">
           <div className="flex items-center gap-3 rounded-md border border-rule bg-paper-sunken px-4 py-3">
             <div className="min-w-0 flex-1">
               <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
@@ -317,12 +317,12 @@ export function ShareWorkoutDialog({
           />
         </div>
 
-        <div className="px-5 pb-5 pt-4">
+        <div className="px-6 pb-6 pt-4">
           <button
             type="button"
             onClick={() => void handleShare()}
             disabled={!blob || busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-40 disabled:shadow-none"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-40 disabled:shadow-none"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

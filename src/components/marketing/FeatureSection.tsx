@@ -49,12 +49,12 @@ export function FeatureSection() {
         className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-indigo opacity-[0.05] blur-[130px]"
       />
 
-      <div className="relative mx-auto w-full max-w-[1180px] px-5 md:px-8">
+      <div className="relative mx-auto w-full max-w-[1180px] px-6 md:px-8">
         <header className="rise max-w-xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
             How it works
           </p>
-          <h2 className="mt-5 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-ink sm:text-[2.75rem]">
+          <h2 className="mt-6 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-ink sm:text-[2.75rem]">
             Three things, on a loop.
             <span className="block text-ink-muted">
               Each one makes the next better.

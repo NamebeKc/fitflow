@@ -43,7 +43,7 @@ export default function ResearchIndexPage() {
   return (
     <div className="min-h-dvh bg-paper text-ink antialiased">
       <header className="border-b border-rule">
-        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-5 py-5 md:px-8">
+        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
           <Link
             href="/"
             className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
@@ -65,14 +65,14 @@ export default function ResearchIndexPage() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[860px] px-5 py-14 md:px-8 md:py-20">
+      <main className="mx-auto w-full max-w-[860px] px-6 py-14 md:px-8 md:py-20">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
           Research
         </p>
-        <h1 className="mt-5 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
+        <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
           The working, shown.
         </h1>
-        <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-muted">
+        <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-ink-muted">
           AdimFit makes claims about exercise on its marketing pages.
           These are the reviews those claims rest on, with every figure
           tied to a source you can open.
@@ -119,7 +119,7 @@ export default function ResearchIndexPage() {
           <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
             How these are written
           </h2>
-          <ul className="mt-5 space-y-3.5">
+          <ul className="mt-6 space-y-3.5">
             {[
               "Every figure is traceable to a numbered source. If it cannot be, it is not published.",
               "Observational findings are labelled observational. Randomised findings are labelled randomised. The difference is usually the whole story.",

@@ -216,7 +216,7 @@ function SignIn({
         </button>
       </form>
 
-      <p className="mt-6 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
+      <p className="mt-6 border-t border-rule pt-6 text-[12px] leading-relaxed text-ink-faint">
         Partner accounts are set up by us — there&apos;s no signup here. Lost
         your password, or think you should have access?{" "}
         <a
@@ -288,7 +288,7 @@ function Dashboard({
         <motion.div
           initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] p-5"
+          className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] p-6"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-indigo/70">
             Due to you
@@ -322,7 +322,7 @@ function Dashboard({
         </p>
       )}
 
-      <div className="mt-6 rounded-md border border-rule bg-ink/30 p-4">
+      <div className="mt-6 rounded-md border border-rule bg-paper-sunken p-4">
         <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint">
           Your link
         </p>
@@ -348,13 +348,13 @@ function Dashboard({
       )}
 
       {stats.status !== "active" && (
-        <p className="mt-4 rounded-md border border-rule bg-ink/30 px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
+        <p className="mt-4 rounded-md border border-rule bg-paper-sunken px-3.5 py-3 text-[13px] leading-relaxed text-ink-muted">
           This campaign is paused, so new signups won&apos;t earn. Anything
           shown above is still owed and still paid.
         </p>
       )}
 
-      <p className="mt-7 border-t border-rule pt-5 text-[12px] leading-relaxed text-ink-faint">
+      <p className="mt-7 border-t border-rule pt-6 text-[12px] leading-relaxed text-ink-faint">
         Views are counted once per person per day, so previews and crawlers
         don&apos;t inflate them. Payouts run monthly — we&apos;ll email the
         transfer reference.{" "}
@@ -402,7 +402,7 @@ function Field({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-rule bg-ink/30 p-3.5">
+    <div className="rounded-md border border-rule bg-paper-sunken p-3.5">
       <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
         {label}
       </p>

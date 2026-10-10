@@ -171,7 +171,7 @@ export function SessionTimer() {
           "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
           running
             ? "bg-indigo text-on-indigo hover:bg-indigo-lift"
-            : "border border-rule bg-ink/30 text-ink-muted hover:border-indigo/30 hover:text-ink",
+            : "border border-rule bg-paper-sunken text-ink-muted hover:border-indigo/30 hover:text-ink",
         )}
       >
         {running ? (
