@@ -134,8 +134,32 @@ export interface BillingRecord {
    */
   lastPaymentAt?: string;
   plan?: PlanId;
-  /** Flutterwave's subscription ID, needed to cancel. */
+  /**
+   * Flutterwave's subscription ID.
+   *
+   * Backfilled by `api/billing/cancel` the first time a cancellation
+   * succeeds. Nothing writes it at checkout — the id only exists once
+   * Flutterwave has created the subscription from the first charge,
+   * and the charge response does not carry it — so the cancel route
+   * finds it by billing email and records it on the way past.
+   */
   flwSubscriptionId?: number;
+  /** ISO timestamp of a confirmed cancellation. */
+  cancelledAt?: string;
+  /** Reason id from the cancellation page. Optional by design. */
+  cancelReason?: string;
+  /** Free text from the cancellation page. */
+  cancelNote?: string;
+  /**
+   * Whether an active subscription actually existed at Flutterwave
+   * when this account cancelled.
+   *
+   * False is legitimate — a one-off charge, or a mandate that had
+   * already lapsed — and it is recorded rather than inferred so that
+   * support can later tell "nothing to cancel" apart from "we never
+   * found it".
+   */
+  providerSubscriptionFound?: boolean;
   /**
    * Set once a lifetime plan is paid for, and never unset.
    *

@@ -30,6 +30,11 @@ export type ServerAnalyticsEvent =
   | "subscription_payment_failed"
   | "subscription_payment_recovered"
   | "subscription_churned"
+  // Voluntary cancellation through /billing/cancel. Distinct from
+  // `subscription_churned`, which is involuntary — a payment that
+  // failed its way out. Keeping them apart is the difference
+  // between a product problem and a card problem.
+  | "subscription_cancelled"
   // Fired when `isEntitled()` blocks a real request — expired trial,
   // lapsed subscription, or past-due grace period run out. `status` on
   // the event says which. There is deliberately no `trial_canceled`:

@@ -80,6 +80,9 @@ export type AnalyticsEvent =
   | "paywall_step_viewed"
   | "checkout_started"
   | "checkout_abandoned"
+  | "cancel_page_viewed"
+  | "subscription_cancel_confirmed"
+  | "subscription_cancel_abandoned"
   // ── Referral, Phase 4 (Channel A test) ───────────────────────────
   | "referral_link_clicked"
   // ── Reminders ────────────────────────────────────────────────────

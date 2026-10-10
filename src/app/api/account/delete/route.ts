@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Cancel your subscription before deleting your account, or you'll keep being charged. Email support@adimfit.com and we'll cancel it for you.",
+            "Cancel your subscription before deleting your account, or you'll keep being charged. You can do it yourself on the Profile tab, under Subscription.",
           reason: "active_subscription",
         },
         { status: 409 },

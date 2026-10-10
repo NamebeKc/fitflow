@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Gift, Loader2, ShieldCheck, Timer } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -240,19 +241,25 @@ function SubscribeButton({
 /**
  * Cancellation.
  *
- * Flutterwave has no customer-facing portal for subscriptions bound to
- * a payment plan, so this is a support request rather than a button.
- * Being upfront that it's an email — with the subject pre-filled — is
- * better than a button that silently opens a support ticket.
+ * This was a `mailto:`, on the reasoning that Flutterwave has no
+ * customer-facing portal for plan-bound subscriptions. That is true,
+ * and it is not the same as having no API: a subscription can be
+ * found by subscriber email and cancelled outright, which is what
+ * `/billing/cancel` does.
+ *
+ * An email was a dead end on a phone — leave the app, find a mail
+ * client, compose a message to a stranger to stop paying. A fair
+ * number of people skip that and charge back instead, which costs a
+ * fee and a dispute rather than a subscriber.
  */
 function CancelLink() {
   return (
-    <a
-      href="mailto:support@adimfit.com?subject=Cancel%20my%20AdimFit%20subscription"
-      className="block text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+    <Link
+      href="/billing/cancel"
+      className="block text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
     >
       Cancel subscription
-    </a>
+    </Link>
   );
 }
 
