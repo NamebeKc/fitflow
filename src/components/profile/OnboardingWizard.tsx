@@ -335,7 +335,7 @@ export function OnboardingWizard({
 
           <Button
             onClick={() => setShowIntro(false)}
-            className="w-full gap-2 rounded-full bg-indigo py-6 text-sm font-semibold text-black hover:bg-indigo-lift active:scale-[0.99]"
+            className="w-full gap-2 rounded-full bg-indigo py-6 text-sm font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px"
           >
             Get started
             <ArrowRight className="size-4" />
@@ -590,7 +590,7 @@ export function OnboardingWizard({
                                 onClick={() => toggleEquipment(id)}
                                 aria-pressed={selected}
                                 className={cn(
-                                  "rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:scale-[0.98]",
+                                  "rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:translate-y-px",
                                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                                   selected
                                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
@@ -630,7 +630,7 @@ export function OnboardingWizard({
                           }
                           aria-pressed={selected}
                           className={cn(
-                            "w-full rounded-md border px-4 py-3 text-left outline-none transition-all active:scale-[0.99]",
+                            "w-full rounded-md border px-4 py-3 text-left outline-none transition-all active:translate-y-px",
                             "focus-visible:ring-2 focus-visible:ring-indigo/50",
                             selected
                               ? "border-indigo/40 bg-indigo/[0.08]"
@@ -695,7 +695,7 @@ export function OnboardingWizard({
             <Button
               onClick={goForward}
               disabled={!stepValid}
-              className="gap-2 rounded-full bg-indigo px-6 font-semibold text-black hover:bg-indigo-lift active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
+              className="gap-2 rounded-full bg-indigo px-6 font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px disabled:opacity-30 disabled:shadow-none"
             >
               {step === STEPS.length - 1
                 ? isEditing
@@ -738,7 +738,7 @@ function SelectTile({
       aria-pressed={selected}
       className={cn(
         "flex items-center gap-3 rounded-md border text-left font-medium outline-none transition-all",
-        "focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]",
+        "focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
         compact ? "gap-2.5 px-3.5 py-3 text-sm" : "px-4 py-3.5 text-sm",
         selected
           ? "border-indigo/40 bg-indigo/[0.08] text-ink"

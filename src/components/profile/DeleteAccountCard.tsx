@@ -134,7 +134,7 @@ export function DeleteAccountCard() {
           type="button"
           onClick={() => void deleteAccount()}
           disabled={!canDelete || busy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-5 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:scale-[0.99] disabled:opacity-40"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-5 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:translate-y-px disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

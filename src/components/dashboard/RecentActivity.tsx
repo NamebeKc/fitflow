@@ -65,7 +65,7 @@ export function RecentActivity({ workouts, limit = 4 }: RecentActivityProps) {
           </p>
           <Link
             href="/log"
-            className="inline-flex items-center gap-1.5 rounded-full border border-indigo/25 bg-indigo/[0.07] px-4 py-2 text-sm font-medium text-indigo outline-none transition-all hover:bg-indigo/[0.12] focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-indigo/25 bg-indigo/[0.07] px-4 py-2 text-sm font-medium text-indigo outline-none transition-all hover:bg-indigo/[0.12] focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
           >
             <Plus className="size-3.5" strokeWidth={2.5} />
             Log a workout

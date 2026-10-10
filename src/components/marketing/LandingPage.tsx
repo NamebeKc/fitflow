@@ -254,7 +254,7 @@ function MemoryProof() {
 
       <div className="space-y-3.5">
         <div className="step delay-600 flex justify-end">
-          <p className="max-w-[80%] rounded-md rounded-br-md bg-indigo px-4 py-2.5 text-[15px] font-medium leading-relaxed text-black">
+          <p className="max-w-[80%] rounded-md rounded-br-md bg-indigo px-4 py-2.5 text-[15px] font-medium leading-relaxed text-on-indigo">
             What should I do today?
           </p>
         </div>
@@ -512,7 +512,7 @@ function PricingBand() {
 
               <a
                 href="#auth"
-                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-indigo px-7 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
+                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-indigo px-7 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
               >
                 Start free
                 <ArrowRight className="size-4" strokeWidth={2.5} />

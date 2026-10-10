@@ -134,7 +134,7 @@ export function TabGuide() {
                 <Link
                   href={tab.href}
                   onClick={() => track("tab_guide_used", { tab: tab.label })}
-                  className="flex items-start gap-3.5 rounded-md border border-rule bg-ink/30 px-4 py-3 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]"
+                  className="flex items-start gap-3.5 rounded-md border border-rule bg-ink/30 px-4 py-3 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
                 >
                   <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-sm border border-rule bg-paper-sunken">
                     <Icon

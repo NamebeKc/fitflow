@@ -214,7 +214,7 @@ export function PaywallFlow({
           <button
             type="button"
             onClick={() => setStep((current) => current + 1)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
           >
             {step === STEPS.length - 2 ? "See your options" : "Continue"}
             <ArrowRight className="size-4" strokeWidth={2.5} />

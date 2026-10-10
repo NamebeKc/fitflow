@@ -106,7 +106,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                   className={cn(
                     "flex size-5 shrink-0 items-center justify-center rounded-sm border transition-colors",
                     checked
-                      ? "border-indigo bg-indigo text-black"
+                      ? "border-indigo bg-indigo text-on-indigo"
                       : "border-rule bg-ink/30",
                   )}
                 >
@@ -157,7 +157,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
             type="button"
             onClick={() => void log()}
             disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

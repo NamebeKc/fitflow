@@ -168,7 +168,7 @@ export function RestTimer() {
               key={preset.seconds}
               type="button"
               onClick={() => start(preset.seconds)}
-              className="shrink-0 rounded-full border border-rule bg-ink/30 px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.97]"
+              className="shrink-0 rounded-full border border-rule bg-ink/30 px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
             >
               {preset.label}
             </button>
@@ -309,7 +309,7 @@ function TimerButton({
       className={cn(
         "flex size-8 items-center justify-center rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
         accent
-          ? "bg-indigo text-black hover:bg-indigo-lift"
+          ? "bg-indigo text-on-indigo hover:bg-indigo-lift"
           : "border border-rule bg-ink/30 text-ink-muted hover:text-ink",
       )}
     >

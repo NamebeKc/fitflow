@@ -196,7 +196,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 }}
                 aria-pressed={selected}
                 className={cn(
-                  "flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:scale-[0.98]",
+                  "flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:translate-y-px",
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
@@ -280,7 +280,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 onClick={() => setIntensity(id)}
                 aria-pressed={selected}
                 className={cn(
-                  "rounded-md border px-3 py-2.5 text-sm font-medium outline-none transition-all active:scale-[0.98]",
+                  "rounded-md border px-3 py-2.5 text-sm font-medium outline-none transition-all active:translate-y-px",
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   selected
                     ? "border-indigo/40 bg-indigo/[0.08] text-ink"
@@ -467,7 +467,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         type="button"
         onClick={submit}
         disabled={!valid}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-30 disabled:shadow-none"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-30 disabled:shadow-none"
       >
         <Plus className="size-4" strokeWidth={2.5} />
         Log workout

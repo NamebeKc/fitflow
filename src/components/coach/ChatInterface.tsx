@@ -516,7 +516,7 @@ export function ChatInterface() {
               size="sm"
               onClick={() => void handleClear()}
               disabled={isClearing}
-              className="h-8 gap-1.5 rounded-full bg-indigo px-3.5 text-[12px] font-semibold text-black hover:bg-indigo-lift active:scale-[0.98]"
+              className="h-8 gap-1.5 rounded-full bg-indigo px-3.5 text-[12px] font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px"
             >
               {isClearing ? "Clearing…" : "Yes, reset"}
             </Button>
@@ -563,7 +563,7 @@ export function ChatInterface() {
                   key={suggestion}
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-rule bg-ink/30 px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:scale-[0.99]"
+                  className="rounded-full border-rule bg-ink/30 px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:translate-y-px"
                   onClick={() => send(suggestion)}
                 >
                   {suggestion}
@@ -638,7 +638,7 @@ export function ChatInterface() {
             size="icon"
             disabled={!draft.trim() || isBusy || isLoadingHistory}
             aria-label="Send message"
-            className="size-11 shrink-0 rounded-full bg-indigo text-black transition-all hover:bg-indigo-lift active:scale-[0.97] disabled:opacity-30 disabled:shadow-none"
+            className="size-11 shrink-0 rounded-full bg-indigo text-on-indigo transition-all hover:bg-indigo-lift active:translate-y-px disabled:opacity-30 disabled:shadow-none"
           >
             <SendHorizonal className="size-5" strokeWidth={2} />
           </Button>

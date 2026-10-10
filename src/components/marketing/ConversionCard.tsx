@@ -122,7 +122,7 @@ export function ConversionCard() {
           track("signup_started", { method: "google" });
           void signInWithGoogle();
         }}
-        className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3.5 text-[15px] font-semibold text-paper-raised shadow-[0_10px_30px_-12px_rgba(255,255,255,0.4)] outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-rule focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99]"
+        className="flex w-full items-center justify-center gap-3 rounded-sm border border-field-border bg-paper-raised px-5 py-3.5 text-[15px] font-semibold text-ink outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
       >
         <GoogleMark />
         Continue with Google
@@ -176,7 +176,7 @@ export function ConversionCard() {
                         }}
                         className={cn(
                           "relative z-10 flex-1 rounded-full px-4 py-2 text-[13px] font-medium outline-none transition-colors",
-                          active ? "text-black" : "text-ink-muted hover:text-ink",
+                          active ? "text-on-indigo" : "text-ink-muted hover:text-ink",
                         )}
                       >
                         {active && (
@@ -261,7 +261,7 @@ export function ConversionCard() {
                   type="button"
                   onClick={() => void submit()}
                   disabled={busy}
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-[14px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-50"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-[14px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-50"
                 >
                   {busy ? (
                     <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

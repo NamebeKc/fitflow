@@ -68,7 +68,7 @@ export function WelcomeState({ displayName, hasProfile }: WelcomeStateProps) {
         </div>
         <Link
           href="/coach"
-          className="shrink-0 rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
+          className="shrink-0 rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
         >
           Open
         </Link>
@@ -96,7 +96,7 @@ function StepLink({
     <li>
       <Link
         href={href}
-        className="group flex items-start gap-4 rounded-md border border-rule bg-ink/30 p-4 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.995]"
+        className="group flex items-start gap-4 rounded-md border border-rule bg-ink/30 p-4 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
       >
         <div
           className={cn(

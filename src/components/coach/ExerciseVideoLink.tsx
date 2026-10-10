@@ -114,7 +114,7 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
         }
       >
         <Search className="size-3 text-indigo" strokeWidth={2.5} />
@@ -141,7 +141,7 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
         }
       >
         {thumb ?? (

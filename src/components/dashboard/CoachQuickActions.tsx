@@ -38,7 +38,7 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
           <Link
             key={prompt}
             href={`/coach?prompt=${encodeURIComponent(prompt)}`}
-            className="group flex items-center justify-between gap-3 rounded-md border border-rule bg-ink/30 px-4 py-3 text-sm font-medium text-ink-muted outline-none transition-all hover:border-indigo/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.99]"
+            className="group flex items-center justify-between gap-3 rounded-md border border-rule bg-ink/30 px-4 py-3 text-sm font-medium text-ink-muted outline-none transition-all hover:border-indigo/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
           >
             <span className="truncate">{prompt}</span>
             <ArrowRight
@@ -51,7 +51,7 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
 
       <Link
         href="/coach"
-        className="mt-auto flex items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99]"
+        className="mt-auto flex items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
       >
         Open coach
         <ArrowRight className="size-4" strokeWidth={2.5} />

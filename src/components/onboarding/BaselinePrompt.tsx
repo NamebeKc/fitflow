@@ -152,7 +152,7 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
               className={cn(
                 "rounded-md border border-rule bg-ink/30 px-3 py-3 text-[13px] text-ink-muted outline-none transition-all",
                 "hover:border-indigo/40 hover:bg-indigo/[0.06] hover:text-ink",
-                "focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-[0.98]",
+                "focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
                 "disabled:opacity-40",
               )}
             >

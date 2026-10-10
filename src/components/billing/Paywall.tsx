@@ -283,7 +283,7 @@ export function Paywall({
                 className={cn(
                   "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
                   currency === value
-                    ? "bg-indigo text-black"
+                    ? "bg-indigo text-on-indigo"
                     : "text-ink-muted hover:text-ink",
                 )}
               >
@@ -304,7 +304,7 @@ export function Paywall({
                 onClick={() => setSelected(plan.id)}
                 aria-pressed={active}
                 className={cn(
-                  "flex w-full items-center gap-3.5 rounded-md border px-4 py-4 text-left outline-none transition-all active:scale-[0.99]",
+                  "flex w-full items-center gap-3.5 rounded-md border px-4 py-4 text-left outline-none transition-all active:translate-y-px",
                   "focus-visible:ring-2 focus-visible:ring-indigo/50",
                   active
                     ? "border-indigo/40 bg-indigo/[0.07]"
@@ -320,7 +320,7 @@ export function Paywall({
                   )}
                 >
                   {active && (
-                    <Check className="size-3 text-black" strokeWidth={3.5} />
+                    <Check className="size-3 text-on-indigo" strokeWidth={3.5} />
                   )}
                 </span>
 
@@ -378,7 +378,7 @@ export function Paywall({
           type="button"
           onClick={() => void checkout()}
           disabled={busy}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:scale-[0.99] disabled:opacity-50"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

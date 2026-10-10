@@ -165,7 +165,7 @@ export function InstallPrompt() {
               <button
                 type="button"
                 onClick={() => void install()}
-                className="mt-3 w-full rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
+                className="mt-3 w-full rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
               >
                 Install
               </button>

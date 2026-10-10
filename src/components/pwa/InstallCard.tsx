@@ -125,7 +125,7 @@ export function InstallCard() {
           type="button"
           onClick={() => void install()}
           disabled={!deferred || busy}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99] disabled:opacity-40"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
         >
           <Download className="size-4" strokeWidth={2.5} />
           {deferred ? "Install AdimFit" : "Open in Chrome to install"}

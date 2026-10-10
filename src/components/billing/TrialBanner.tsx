@@ -105,7 +105,7 @@ export function TrialBanner() {
         <Link
           href="/profile"
           onClick={() => track("paywall_shown", { trigger: "trial_banner" })}
-          className="hidden shrink-0 items-center gap-1 rounded-full bg-indigo px-3.5 py-1.5 text-[12px] font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.98] sm:flex"
+          className="hidden shrink-0 items-center gap-1 rounded-full bg-indigo px-3.5 py-1.5 text-[12px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px sm:flex"
         >
           Subscribe
           <ArrowRight className="size-3" strokeWidth={2.5} />

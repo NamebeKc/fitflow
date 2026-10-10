@@ -229,7 +229,7 @@ function SubscribeButton({
         track("paywall_shown", { trigger: "profile" });
         onSubscribe();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-black outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:scale-[0.99]"
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-5 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
     >
       {label}
       <ArrowRight className="size-4" strokeWidth={2.5} />
