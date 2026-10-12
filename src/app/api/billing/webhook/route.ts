@@ -10,6 +10,9 @@ import {
 } from "@/lib/billing-admin";
 import { PLANS, isLifetimePlan, type PlanId } from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
+import { sendOnce } from "@/lib/email/mailer";
+import { recipientFor } from "@/lib/email/recipient";
+import { cancelled, paymentFailed } from "@/lib/email/templates";
 
 /**
  * Flutterwave webhook.
@@ -155,10 +158,44 @@ export async function POST(request: Request) {
       type === "charge.completed" &&
       String(data.status).toLowerCase() === "failed"
     ) {
+      const beforeFailure = await getBilling(uid);
       await updateBilling(uid, { status: "past_due" });
       await trackServer(uid, "subscription_payment_failed", {
         provider: "flutterwave",
       });
+
+      // TELLING THEM IS THE POINT of flagging rather than revoking. A
+      // past_due customer who doesn't know is involuntary churn, and
+      // Nigerian cards decline on a first attempt for reasons that
+      // have nothing to do with the balance — so the one thing that
+      // recovers the payment is the customer knowing to retry.
+      //
+      // Keyed on the transaction, not the date: next month's failure
+      // must notify again, while a webhook retry of THIS failure must
+      // not. Wrapped, because a mail problem cannot be allowed to
+      // return a non-2xx and make Flutterwave replay the event.
+      try {
+        const recipient = await recipientFor(uid);
+        if (recipient) {
+          const meta = data.meta as { plan?: string } | undefined;
+          const planId = (beforeFailure?.plan ?? meta?.plan) as
+            | PlanId
+            | undefined;
+          const key = String(
+            data.tx_ref ?? data.id ?? new Date().toISOString().slice(0, 10),
+          );
+          await sendOnce(uid, "payment_failed", key, () =>
+            paymentFailed(recipient, {
+              planLabel:
+                planId && planId in PLANS ? PLANS[planId].label : "AdimFit",
+              graceEnds: beforeFailure?.currentPeriodEnd,
+            }),
+          );
+        }
+      } catch (error) {
+        console.error("[billing/webhook] Payment-failed email failed:", error);
+      }
+
       return NextResponse.json({ received: true });
     }
 
@@ -170,6 +207,30 @@ export async function POST(request: Request) {
         plan: priorBilling?.plan ?? "unknown",
         provider: "flutterwave",
       });
+
+      // A cancellation can originate at Flutterwave rather than with
+      // us — repeated failed charges, or a cancellation in their
+      // dashboard — and that path previously confirmed nothing to the
+      // customer. `api/billing/cancel` uses the same (uid, kind, key),
+      // so whichever path runs first sends and the other no-ops. That
+      // is the claim doing its job across two routes, not a duplicate.
+      try {
+        const recipient = await recipientFor(uid);
+        if (recipient) {
+          await sendOnce(
+            uid,
+            "cancelled",
+            new Date().toISOString().slice(0, 10),
+            () =>
+              cancelled(recipient, {
+                accessUntil: priorBilling?.currentPeriodEnd,
+              }),
+          );
+        }
+      } catch (error) {
+        console.error("[billing/webhook] Cancellation email failed:", error);
+      }
+
       return NextResponse.json({ received: true });
     }
 

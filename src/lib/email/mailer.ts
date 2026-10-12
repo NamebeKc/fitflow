@@ -429,11 +429,24 @@ export async function sendOnce(
     tags: { kind },
   });
 
+  if (result.skipped) {
+    // NOTHING WAS SENT, so the claim must not stand. A dry run exists
+    // to exercise every path without touching an inbox; if it kept
+    // its claims, the first real run would skip exactly the people the
+    // dry run covered and that mail would never go out. Same for a
+    // deployment missing its API key. Releasing is safe precisely
+    // because no message exists to duplicate.
+    await ref.delete().catch((error) => {
+      console.error("[email] Could not release claim:", id, error);
+    });
+    return { ...result, claimed: true };
+  }
+
   await ref
     .set(
       {
         sent: result.sent,
-        skipped: result.skipped ?? null,
+        skipped: null,
         error: result.error ?? null,
         completedAt: new Date().toISOString(),
       },
