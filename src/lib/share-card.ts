@@ -343,7 +343,11 @@ async function drawLogo(ctx: CanvasRenderingContext2D) {
   try {
     // Horizontal lockup: on a shared image the wordmark is doing the
     // work, since a stranger seeing the mark alone learns nothing.
-    const logo = await loadImage("/logo-horizontal.png");
+    // The LIGHT variant. The main logo went indigo with the redesign,
+    // and indigo on this card's near-black ground measures 1.85:1 —
+    // invisible. The light variant is the same geometry with its
+    // value structure inverted, at 17.76:1.
+    const logo = await loadImage("/logo-horizontal-light.png");
     const height = 64;
     const width = (logo.width / logo.height) * height;
     ctx.drawImage(logo, 96, 96, width, height);

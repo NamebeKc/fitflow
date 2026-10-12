@@ -42,6 +42,9 @@ interface PaywallProps {
   subline?: string;
 }
 
+/** What detection believes about where this visitor is. */
+type Region = "unknown" | "ng" | "intl";
+
 /**
  * The subscribe screen.
  *
@@ -65,6 +68,11 @@ export function Paywall({
 }: PaywallProps) {
   const { user } = useAuth();
   const [currency, setCurrency] = useState<Currency>(PRIMARY_CURRENCY);
+  /**
+   * Where we think they are. Drives which price leads AND whether
+   * the other one is advertised at all.
+   */
+  const [region, setRegion] = useState<Region>("unknown");
   const [selected, setSelected] = useState<PlanId>(
     DEFAULT_PLAN[PRIMARY_CURRENCY],
   );
@@ -101,18 +109,31 @@ export function Paywall({
   }, []);
 
   /**
-   * Currency detection, in two passes.
+   * Region detection, in two passes.
    *
-   * The TIMEZONE runs first because it's instant, needs no network,
-   * and survives a VPN that doesn't also change the system clock —
-   * `Africa/Lagos` is about as clear a signal as exists.
+   * THE OLD VERSION ONLY EVER SWITCHED TO NAIRA. It opened on
+   * PRIMARY_CURRENCY (NGN), checked for `Africa/Lagos`, and checked a
+   * geo header that returned `currency: null` for every country that
+   * was not Nigeria. So a visitor in London matched nothing, nothing
+   * changed, and they were shown Naira prices — which is the exact
+   * opposite of what the detection was for.
    *
-   * The server header check follows as confirmation. It usually
-   * returns nothing on plain Cloud Run, but will start working if a
-   * load balancer or CDN is ever put in front.
+   * It is now three-way: Nigeria, international, or unknown.
    *
-   * Neither decides anything permanent: the toggle sits directly
-   * above the plans, so a wrong guess costs a single tap.
+   * The TIMEZONE runs first because it is instant, needs no network,
+   * and survives a VPN that does not also change the system clock.
+   * The server header follows and wins when present — it reflects the
+   * real connection rather than a device setting. On plain Cloud Run
+   * it returns nothing (see api/geo), so in practice the timezone
+   * does the work today.
+   *
+   * KNOWN FALSE POSITIVE: eleven West and Central African zones share
+   * WAT with Lagos, and modern tzdb links several of them to
+   * `Africa/Lagos` outright — Porto-Novo, Niamey, Douala and the
+   * rest. Someone in Benin or Cameroon can therefore read as
+   * Nigerian and be shown Naira, which their card will not settle.
+   * That error is recoverable in one tap, which is why the escape
+   * hatch below is never removed entirely.
    */
   useEffect(() => {
     // Nothing to detect when only one currency can be collected.
@@ -120,8 +141,10 @@ export function Paywall({
 
     let cancelled = false;
 
-    function applyCurrency(next: Currency) {
-      if (cancelled || userChose) return;
+    function apply(next: Currency, detected: Region) {
+      if (cancelled) return;
+      setRegion(detected);
+      if (userChose) return;
       setCurrency(next);
       setSelected(DEFAULT_PLAN[next]);
     }
@@ -129,17 +152,22 @@ export function Paywall({
     try {
       const zone = Intl.DateTimeFormat().resolvedOptions().timeZone ?? "";
       if (zone === "Africa/Lagos") {
-        applyCurrency("NGN");
-        return;
+        apply("NGN", "ng");
+      } else if (zone) {
+        // A valid zone that is not Lagos is positive evidence of
+        // somewhere else — weaker than an IP, strong enough to pick
+        // which price to show first.
+        apply("USD", "intl");
       }
     } catch {
-      // Older browsers may not expose the zone — fall through.
+      // Older browsers may not expose the zone — stay on the default.
     }
 
     fetch("/api/geo")
       .then((response) => (response.ok ? response.json() : null))
       .then((data: { currency?: string | null } | null) => {
-        if (data?.currency === "NGN") applyCurrency("NGN");
+        if (data?.currency === "NGN") apply("NGN", "ng");
+        else if (data?.currency === "USD") apply("USD", "intl");
       })
       .catch(() => {
         // Detection is a convenience — its failure changes nothing.
@@ -268,30 +296,56 @@ export function Paywall({
         )}
 
         {/*
-          The toggle only appears when there is something to toggle TO.
-          With international collection not yet approved, offering a
-          dollar price would let a customer choose a plan that cannot
-          be charged.
+          WHY THIS IS NOT ALWAYS A TOGGLE.
+          
+          The two price lists are not conversions of each other. The
+          monthly plan is 7,900 naira or 7.99 dollars, and the naira
+          price is the cheaper of the two at any exchange rate above
+          about 989 to the dollar — which is to say, at every rate of
+          the last several years. Shown side by side to someone
+          abroad, the rational move is to pick naira, and a card
+          issued outside Nigeria will then usually fail to settle it.
+          So they would have chosen the cheaper price, been declined,
+          and concluded the product is broken.
+
+          A detected international visitor therefore sees dollars and
+          a quiet text link, not a toggle with the naira price on it.
+          The link stays because detection is a guess: a Nigerian on a
+          VPN, or one of the WAT false positives above, must still be
+          able to reach their own currency. Hiding it completely would
+          save nothing and strand real customers.
         */}
-        {ENABLED_CURRENCIES.length > 1 && (
-          <div className="mt-6 flex rounded-full bg-paper p-1">
-            {ENABLED_CURRENCIES.map((value) => (
+        {ENABLED_CURRENCIES.length > 1 &&
+          (region === "intl" && !userChose ? (
+            <p className="mt-6 text-center text-[13px] text-ink-muted">
+              Prices in US dollars.{" "}
               <button
-                key={value}
                 type="button"
-                onClick={() => switchCurrency(value)}
-                className={cn(
-                  "flex-1 rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] outline-none transition-colors",
-                  currency === value
-                    ? "bg-indigo text-on-indigo"
-                    : "text-ink-muted hover:text-ink",
-                )}
+                onClick={() => switchCurrency("NGN")}
+                className="font-medium text-indigo underline underline-offset-4 outline-none transition-colors hover:text-indigo-deep focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
               >
-                {value === "NGN" ? "₦ Naira" : "$ Dollars"}
+                Paying from Nigeria?
               </button>
-            ))}
-          </div>
-        )}
+            </p>
+          ) : (
+            <div className="mt-6 flex rounded-sm bg-paper p-1">
+              {ENABLED_CURRENCIES.map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => switchCurrency(value)}
+                  className={cn(
+                    "flex-1 rounded-sm px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] outline-none transition-colors",
+                    currency === value
+                      ? "bg-indigo text-on-indigo"
+                      : "text-ink-muted hover:text-ink",
+                  )}
+                >
+                  {value === "NGN" ? "₦ Naira" : "$ Dollars"}
+                </button>
+              ))}
+            </div>
+          ))}
 
         {/* Plans */}
         <div className="mt-4 space-y-2.5">

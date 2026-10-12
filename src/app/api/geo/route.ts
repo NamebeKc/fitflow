@@ -35,10 +35,21 @@ export async function GET(request: Request) {
       ? country.toUpperCase()
       : null;
 
+  // Both directions, not just one. The old version returned
+  // currency: null for every non-Nigerian country, which is
+  // indistinguishable from "no header present" — so the client could
+  // never tell a confirmed foreign visitor from an unknown one, and
+  // defaulted everyone to Naira.
+  const currency = normalized
+    ? NGN_COUNTRIES.has(normalized)
+      ? "NGN"
+      : "USD"
+    : null;
+
   return NextResponse.json(
     {
       country: normalized,
-      currency: normalized && NGN_COUNTRIES.has(normalized) ? "NGN" : null,
+      currency,
     },
     {
       // Per-user and cheap to recompute — never cache this.
