@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
 import { getOrCreateBilling, updateBilling } from "@/lib/billing-admin";
 import { trackServer } from "@/lib/analytics-server";
+import { sendOnce } from "@/lib/email/mailer";
+import { recipientFor } from "@/lib/email/recipient";
+import { cancelled } from "@/lib/email/templates";
 import { isLifetimePlan } from "@/lib/subscription";
 
 const FLW_API = "https://api.flutterwave.com/v3";
@@ -306,6 +309,21 @@ export async function POST(request: Request) {
       },
       { status: 500 },
     );
+  }
+
+  // Confirmation. Transactional, so it ignores lifecycle
+  // preferences — "stop telling me what you cancelled" is not a
+  // preference a paid product can honour. Swallowed on failure: the
+  // cancellation already succeeded and must report as such.
+  try {
+    const recipient = await recipientFor(uid);
+    if (recipient) {
+      await sendOnce(uid, "cancelled", new Date().toISOString().slice(0, 10), () =>
+        cancelled(recipient, { accessUntil: billing.currentPeriodEnd }),
+      );
+    }
+  } catch (error) {
+    console.error("[billing/cancel] Confirmation email failed:", uid, error);
   }
 
   await trackServer(uid, "subscription_cancelled", {

@@ -14,6 +14,9 @@ import {
   type PlanId,
 } from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
+import { sendOnce } from "@/lib/email/mailer";
+import { recipientFor } from "@/lib/email/recipient";
+import { receipt } from "@/lib/email/templates";
 import { recordReferralConversion } from "@/lib/referral";
 
 /**
@@ -161,6 +164,27 @@ export async function POST(request: Request) {
 
     // Founding seat, after entitlement is written. Never throws.
     await claimFoundingSeat(uid);
+
+    // The receipt. Deliberately after entitlement: a mail failure
+    // must never leave a paying customer unentitled, so this is
+    // caught and swallowed. `sendOnce` keys on the transaction
+    // reference, so a retried verification cannot send a second copy
+    // of the same receipt.
+    try {
+      const recipient = await recipientFor(uid);
+      if (recipient) {
+        await sendOnce(uid, "receipt", ref, () =>
+          receipt(recipient, {
+            planLabel: plan.label,
+            amount: plan.display,
+            periodEnd: periodEnd ?? undefined,
+            txRef: ref,
+          }),
+        );
+      }
+    } catch (error) {
+      console.error("[billing/verify] Receipt failed:", uid, error);
+    }
 
     // The affiliate ledger, before the analytics event so the event
     // can carry the partner. Never throws — a bounty that fails to

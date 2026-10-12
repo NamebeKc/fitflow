@@ -35,6 +35,10 @@ export type ServerAnalyticsEvent =
   // failed its way out. Keeping them apart is the difference
   // between a product problem and a card problem.
   | "subscription_cancelled"
+  // Email. `kind` carries which message, so one event covers all
+  // seven rather than seven near-identical event names.
+  | "email_sent"
+  | "email_unsubscribed"
   // Fired when `isEntitled()` blocks a real request — expired trial,
   // lapsed subscription, or past-due grace period run out. `status` on
   // the event says which. There is deliberately no `trial_canceled`:
