@@ -367,7 +367,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                       type="button"
                       onClick={() => removeSet(index)}
                       aria-label="Remove exercise"
-                      className="flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss"
+                      className="flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-laterite-wash hover:text-danger focus-visible:ring-2 focus-visible:ring-moss"
                     >
                       <Trash2 className="size-3.5" strokeWidth={2} />
                     </button>

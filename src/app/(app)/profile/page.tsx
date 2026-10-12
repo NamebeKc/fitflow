@@ -10,6 +10,7 @@ import { Paywall } from "@/components/billing/Paywall";
 import { SubscriptionCard } from "@/components/billing/SubscriptionCard";
 import { InstallCard } from "@/components/pwa/InstallCard";
 import { DeleteAccountCard } from "@/components/profile/DeleteAccountCard";
+import { EmailCard } from "@/components/profile/EmailCard";
 import { ReminderCard } from "@/components/profile/ReminderCard";
 import { OnboardingWizard } from "@/components/profile/OnboardingWizard";
 import { ProfileView } from "@/components/profile/ProfileView";
@@ -102,6 +103,7 @@ export default function ProfilePage() {
           <SubscriptionCard onSubscribe={() => setShowPaywall(true)} />
           <InstallCard />
           <ReminderCard />
+          <EmailCard />
           <ProfileView profile={profile} onEdit={() => setIsEditing(true)} />
 
           {/* Last on the page, and behind a link — findable without

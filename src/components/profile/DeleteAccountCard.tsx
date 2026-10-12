@@ -70,7 +70,7 @@ export function DeleteAccountCard() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss"
+        className="w-full text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-danger focus-visible:ring-2 focus-visible:ring-moss"
       >
         Delete my account
       </button>
@@ -78,10 +78,10 @@ export function DeleteAccountCard() {
   }
 
   return (
-    <section className="rounded-lg border border-red-500/25 bg-red-500/[0.04] p-6 sm:p-6">
+    <section className="rounded-lg border border-danger/25 bg-laterite-wash p-6 sm:p-6">
       <div className="flex items-center gap-2">
-        <AlertTriangle className="size-4 text-red-300" strokeWidth={2} />
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-red-300/80">
+        <AlertTriangle className="size-4 text-danger" strokeWidth={2} />
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-danger">
           Delete account
         </p>
       </div>
@@ -104,7 +104,7 @@ export function DeleteAccountCard() {
           value={confirmText}
           onChange={(event) => setConfirmText(event.target.value)}
           autoComplete="off"
-          className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-red-400/60"
+          className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-danger"
           placeholder="DELETE"
         />
       </label>
@@ -112,7 +112,7 @@ export function DeleteAccountCard() {
       {error && (
         <p
           role="alert"
-          className="mt-3 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+          className="mt-3 rounded-md border border-danger/25 bg-laterite-wash px-3.5 py-2.5 text-[13px] leading-relaxed text-danger"
         >
           {error}
         </p>
@@ -134,7 +134,7 @@ export function DeleteAccountCard() {
           type="button"
           onClick={() => void deleteAccount()}
           disabled={!canDelete || busy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-red-500/90 px-6 py-3 text-sm font-semibold text-ink outline-none transition-all hover:bg-red-500 focus-visible:ring-2 focus-visible:ring-red-400 active:translate-y-px disabled:opacity-40"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-danger px-6 py-3 text-sm font-semibold text-on-danger outline-none transition-all hover:bg-danger/90 focus-visible:ring-2 focus-visible:ring-danger active:translate-y-px disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

@@ -211,7 +211,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           {error && (
             <p
               role="alert"
-              className="mt-4 rounded-md border border-red-500/25 bg-red-500/10 px-3.5 py-2.5 text-[13px] leading-relaxed text-red-200"
+              className="mt-4 rounded-md border border-danger/25 bg-laterite-wash px-3.5 py-2.5 text-[13px] leading-relaxed text-danger"
             >
               {error}
             </p>

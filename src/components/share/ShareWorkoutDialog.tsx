@@ -293,7 +293,7 @@ export function ShareWorkoutDialog({
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.18, ease: "easeOut" }}
-                className="overflow-hidden pt-2 text-[11px] text-red-400/90"
+                className="overflow-hidden pt-2 text-[11px] text-danger"
                 role="status"
               >
                 {photoError}

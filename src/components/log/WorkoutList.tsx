@@ -182,7 +182,7 @@ export function WorkoutList({
                     onClick={() => onDelete(workout.id)}
                     aria-label={`Delete ${workout.title}`}
                     className={cn(
-                      "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
+                      "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-laterite-wash hover:text-danger focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
                       "opacity-100 sm:size-8 sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100",
                     )}
                   >

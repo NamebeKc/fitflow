@@ -161,7 +161,7 @@ function BillingReturn() {
 
   return (
     <Shell
-      icon={<AlertCircle className="size-7 text-red-300" strokeWidth={2} />}
+      icon={<AlertCircle className="size-7 text-danger" strokeWidth={2} />}
       title="We couldn't confirm that payment"
       body={
         message ??

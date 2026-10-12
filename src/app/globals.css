@@ -81,6 +81,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-on-danger: var(--on-danger);
 
   /* Paired foregrounds. A coloured fill NEVER takes --ink directly:
      invert the theme and the ochre chip drops from 6.86:1 to 1.70:1
@@ -182,6 +183,7 @@
   /* A lime fill takes DARK text, in both themes. */
   --on-lime: oklch(22% 0.014 62);
   --on-laterite: oklch(97.8% 0.006 83);
+  --on-danger: oklch(97.8% 0.006 83);
   --on-ochre: oklch(22% 0.014 62);
 
   /* Two shadows exist. Both neutral. Cards get neither. */
@@ -260,6 +262,7 @@
   /* A light fill in dark mode needs a DARK foreground. */
   --on-lime: oklch(14% 0.009 70);
   --on-laterite: oklch(14% 0.009 70);
+  --on-danger: oklch(14% 0.009 70);
   --on-ochre: oklch(14% 0.009 70);
 
   --shadow-overlay: 0 4px 16px -4px oklch(5% 0.01 70 / 0.5),

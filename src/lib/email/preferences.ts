@@ -67,11 +67,24 @@ function prefRef(uid: string) {
     .doc("email");
 }
 
+/**
+ * The stored preference, or the default if nothing has been stored.
+ *
+ * THROWS if Firestore cannot be read. Callers that are about to send
+ * mail must not use this — see `loadPreferences`. It exists for the
+ * settings UI, where a failed read has to surface as an error rather
+ * than as a plausible-looking "off".
+ */
+export async function readPreferences(uid: string): Promise<EmailPreferences> {
+  const snap = await prefRef(uid).get();
+  if (!snap.exists) return DEFAULT;
+  return { ...DEFAULT, ...(snap.data() as Partial<EmailPreferences>) };
+}
+
+/** The send path's read. Never throws; suppresses mail if it cannot tell. */
 export async function loadPreferences(uid: string): Promise<EmailPreferences> {
   try {
-    const snap = await prefRef(uid).get();
-    if (!snap.exists) return DEFAULT;
-    return { ...DEFAULT, ...(snap.data() as Partial<EmailPreferences>) };
+    return await readPreferences(uid);
   } catch (error) {
     // A preferences read that fails must not cause a send. Failing
     // CLOSED is the only safe direction: the cost of a missed weekly

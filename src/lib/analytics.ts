@@ -92,6 +92,13 @@ export type AnalyticsEvent =
   | "push_permission_granted"
   | "push_permission_denied"
   | "reminders_disabled"
+  // ── Email ────────────────────────────────────────────────────
+  //
+  // Fired from the Profile card only. The one-click unsubscribe is
+  // its server-side twin, `email_unsubscribed`, and the two are kept
+  // separate on purpose: a toggle flipped inside the app and a link
+  // tapped in Gmail are different signals about the same message.
+  | "email_preferences_changed"
   // ── Not yet built — declared so funnels can be pre-built ─────────
   //
   // `strava_connect_started` / `strava_connected` were removed on

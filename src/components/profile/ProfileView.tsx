@@ -199,7 +199,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
             variant="outline"
             size="sm"
             onClick={() => void signOutUser()}
-            className="h-9 shrink-0 gap-2 rounded-full border-rule bg-transparent text-ink-muted shadow-none hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-300"
+            className="h-9 shrink-0 gap-2 rounded-full border-rule bg-transparent text-ink-muted shadow-none hover:border-danger/30 hover:bg-laterite-wash hover:text-danger"
           >
             <LogOut className="size-3.5" strokeWidth={2} />
             Sign out
