@@ -25,10 +25,10 @@ export function CoachTyping() {
       aria-label="Coach is preparing a reply"
     >
       <div
-        className="mb-0.5 flex size-8 shrink-0 items-center justify-center rounded-full border border-indigo/20 bg-indigo/[0.07]"
+        className="mb-0.5 flex size-8 shrink-0 items-center justify-center rounded-full border border-moss/25 bg-lime-wash"
         aria-hidden
       >
-        <Sparkles className="size-4 text-indigo" strokeWidth={2} />
+        <Sparkles className="size-4 text-moss" strokeWidth={2} />
       </div>
 
       <div className="w-full max-w-[80%] space-y-2.5 rounded-md rounded-bl-md border border-rule bg-paper-raised px-4 py-3.5 md:max-w-[60%]">

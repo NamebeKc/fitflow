@@ -38,7 +38,7 @@ const ACTIVITY_ICONS: Record<ActivityId, LucideIcon> = {
 
 const INTENSITY_STYLES: Record<WorkoutEntry["intensity"], string> = {
   easy: "border-sky-400/25 bg-sky-400/10 text-sky-300",
-  moderate: "border-indigo/25 bg-indigo/10 text-indigo",
+  moderate: "border-moss/25 bg-lime-wash text-moss",
   hard: "border-orange-400/25 bg-orange-400/10 text-orange-300",
 };
 
@@ -169,7 +169,7 @@ export function WorkoutList({
                       onClick={() => onShare(workout)}
                       aria-label={`Share ${workout.title}`}
                       className={cn(
-                        "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-indigo/10 hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
+                        "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-lime-wash hover:text-moss focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
                         "opacity-100 sm:size-8 sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100",
                       )}
                     >
@@ -182,7 +182,7 @@ export function WorkoutList({
                     onClick={() => onDelete(workout.id)}
                     aria-label={`Delete ${workout.title}`}
                     className={cn(
-                      "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
+                      "flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-all hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
                       "opacity-100 sm:size-8 sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100",
                     )}
                   >

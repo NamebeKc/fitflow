@@ -87,10 +87,10 @@ export function TrialBanner() {
     <AnimatePresence>
       <motion.div
         {...motionProps}
-        className="flex items-center gap-3 rounded-md border border-indigo/20 bg-indigo/[0.05] px-4 py-3"
+        className="flex items-center gap-3 rounded-md border border-moss/25 bg-lime-wash px-4 py-3"
       >
         <Timer
-          className="size-4 shrink-0 text-indigo"
+          className="size-4 shrink-0 text-moss"
           strokeWidth={2}
           aria-hidden
         />
@@ -105,7 +105,7 @@ export function TrialBanner() {
         <Link
           href="/profile"
           onClick={() => track("paywall_shown", { trigger: "trial_banner" })}
-          className="hidden shrink-0 items-center gap-1 rounded-full bg-indigo px-3.5 py-1.5 text-[12px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px sm:flex"
+          className="hidden shrink-0 items-center gap-1 rounded-full bg-lime px-3.5 py-1.5 text-[12px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px sm:flex"
         >
           Subscribe
           <ArrowRight className="size-3" strokeWidth={2.5} />
@@ -115,7 +115,7 @@ export function TrialBanner() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           <X className="size-3.5" strokeWidth={2.5} />
         </button>

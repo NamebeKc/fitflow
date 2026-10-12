@@ -46,7 +46,7 @@ export default function ResearchIndexPage() {
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
           <Link
             href="/"
-            className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="outline-none focus-visible:ring-2 focus-visible:ring-moss"
           >
             <Image
               src="/logo-horizontal.png"
@@ -58,7 +58,7 @@ export default function ResearchIndexPage() {
           </Link>
           <a
             href="/#auth"
-            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-moss hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             Try AdimFit
           </a>
@@ -66,7 +66,7 @@ export default function ResearchIndexPage() {
       </header>
 
       <main className="mx-auto w-full max-w-[860px] px-6 py-14 md:px-8 md:py-20">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-moss">
           Research
         </p>
         <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
@@ -83,7 +83,7 @@ export default function ResearchIndexPage() {
             <li key={article.slug}>
               <Link
                 href={`/research/${article.slug}`}
-                className="group block rounded-lg border border-rule bg-paper-raised p-6 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 sm:p-8"
+                className="group block rounded-lg border border-rule bg-paper-raised p-6 outline-none transition-colors hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss sm:p-8"
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
                   <time dateTime={article.published}>21 September 2026</time>
@@ -100,7 +100,7 @@ export default function ResearchIndexPage() {
                   {article.subtitle}
                 </p>
 
-                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-indigo">
+                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-moss">
                   Read the review
                   <span
                     aria-hidden
@@ -133,7 +133,7 @@ export default function ResearchIndexPage() {
               >
                 <span
                   aria-hidden
-                  className="mt-2 size-1.5 shrink-0 rounded-full bg-indigo/60"
+                  className="mt-2 size-1.5 shrink-0 rounded-full bg-lime/60"
                 />
                 <span>{rule}</span>
               </li>

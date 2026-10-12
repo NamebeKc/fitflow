@@ -36,8 +36,8 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
       </p>
 
       <div className="mt-6 flex items-start gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-indigo/20 bg-indigo-wash">
-          <Sparkles className="size-4 text-indigo" strokeWidth={2} />
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-moss/25 bg-lime-wash">
+          <Sparkles className="size-4 text-moss" strokeWidth={2} />
         </div>
         <p className="text-sm leading-relaxed text-ink-muted">
           {firstName
@@ -51,11 +51,11 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
           <Link
             key={prompt}
             href={`/coach?prompt=${encodeURIComponent(prompt)}`}
-            className="group flex items-center justify-between gap-3 rounded-sm border border-rule bg-paper-sunken px-4 py-3 text-sm font-medium text-ink outline-none transition-colors hover:border-indigo/40 hover:bg-indigo-wash focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
+            className="group flex items-center justify-between gap-3 rounded-sm border border-rule bg-paper-sunken px-4 py-3 text-sm font-medium text-ink outline-none transition-colors hover:border-moss hover:bg-lime-wash focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
           >
             <span className="truncate">{prompt}</span>
             <ArrowRight
-              className="size-4 shrink-0 text-ink-faint transition-colors group-hover:text-indigo"
+              className="size-4 shrink-0 text-ink-faint transition-colors group-hover:text-moss"
               strokeWidth={2}
             />
           </Link>
@@ -65,7 +65,7 @@ export function CoachQuickActions({ firstName }: { firstName?: string }) {
       <div className="mt-auto pt-6">
         <Link
           href="/coach"
-          className="flex w-full items-center justify-center gap-2 rounded-sm bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-colors hover:bg-indigo-deep focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
+          className="flex w-full items-center justify-center gap-2 rounded-sm bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-colors hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised active:translate-y-px"
         >
           Open coach
           <ArrowRight className="size-4" strokeWidth={2.5} />

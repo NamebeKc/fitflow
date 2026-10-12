@@ -250,7 +250,7 @@ export function Paywall({
   return (
     <div className="mx-auto w-full max-w-lg">
       <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
           Subscribe
         </p>
         <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">
@@ -270,7 +270,7 @@ export function Paywall({
           {included.map((item) => (
             <li key={item} className="flex items-start gap-2.5">
               <Check
-                className="mt-0.5 size-3.5 shrink-0 text-indigo"
+                className="mt-0.5 size-3.5 shrink-0 text-moss"
                 strokeWidth={3}
               />
               <span className="text-[14px] leading-relaxed text-ink-muted">
@@ -286,7 +286,7 @@ export function Paywall({
           it is not a permanent discount, it is a cohort that closes.
         */}
         {seatsLeft !== null && seatsLeft > 0 && (
-          <p className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-indigo">
+          <p className="mt-6 rounded-md border border-moss/25 bg-lime-wash px-3.5 py-2.5 text-center text-[13px] leading-relaxed text-moss">
             Founding member pricing — {seatsLeft} of {FOUNDING_LIMIT} seats
             left
             <span className="mt-0.5 block text-[12px] text-ink-muted">
@@ -322,7 +322,7 @@ export function Paywall({
               <button
                 type="button"
                 onClick={() => switchCurrency("NGN")}
-                className="font-medium text-indigo underline underline-offset-4 outline-none transition-colors hover:text-indigo-deep focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
+                className="font-medium text-moss underline underline-offset-4 outline-none transition-colors hover:text-moss-deep focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
               >
                 Paying from Nigeria?
               </button>
@@ -337,7 +337,7 @@ export function Paywall({
                   className={cn(
                     "flex-1 rounded-sm px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] outline-none transition-colors",
                     currency === value
-                      ? "bg-indigo text-on-indigo"
+                      ? "bg-lime text-on-lime"
                       : "text-ink-muted hover:text-ink",
                   )}
                 >
@@ -359,9 +359,9 @@ export function Paywall({
                 aria-pressed={active}
                 className={cn(
                   "flex w-full items-center gap-3.5 rounded-md border px-4 py-4 text-left outline-none transition-all active:translate-y-px",
-                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                  "focus-visible:ring-2 focus-visible:ring-moss",
                   active
-                    ? "border-indigo/40 bg-indigo/[0.07]"
+                    ? "border-moss bg-lime-wash"
                     : "border-rule bg-paper-sunken hover:border-rule",
                 )}
               >
@@ -369,12 +369,12 @@ export function Paywall({
                   className={cn(
                     "flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
                     active
-                      ? "border-indigo bg-indigo"
+                      ? "border-moss bg-lime"
                       : "border-rule",
                   )}
                 >
                   {active && (
-                    <Check className="size-3 text-on-indigo" strokeWidth={3.5} />
+                    <Check className="size-3 text-on-lime" strokeWidth={3.5} />
                   )}
                 </span>
 
@@ -384,7 +384,7 @@ export function Paywall({
                       {plan.label}
                     </span>
                     {plan.saving && (
-                      <span className="rounded-full bg-indigo/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-indigo">
+                      <span className="rounded-full bg-lime-wash px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-moss">
                         {plan.saving}
                       </span>
                     )}
@@ -432,7 +432,7 @@ export function Paywall({
           type="button"
           onClick={() => void checkout()}
           disabled={busy}
-          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3.5 text-[15px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -458,8 +458,8 @@ export function Paywall({
           which the terms page and the subscription card also read, so
           the promise cannot quietly differ by surface.
         */}
-        <div className="mt-4 rounded-md border border-indigo/20 bg-indigo/[0.05] px-3.5 py-3 text-center">
-          <p className="text-[13px] font-medium leading-relaxed text-indigo">
+        <div className="mt-4 rounded-md border border-moss/25 bg-lime-wash px-3.5 py-3 text-center">
+          <p className="text-[13px] font-medium leading-relaxed text-moss">
             {GUARANTEE_DAYS}-day money-back guarantee
           </p>
           <p className="mt-1 text-[12px] leading-relaxed text-ink-muted">

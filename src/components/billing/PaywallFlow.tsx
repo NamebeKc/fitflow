@@ -205,7 +205,7 @@ export function PaywallFlow({
             <button
               type="button"
               onClick={() => setStep((current) => current - 1)}
-              className="flex size-12 shrink-0 items-center justify-center rounded-full border border-rule text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="flex size-12 shrink-0 items-center justify-center rounded-full border border-rule text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
               aria-label="Back"
             >
               <ArrowLeft className="size-4" strokeWidth={2.5} />
@@ -214,7 +214,7 @@ export function PaywallFlow({
           <button
             type="button"
             onClick={() => setStep((current) => current + 1)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-lime px-6 py-3.5 text-[15px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
           >
             {step === STEPS.length - 2 ? "See your options" : "Continue"}
             <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -289,7 +289,7 @@ function PlanScreen({
         {plan.lines.map((line) => (
           <li key={line} className="flex items-start gap-2.5">
             <Check
-              className="mt-0.5 size-3.5 shrink-0 text-indigo"
+              className="mt-0.5 size-3.5 shrink-0 text-moss"
               strokeWidth={3}
             />
             <span className="text-[14px] leading-relaxed text-ink-muted">
@@ -320,8 +320,8 @@ function EvidenceScreen() {
       title="Why a coach that adapts beats one that doesn't"
       body="The strongest evidence for this kind of product, stated the way the researchers stated it."
     >
-      <div className="rounded-md border border-indigo/20 bg-indigo/[0.05] p-4">
-        <p className="font-mono text-3xl tabular-nums text-indigo">+753</p>
+      <div className="rounded-md border border-moss/25 bg-lime-wash p-4">
+        <p className="font-mono text-3xl tabular-nums text-moss">+753</p>
         <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
           extra steps a day, pooled across 21 randomised trials of apps and
           activity trackers{" "}
@@ -376,7 +376,7 @@ function Progress({ step, total }: { step: number; total: number }) {
           key={index}
           className={cn(
             "h-1 flex-1 rounded-full transition-colors duration-300",
-            index <= step ? "bg-indigo" : "bg-paper-sunken",
+            index <= step ? "bg-lime" : "bg-paper-sunken",
           )}
         />
       ))}
@@ -397,7 +397,7 @@ function Shell({
 }) {
   return (
     <div className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-7">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
         {eyebrow}
       </p>
       <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">

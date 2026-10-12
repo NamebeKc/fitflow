@@ -76,13 +76,13 @@ export function LandingPage({ variant = "default" }: { variant?: HeadlineKey }) 
             <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-16">
               <div>
                 <div className="rise">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-moss">
                     {headline.eyebrow}
                   </p>
 
                   <h1 className="mt-6 text-[2.5rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-[3.25rem] lg:text-[3.6rem]">
                     {headline.title}{" "}
-                    <span className="text-indigo">{headline.emphasis}</span>
+                    <span className="text-moss">{headline.emphasis}</span>
                   </h1>
 
                   <p className="mt-6 max-w-lg text-[17px] leading-relaxed text-ink-muted">
@@ -212,13 +212,13 @@ function NavBar() {
             looking for a coach. They stay in the footer. */}
         <Link
           href="/guides"
-          className="hidden text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 sm:block"
+          className="hidden text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss sm:block"
         >
           Guides
         </Link>
         <a
           href="#auth"
-          className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-moss hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           Sign in
         </a>
@@ -254,7 +254,7 @@ function MemoryProof() {
 
       <div className="space-y-3.5">
         <div className="step delay-600 flex justify-end">
-          <p className="max-w-[80%] rounded-md rounded-br-md bg-indigo px-4 py-2.5 text-[15px] font-medium leading-relaxed text-on-indigo">
+          <p className="max-w-[80%] rounded-md rounded-br-md bg-lime px-4 py-2.5 text-[15px] font-medium leading-relaxed text-on-lime">
             What should I do today?
           </p>
         </div>
@@ -267,7 +267,7 @@ function MemoryProof() {
             </p>
             <p className="mt-2.5">
               25 minutes lower body. Squats{" "}
-              <span className="font-mono text-indigo">3 × 12</span>, up from
+              <span className="font-mono text-moss">3 × 12</span>, up from
               your 3 × 10 last week.
             </p>
           </div>
@@ -349,7 +349,7 @@ function WhyDifferent() {
               className="flex items-start gap-3 rounded-md border border-rule bg-paper-raised px-4 py-3.5"
             >
               <Check
-                className="mt-0.5 size-4 shrink-0 text-indigo"
+                className="mt-0.5 size-4 shrink-0 text-moss"
                 strokeWidth={3}
               />
               <span className="text-[15px] leading-relaxed text-ink-muted">
@@ -433,7 +433,7 @@ function WhyNotChatGpt() {
             <div className="bg-paper px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted sm:px-6">
               General chatbot
             </div>
-            <div className="bg-paper px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-indigo sm:px-6">
+            <div className="bg-paper px-4 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] text-moss sm:px-6">
               AdimFit
             </div>
 
@@ -475,10 +475,10 @@ function PricingBand() {
   return (
     <section id="pricing" className="border-t border-rule">
       <div className="mx-auto w-full max-w-[1180px] px-6 py-16 md:px-8 md:py-20">
-        <div className="overflow-hidden rounded-lg border border-indigo/20 bg-gradient-to-b from-indigo/[0.07] to-transparent">
+        <div className="overflow-hidden rounded-lg border border-moss/25 bg-gradient-to-b from-lime-wash to-transparent">
           <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-md">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-moss">
                 Simple pricing
               </p>
               <h2 className="mt-4 text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl">
@@ -505,14 +505,14 @@ function PricingBand() {
                 </span>
                 <span className="text-[15px] text-ink-muted">/ month</span>
               </p>
-              <p className="mt-1.5 font-mono text-[12px] text-indigo">
+              <p className="mt-1.5 font-mono text-[12px] text-moss">
                 or {annual.display} / year
                 {annual.saving ? ` — ${annual.saving.toLowerCase()}` : ""}
               </p>
 
               <a
                 href="#auth"
-                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-indigo px-7 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-lime px-7 py-3.5 text-[15px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
               >
                 Start free
                 <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -552,25 +552,25 @@ function Footer() {
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
             <Link
               href="/guides"
-              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               Guides
             </Link>
             <Link
               href="/research"
-              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               Research
             </Link>
             <Link
               href="/privacy"
-              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               Terms
             </Link>

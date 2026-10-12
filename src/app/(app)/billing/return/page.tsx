@@ -124,7 +124,7 @@ function BillingReturn() {
     return (
       <Shell
         icon={
-          <CheckCircle2 className="size-7 text-indigo" strokeWidth={2} />
+          <CheckCircle2 className="size-7 text-moss" strokeWidth={2} />
         }
         accent
         title="You're all set."
@@ -133,7 +133,7 @@ function BillingReturn() {
         <button
           type="button"
           onClick={() => router.push("/coach")}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3.5 text-[15px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
         >
           Open your coach
           <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -151,7 +151,7 @@ function BillingReturn() {
       >
         <Link
           href="/today"
-          className="flex w-full items-center justify-center rounded-full border border-rule px-6 py-3.5 text-[15px] font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="flex w-full items-center justify-center rounded-full border border-rule px-6 py-3.5 text-[15px] font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           Back to AdimFit
         </Link>
@@ -219,7 +219,7 @@ function Shell({
       <div
         className={`flex size-14 items-center justify-center rounded-md border ${
           accent
-            ? "border-indigo/25 bg-indigo/[0.07]"
+            ? "border-moss/25 bg-lime-wash"
             : "border-rule bg-paper-sunken"
         }`}
       >

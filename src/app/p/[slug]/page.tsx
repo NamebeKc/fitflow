@@ -130,7 +130,7 @@ function PartnerDashboard() {
 
   return (
     <Frame>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
         AdimFit partner
       </p>
       <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
@@ -195,7 +195,7 @@ function Stat({
     <div
       className={`rounded-md border p-4 ${
         accent
-          ? "border-indigo/20 bg-indigo/[0.05]"
+          ? "border-moss/25 bg-lime-wash"
           : "border-rule bg-paper-sunken"
       }`}
     >
@@ -204,7 +204,7 @@ function Stat({
       </p>
       <p
         className={`mt-2 font-mono text-2xl tabular-nums ${
-          accent ? "text-indigo" : "text-ink"
+          accent ? "text-moss" : "text-ink"
         }`}
       >
         {value}

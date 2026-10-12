@@ -63,7 +63,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
             className={cn(
               "rounded-md border p-4 transition-colors",
               achievement.earned
-                ? "border-indigo/25 bg-indigo/[0.05]"
+                ? "border-moss/25 bg-lime-wash"
                 : "border-rule bg-paper-sunken",
             )}
           >
@@ -72,7 +72,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                 className={cn(
                   "flex size-8 shrink-0 items-center justify-center rounded-sm border",
                   achievement.earned
-                    ? "border-indigo/30 bg-indigo/10 text-indigo"
+                    ? "border-moss/25 bg-lime-wash text-moss"
                     : "border-rule bg-paper-sunken text-ink-muted",
                 )}
               >
@@ -100,7 +100,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
                   <div className="mt-3 space-y-1.5">
                     <div className="h-1 overflow-hidden rounded-full bg-paper-sunken">
                       <motion.div
-                        className="h-full rounded-full bg-indigo/60"
+                        className="h-full rounded-full bg-lime/60"
                         initial={
                           prefersReducedMotion ? undefined : { width: 0 }
                         }

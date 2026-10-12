@@ -96,7 +96,7 @@ export function WeighInDialog({
               onKeyDown={(event) => {
                 if (event.key === "Enter") void save();
               }}
-              className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 font-mono text-lg tabular-nums text-ink outline-none transition-colors placeholder:font-sans placeholder:text-ink-muted focus:border-indigo/60 focus:bg-paper"
+              className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 font-mono text-lg tabular-nums text-ink outline-none transition-colors placeholder:font-sans placeholder:text-ink-muted focus:border-moss focus:bg-paper"
               placeholder="78.5"
             />
           </label>
@@ -114,7 +114,7 @@ export function WeighInDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="flex-1 rounded-full border border-rule px-6 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="flex-1 rounded-full border border-rule px-6 py-3 text-sm font-medium text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               Not now
             </button>
@@ -122,7 +122,7 @@ export function WeighInDialog({
               type="button"
               onClick={() => void save()}
               disabled={!valid || busy}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-40"
             >
               {busy ? (
                 <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

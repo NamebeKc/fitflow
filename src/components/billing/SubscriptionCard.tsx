@@ -72,7 +72,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   if (comped) {
     return (
       <Card
-        icon={<Gift className="size-4 text-indigo" strokeWidth={2} />}
+        icon={<Gift className="size-4 text-moss" strokeWidth={2} />}
         accent
         label="Complimentary access"
         title="You're on the house"
@@ -102,7 +102,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
 
     return (
       <Card
-        icon={<ShieldCheck className="size-4 text-indigo" strokeWidth={2} />}
+        icon={<ShieldCheck className="size-4 text-moss" strokeWidth={2} />}
         accent
         label="Subscription"
         title={plan ? `${plan.label} · ${plan.display}` : "Active"}
@@ -133,7 +133,7 @@ export function SubscriptionCard({ onSubscribe }: { onSubscribe: () => void }) {
   if (billing?.status === "trialing" && entitled) {
     return (
       <Card
-        icon={<Timer className="size-4 text-indigo" strokeWidth={2} />}
+        icon={<Timer className="size-4 text-moss" strokeWidth={2} />}
         accent={daysLeft <= 3}
         label="Free trial"
         title={`${daysLeft} day${daysLeft === 1 ? "" : "s"} left`}
@@ -195,7 +195,7 @@ function Card({
       className={cn(
         "rounded-lg border p-6 sm:p-6",
         accent
-          ? "border-indigo/20 bg-indigo/[0.04]"
+          ? "border-moss/25 bg-lime-wash"
           : "border-rule bg-paper-raised",
       )}
     >
@@ -230,7 +230,7 @@ function SubscribeButton({
         track("paywall_shown", { trigger: "profile" });
         onSubscribe();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
     >
       {label}
       <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -256,7 +256,7 @@ function CancelLink() {
   return (
     <Link
       href="/billing/cancel"
-      className="block text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
+      className="block text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper-raised"
     >
       Cancel subscription
     </Link>

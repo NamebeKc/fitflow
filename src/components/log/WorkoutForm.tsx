@@ -197,16 +197,16 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 aria-pressed={selected}
                 className={cn(
                   "flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:translate-y-px",
-                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                  "focus-visible:ring-2 focus-visible:ring-moss",
                   selected
-                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                    ? "border-moss bg-lime-wash text-ink"
                     : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
                 <Icon
                   className={cn(
                     "size-4",
-                    selected ? "text-indigo" : "text-ink-muted",
+                    selected ? "text-moss" : "text-ink-muted",
                   )}
                   strokeWidth={2}
                 />
@@ -229,7 +229,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 where it came from, and stop saying it the moment the
                 user edits it — at that point it is their number. */}
             {fromTimer && (
-              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-indigo/70">
+              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-moss">
                 from timer
               </span>
             )}
@@ -246,7 +246,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               setFromTimer(false);
             }}
             placeholder="e.g. 45"
-            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
           />
         </div>
         <div className="space-y-2">
@@ -262,7 +262,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             value={date}
             max={todayISO()}
             onChange={(event) => setDate(event.target.value)}
-            className="h-11 rounded-md border-rule bg-paper px-4 text-ink [color-scheme:dark] focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 text-ink [color-scheme:dark] focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
           />
         </div>
       </div>
@@ -281,9 +281,9 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                 aria-pressed={selected}
                 className={cn(
                   "rounded-md border px-3 py-2.5 text-sm font-medium outline-none transition-all active:translate-y-px",
-                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                  "focus-visible:ring-2 focus-visible:ring-moss",
                   selected
-                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                    ? "border-moss bg-lime-wash text-ink"
                     : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                 )}
               >
@@ -313,7 +313,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             value={steps}
             onChange={(event) => setSteps(event.target.value)}
             placeholder="e.g. 6500"
-            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+            className="h-11 rounded-md border-rule bg-paper px-4 font-mono text-ink tabular-nums placeholder:font-sans placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
           />
           <p className="text-xs leading-relaxed text-ink-muted">
             Copy this from your phone&apos;s health app. AdimFit can&apos;t
@@ -334,7 +334,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
             <button
               type="button"
               onClick={addSet}
-              className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] text-indigo outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] text-moss outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-moss"
             >
               <Plus className="size-3" strokeWidth={3} />
               Add
@@ -361,13 +361,13 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                         updateSet(index, { exercise: event.target.value })
                       }
                       placeholder="Exercise, e.g. Squat"
-                      className="h-9 flex-1 rounded-sm border-rule bg-paper px-3 text-sm text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:ring-0"
+                      className="h-9 flex-1 rounded-sm border-rule bg-paper px-3 text-sm text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:ring-0"
                     />
                     <button
                       type="button"
                       onClick={() => removeSet(index)}
                       aria-label="Remove exercise"
-                      className="flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-indigo/50"
+                      className="flex size-9 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-red-500/10 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss"
                     >
                       <Trash2 className="size-3.5" strokeWidth={2} />
                     </button>
@@ -430,7 +430,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
                   ? defaultTitle(activity, date)
                   : "e.g. Upper body strength"
               }
-              className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+              className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
             />
           </div>
 
@@ -448,7 +448,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
               onChange={(event) => setNotes(event.target.value)}
               placeholder="e.g. Squats 3×8 @ 60kg, felt strong"
               rows={3}
-              className="resize-none rounded-md border-rule bg-paper px-4 py-3 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+              className="resize-none rounded-md border-rule bg-paper px-4 py-3 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
             />
           </div>
         </div>
@@ -456,7 +456,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         <button
           type="button"
           onClick={() => setShowDetail(true)}
-          className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           + Add title or notes
         </button>
@@ -467,7 +467,7 @@ export function WorkoutForm({ onAdd }: WorkoutFormProps) {
         type="button"
         onClick={submit}
         disabled={!valid}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-30 disabled:shadow-none"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-30 disabled:shadow-none"
       >
         <Plus className="size-4" strokeWidth={2.5} />
         Log workout
@@ -505,7 +505,7 @@ function NumberField({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         placeholder={placeholder}
-        className="mt-1 h-9 rounded-sm border-rule bg-paper px-2.5 text-center font-mono text-sm tabular-nums text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:ring-0"
+        className="mt-1 h-9 rounded-sm border-rule bg-paper px-2.5 text-center font-mono text-sm tabular-nums text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:ring-0"
       />
     </label>
   );

@@ -70,7 +70,7 @@ export function DeleteAccountCard() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-red-300 focus-visible:ring-2 focus-visible:ring-indigo/50"
+        className="w-full text-center text-[13px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-red-300 focus-visible:ring-2 focus-visible:ring-moss"
       >
         Delete my account
       </button>

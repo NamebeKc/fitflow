@@ -124,13 +124,13 @@ export function ReminderCard() {
       className={cn(
         "rounded-lg border p-6 sm:p-6",
         enabled
-          ? "border-indigo/20 bg-indigo/[0.04]"
+          ? "border-moss/25 bg-lime-wash"
           : "border-rule bg-paper-raised",
       )}
     >
       <div className="flex items-center gap-2">
         {enabled ? (
-          <Bell className="size-4 text-indigo" strokeWidth={2} />
+          <Bell className="size-4 text-moss" strokeWidth={2} />
         ) : (
           <BellOff className="size-4 text-ink-muted" strokeWidth={2} />
         )}
@@ -175,7 +175,7 @@ export function ReminderCard() {
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-50"
               >
                 <span>
                   <span className="block text-sm font-medium text-ink">

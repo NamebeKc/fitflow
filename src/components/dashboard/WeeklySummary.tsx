@@ -70,7 +70,7 @@ export function WeeklySummary({ stats }: WeeklySummaryProps) {
                 </div>
                 <div className="h-1 overflow-hidden rounded-full bg-paper-sunken">
                   <div
-                    className="h-full rounded-full bg-indigo/70"
+                    className="h-full rounded-full bg-lime/70"
                     style={{
                       width: `${Math.round((entry.minutes / maxMinutes) * 100)}%`,
                     }}
@@ -100,7 +100,7 @@ function StatTile({
     <div className="bg-paper px-3.5 py-4 sm:px-4">
       <p className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-ink-muted">
         <Icon
-          className={cn("size-3", accent ? "text-indigo/70" : "")}
+          className={cn("size-3", accent ? "text-moss" : "")}
           strokeWidth={2.5}
         />
         <span className="truncate">{label}</span>
@@ -108,7 +108,7 @@ function StatTile({
       <p
         className={cn(
           "mt-2 font-mono text-2xl tabular-nums tracking-tight",
-          accent ? "text-indigo" : "text-ink",
+          accent ? "text-moss" : "text-ink",
         )}
       >
         {value}

@@ -123,8 +123,8 @@ export function Sidebar() {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium outline-none transition-colors",
-                    "focus-visible:ring-2 focus-visible:ring-indigo/50",
-                    active ? "text-indigo" : "text-ink-muted hover:text-ink",
+                    "focus-visible:ring-2 focus-visible:ring-moss",
+                    active ? "text-moss" : "text-ink-muted hover:text-ink",
                   )}
                 >
                   {active && (
@@ -135,7 +135,7 @@ export function Sidebar() {
                           ? { duration: 0 }
                           : { type: "spring", stiffness: 380, damping: 32 }
                       }
-                      className="absolute inset-0 rounded-md border border-indigo/20 bg-indigo/[0.07]"
+                      className="absolute inset-0 rounded-md border border-moss/25 bg-lime-wash"
                       aria-hidden
                     />
                   )}
@@ -144,7 +144,7 @@ export function Sidebar() {
                     className={cn(
                       "relative z-10 size-5 shrink-0 transition-colors",
                       active
-                        ? "text-indigo"
+                        ? "text-moss"
                         : "text-ink-muted group-hover:text-ink",
                     )}
                     strokeWidth={2}
@@ -174,11 +174,11 @@ export function Sidebar() {
             <div className="flex items-center gap-1.5">
               <Link
                 href="/profile"
-                className="flex min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-1.5 outline-none transition-colors hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo/50 lg:px-3"
+                className="flex min-w-0 flex-1 items-center gap-3 rounded-md px-2 py-1.5 outline-none transition-colors hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-moss lg:px-3"
               >
                 <Avatar className="size-9 border border-rule">
                   {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
-                  <AvatarFallback className="bg-paper-raised text-xs font-semibold text-indigo">
+                  <AvatarFallback className="bg-paper-raised text-xs font-semibold text-moss">
                     {initial}
                   </AvatarFallback>
                 </Avatar>
@@ -196,7 +196,7 @@ export function Sidebar() {
                 type="button"
                 onClick={() => void signOutUser()}
                 aria-label="Sign out"
-                className="hidden size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 lg:flex"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss lg:flex"
               >
                 <LogOut className="size-4" strokeWidth={2} />
               </button>
@@ -222,8 +222,8 @@ export function Sidebar() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex min-h-14 flex-1 flex-col items-center justify-center gap-1 rounded-md px-0.5 font-mono text-[9px] uppercase tracking-[0.04em] outline-none transition-colors active:bg-paper-sunken",
-                  "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo/50",
-                  active ? "text-indigo" : "text-ink-muted",
+                  "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-moss",
+                  active ? "text-moss" : "text-ink-muted",
                 )}
               >
                 <Icon className="size-5" strokeWidth={active ? 2.25 : 2} />

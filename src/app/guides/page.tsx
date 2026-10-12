@@ -89,7 +89,7 @@ export default function GuidesIndexPage() {
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
           <Link
             href="/"
-            className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="outline-none focus-visible:ring-2 focus-visible:ring-moss"
           >
             <Image
               src="/logo-horizontal.png"
@@ -101,7 +101,7 @@ export default function GuidesIndexPage() {
           </Link>
           <Link
             href="/#auth"
-            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-moss hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             Try AdimFit
           </Link>
@@ -109,7 +109,7 @@ export default function GuidesIndexPage() {
       </header>
 
       <main className="mx-auto w-full max-w-[860px] px-6 py-14 md:px-8 md:py-20">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-moss">
           Guides
         </p>
         <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
@@ -126,10 +126,10 @@ export default function GuidesIndexPage() {
             <li key={entry.slug}>
               <Link
                 href={`/guides/${entry.slug}`}
-                className="group block rounded-lg border border-rule bg-paper-raised p-6 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 sm:p-8"
+                className="group block rounded-lg border border-rule bg-paper-raised p-6 outline-none transition-colors hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss sm:p-8"
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
-                  <span className="text-indigo/80">{entry.topic}</span>
+                  <span className="text-moss">{entry.topic}</span>
                   <span className="px-2 text-ink-faint">·</span>
                   <time dateTime={entry.published}>
                     {guideDate(entry.published)}
@@ -145,7 +145,7 @@ export default function GuidesIndexPage() {
                   {entry.summary}
                 </p>
 
-                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-indigo">
+                <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-moss">
                   Read
                   <ArrowRight
                     className="size-3.5 transition-transform group-hover:translate-x-1"
@@ -167,7 +167,7 @@ export default function GuidesIndexPage() {
             with citations, and with corrections kept visible — see the{" "}
             <Link
               href="/research"
-              className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+              className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
             >
               research reviews
             </Link>

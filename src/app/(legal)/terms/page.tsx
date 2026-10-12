@@ -129,7 +129,7 @@ export default function TermsPage() {
           coach can reply. See the{" "}
           <Link
             href="/privacy"
-            className="text-indigo/80 underline underline-offset-4 transition-colors hover:text-indigo"
+            className="text-moss underline underline-offset-4 transition-colors hover:text-moss"
           >
             Privacy Policy
           </Link>{" "}

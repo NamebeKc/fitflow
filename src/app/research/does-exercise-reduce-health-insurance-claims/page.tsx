@@ -79,7 +79,7 @@ export default function ResearchArticlePage() {
 
       <header className="border-b border-rule">
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
-          <Link href="/" className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+          <Link href="/" className="outline-none focus-visible:ring-2 focus-visible:ring-moss">
             <Image
               src="/logo-horizontal.png"
               alt="AdimFit"
@@ -90,7 +90,7 @@ export default function ResearchArticlePage() {
           </Link>
           <Link
             href="/research"
-            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             All research
           </Link>
@@ -98,7 +98,7 @@ export default function ResearchArticlePage() {
       </header>
 
       <article className="mx-auto w-full max-w-[720px] px-6 py-14 md:px-8 md:py-20">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-indigo">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-moss">
           Evidence review
         </p>
         <h1 className="mt-6 text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]">
@@ -117,8 +117,8 @@ export default function ResearchArticlePage() {
         </p>
 
         {/* ── Disclosure ──────────────────────────────────────────── */}
-        <aside className="mt-10 rounded-md border border-indigo/25 bg-indigo/[0.05] p-6 sm:p-6">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+        <aside className="mt-10 rounded-md border border-moss/25 bg-lime-wash p-6 sm:p-6">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
             Commercial interest, declared
           </h2>
           <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
@@ -335,7 +335,7 @@ export default function ResearchArticlePage() {
                       </td>
                       <td
                         className={`py-3 pr-4 font-mono text-[13px] tabular-nums ${
-                          row.preferred ? "text-indigo" : "text-ink-muted"
+                          row.preferred ? "text-moss" : "text-ink-muted"
                         }`}
                       >
                         {row.value}
@@ -390,7 +390,7 @@ export default function ResearchArticlePage() {
           <div className="not-prose mt-6 divide-y divide-rule border-y border-rule">
             {QUESTIONS.map((item) => (
               <details key={item.question} className="group py-6">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-moss">
                   <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {item.question}
                   </h3>
@@ -422,7 +422,7 @@ export default function ResearchArticlePage() {
                       href={source.url}
                       rel="noopener noreferrer nofollow"
                       target="_blank"
-                      className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+                      className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
                     >
                       {source.title}
                     </a>
@@ -450,7 +450,7 @@ export default function ResearchArticlePage() {
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-rule px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-rule px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-moss hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             What AdimFit is
           </Link>
@@ -490,12 +490,12 @@ function Em({ children }: { children: React.ReactNode }) {
 }
 
 function Strong({ children }: { children: React.ReactNode }) {
-  return <strong className="font-semibold text-indigo">{children}</strong>;
+  return <strong className="font-semibold text-moss">{children}</strong>;
 }
 
 function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-indigo/50 pl-6 text-[16px] leading-[1.7] text-ink-muted">
+    <p className="my-8 border-l-2 border-moss pl-6 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );
@@ -508,7 +508,7 @@ function Cite({ id }: { id: string }) {
   return (
     <a
       href={`#${id}`}
-      className="ml-0.5 align-super font-mono text-[11px] text-indigo/80 no-underline outline-none transition-colors hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
+      className="ml-0.5 align-super font-mono text-[11px] text-moss no-underline outline-none transition-colors hover:text-moss focus-visible:ring-2 focus-visible:ring-moss"
       aria-label={`Source ${index + 1}`}
     >
       [{index + 1}]

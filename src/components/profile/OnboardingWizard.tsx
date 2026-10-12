@@ -298,8 +298,8 @@ export function OnboardingWizard({
       <Card className="mx-auto w-full max-w-xl border-rule bg-paper-raised text-ink shadow-none">
         <CardContent className="space-y-7 p-6 md:p-8">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex size-14 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
-              <Sparkles className="size-6 text-indigo" strokeWidth={2} />
+            <div className="flex size-14 items-center justify-center rounded-md border border-moss/25 bg-lime-wash">
+              <Sparkles className="size-6 text-moss" strokeWidth={2} />
             </div>
             <div className="space-y-2">
               <h2 className="text-xl font-semibold tracking-[-0.02em] text-ink">
@@ -335,7 +335,7 @@ export function OnboardingWizard({
 
           <Button
             onClick={() => setShowIntro(false)}
-            className="w-full gap-2 rounded-full bg-indigo py-6 text-sm font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px"
+            className="w-full gap-2 rounded-full bg-lime py-6 text-sm font-semibold text-on-lime hover:bg-lime-press active:translate-y-px"
           >
             Get started
             <ArrowRight className="size-4" />
@@ -367,7 +367,7 @@ export function OnboardingWizard({
                 key={label}
                 className={cn(
                   "h-1 flex-1 rounded-full transition-colors duration-300",
-                  index <= step ? "bg-indigo" : "bg-paper-sunken",
+                  index <= step ? "bg-lime" : "bg-paper-sunken",
                 )}
               />
             ))}
@@ -392,7 +392,7 @@ export function OnboardingWizard({
                     onChange={(event) => setFirstName(event.target.value)}
                     placeholder="What should your coach call you?"
                     autoComplete="given-name"
-                    className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+                    className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
                   />
                 </div>
 
@@ -413,7 +413,7 @@ export function OnboardingWizard({
                       value={age}
                       onChange={(event) => setAge(event.target.value)}
                       placeholder="e.g. 32"
-                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                   <div className="space-y-2">
@@ -432,7 +432,7 @@ export function OnboardingWizard({
                       value={weight}
                       onChange={(event) => setWeight(event.target.value)}
                       placeholder="78"
-                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                   <div className="space-y-2">
@@ -451,7 +451,7 @@ export function OnboardingWizard({
                       value={height}
                       onChange={(event) => setHeight(event.target.value)}
                       placeholder="175"
-                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+                      className="h-11 rounded-md border-rule bg-paper px-4 text-ink placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
                     />
                   </div>
                 </div>
@@ -591,9 +591,9 @@ export function OnboardingWizard({
                                 aria-pressed={selected}
                                 className={cn(
                                   "rounded-full border px-3.5 py-2 text-sm font-medium outline-none transition-all active:translate-y-px",
-                                  "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                                  "focus-visible:ring-2 focus-visible:ring-moss",
                                   selected
-                                    ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+                                    ? "border-moss bg-lime-wash text-ink"
                                     : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
                                 )}
                               >
@@ -631,9 +631,9 @@ export function OnboardingWizard({
                           aria-pressed={selected}
                           className={cn(
                             "w-full rounded-md border px-4 py-3 text-left outline-none transition-all active:translate-y-px",
-                            "focus-visible:ring-2 focus-visible:ring-indigo/50",
+                            "focus-visible:ring-2 focus-visible:ring-moss",
                             selected
-                              ? "border-indigo/40 bg-indigo/[0.08]"
+                              ? "border-moss bg-lime-wash"
                               : "border-rule bg-paper-sunken hover:border-rule",
                           )}
                         >
@@ -695,7 +695,7 @@ export function OnboardingWizard({
             <Button
               onClick={goForward}
               disabled={!stepValid}
-              className="gap-2 rounded-full bg-indigo px-6 font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px disabled:opacity-30 disabled:shadow-none"
+              className="gap-2 rounded-full bg-lime px-6 font-semibold text-on-lime hover:bg-lime-press active:translate-y-px disabled:opacity-30 disabled:shadow-none"
             >
               {step === STEPS.length - 1
                 ? isEditing
@@ -738,10 +738,10 @@ function SelectTile({
       aria-pressed={selected}
       className={cn(
         "flex items-center gap-3 rounded-md border text-left font-medium outline-none transition-all",
-        "focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
+        "focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px",
         compact ? "gap-2.5 px-3.5 py-3 text-sm" : "px-4 py-3.5 text-sm",
         selected
-          ? "border-indigo/40 bg-indigo/[0.08] text-ink"
+          ? "border-moss bg-lime-wash text-ink"
           : "border-rule bg-paper-sunken text-ink-muted hover:border-rule hover:text-ink",
         disabled && "pointer-events-none opacity-35",
       )}
@@ -750,18 +750,18 @@ function SelectTile({
         className={cn(
           "shrink-0",
           compact ? "size-4" : "size-5",
-          selected ? "text-indigo" : "text-ink-muted",
+          selected ? "text-moss" : "text-ink-muted",
         )}
         strokeWidth={2}
       />
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge && (
-        <span className="shrink-0 rounded-full bg-indigo/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-indigo">
+        <span className="shrink-0 rounded-full bg-lime-wash px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-moss">
           {badge}
         </span>
       )}
       {selected && !compact && (
-        <Check className="size-4 shrink-0 text-indigo" strokeWidth={2.5} />
+        <Check className="size-4 shrink-0 text-moss" strokeWidth={2.5} />
       )}
     </button>
   );

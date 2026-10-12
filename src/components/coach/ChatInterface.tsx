@@ -516,7 +516,7 @@ export function ChatInterface() {
               size="sm"
               onClick={() => void handleClear()}
               disabled={isClearing}
-              className="h-8 gap-1.5 rounded-full bg-indigo px-3.5 text-[12px] font-semibold text-on-indigo hover:bg-indigo-lift active:translate-y-px"
+              className="h-8 gap-1.5 rounded-full bg-lime px-3.5 text-[12px] font-semibold text-on-lime hover:bg-lime-press active:translate-y-px"
             >
               {isClearing ? "Clearing…" : "Yes, reset"}
             </Button>
@@ -543,8 +543,8 @@ export function ChatInterface() {
           <TranscriptSkeleton />
         ) : isEmpty ? (
           <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
-            <div className="flex size-14 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
-              <Sparkles className="size-6 text-indigo" strokeWidth={2} />
+            <div className="flex size-14 items-center justify-center rounded-md border border-moss/25 bg-lime-wash">
+              <Sparkles className="size-6 text-moss" strokeWidth={2} />
             </div>
 
             <div className="space-y-1.5">
@@ -563,7 +563,7 @@ export function ChatInterface() {
                   key={suggestion}
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-rule bg-paper-sunken px-4 font-normal text-ink-muted shadow-none transition-all hover:border-indigo/25 hover:bg-paper hover:text-ink active:translate-y-px"
+                  className="rounded-full border-rule bg-paper-sunken px-4 font-normal text-ink-muted shadow-none transition-all hover:border-moss/25 hover:bg-paper hover:text-ink active:translate-y-px"
                   onClick={() => send(suggestion)}
                 >
                   {suggestion}
@@ -581,7 +581,7 @@ export function ChatInterface() {
               Already trained today?{" "}
               <Link
                 href="/log"
-                className="text-indigo/80 underline underline-offset-4 transition-colors hover:text-indigo"
+                className="text-moss underline underline-offset-4 transition-colors hover:text-moss"
               >
                 Record it on the Log tab
               </Link>{" "}
@@ -631,14 +631,14 @@ export function ChatInterface() {
             placeholder="Message your coach…"
             aria-label="Message your coach"
             disabled={isLoadingHistory}
-            className="h-11 flex-1 rounded-full border-rule bg-paper px-6 text-[15px] text-ink shadow-none placeholder:text-ink-muted focus-visible:border-indigo/60 focus-visible:bg-paper focus-visible:ring-0"
+            className="h-11 flex-1 rounded-full border-rule bg-paper px-6 text-[15px] text-ink shadow-none placeholder:text-ink-muted focus-visible:border-moss focus-visible:bg-paper focus-visible:ring-0"
           />
           <Button
             type="submit"
             size="icon"
             disabled={!draft.trim() || isBusy || isLoadingHistory}
             aria-label="Send message"
-            className="size-11 shrink-0 rounded-full bg-indigo text-on-indigo transition-all hover:bg-indigo-lift active:translate-y-px disabled:opacity-30 disabled:shadow-none"
+            className="size-11 shrink-0 rounded-full bg-lime text-on-lime transition-all hover:bg-lime-press active:translate-y-px disabled:opacity-30 disabled:shadow-none"
           >
             <SendHorizonal className="size-5" strokeWidth={2} />
           </Button>

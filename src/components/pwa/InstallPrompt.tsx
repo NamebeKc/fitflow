@@ -129,8 +129,8 @@ export function InstallPrompt() {
         className="fixed inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-50 mx-auto max-w-md rounded-lg border border-rule bg-paper-raised/95 p-4 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl md:bottom-6 md:left-auto md:right-6 md:mx-0"
       >
         <div className="flex items-start gap-3.5">
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
-            <Download className="size-5 text-indigo" strokeWidth={2} />
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-md border border-moss/25 bg-lime-wash">
+            <Download className="size-5 text-moss" strokeWidth={2} />
           </div>
 
           <div className="min-w-0 flex-1">
@@ -165,7 +165,7 @@ export function InstallPrompt() {
               <button
                 type="button"
                 onClick={() => void install()}
-                className="mt-3 w-full rounded-full bg-indigo px-6 py-2.5 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+                className="mt-3 w-full rounded-full bg-lime px-6 py-2.5 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
               >
                 Install
               </button>
@@ -176,7 +176,7 @@ export function InstallPrompt() {
             type="button"
             onClick={dismiss}
             aria-label="Dismiss"
-            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             <X className="size-4" strokeWidth={2} />
           </button>

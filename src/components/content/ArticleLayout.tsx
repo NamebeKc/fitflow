@@ -140,7 +140,7 @@ function SiteHeader() {
       <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-6 md:px-8">
         <Link
           href="/"
-          className="outline-none focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="outline-none focus-visible:ring-2 focus-visible:ring-moss"
         >
           <Image
             src="/logo-horizontal.png"
@@ -153,13 +153,13 @@ function SiteHeader() {
         <nav className="flex items-center gap-4">
           <Link
             href="/guides"
-            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="text-[13px] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             Guides
           </Link>
           <Link
             href="/#auth"
-            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/40 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:border-moss hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             Try AdimFit
           </Link>
@@ -208,7 +208,7 @@ function FaqBlock({ entry }: { entry: Guide }) {
       <div className="mt-6 divide-y divide-rule border-y border-rule">
         {entry.faqs.map((faq) => (
           <details key={faq.question} className="group py-6">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-moss">
               <h3 className="text-[16px] font-medium leading-snug text-ink">
                 {faq.question}
               </h3>
@@ -249,7 +249,7 @@ function Related({ entry }: { entry: Guide }) {
           <li key={other.slug}>
             <Link
               href={`/guides/${other.slug}`}
-              className="group flex items-start justify-between gap-6 rounded-md border border-rule bg-paper-raised px-6 py-4 outline-none transition-colors hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="group flex items-start justify-between gap-6 rounded-md border border-rule bg-paper-raised px-6 py-4 outline-none transition-colors hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss"
             >
               <span>
                 <span className="block text-[15px] font-medium text-ink">
@@ -274,7 +274,7 @@ function Related({ entry }: { entry: Guide }) {
 
 function CallToAction() {
   return (
-    <aside className="mt-16 rounded-lg border border-indigo/20 bg-gradient-to-b from-indigo/[0.07] to-transparent p-6 sm:p-8">
+    <aside className="mt-16 rounded-lg border border-moss/25 bg-gradient-to-b from-lime-wash to-transparent p-6 sm:p-8">
       <h2 className="text-[1.4rem] font-semibold leading-[1.15] tracking-[-0.02em]">
         A coach that keeps the record for you
       </h2>
@@ -286,7 +286,7 @@ function CallToAction() {
       </p>
       <Link
         href="/#auth"
-        className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo px-6 py-3 text-[14px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+        className="mt-6 inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-[14px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
       >
         Start free
         <ArrowRight className="size-4" strokeWidth={2.5} />
@@ -330,12 +330,12 @@ export function Em({ children }: { children: ReactNode }) {
 }
 
 export function Strong({ children }: { children: ReactNode }) {
-  return <strong className="font-semibold text-indigo">{children}</strong>;
+  return <strong className="font-semibold text-moss">{children}</strong>;
 }
 
 export function Callout({ children }: { children: ReactNode }) {
   return (
-    <p className="my-8 border-l-2 border-indigo/50 pl-6 text-[16px] leading-[1.7] text-ink-muted">
+    <p className="my-8 border-l-2 border-moss pl-6 text-[16px] leading-[1.7] text-ink-muted">
       {children}
     </p>
   );
@@ -351,7 +351,7 @@ export function Bullets({ items }: { items: ReactNode[] }) {
         >
           <span
             aria-hidden
-            className="mt-[0.6rem] size-1.5 shrink-0 rounded-full bg-indigo/60"
+            className="mt-[0.6rem] size-1.5 shrink-0 rounded-full bg-lime/60"
           />
           <span>{item}</span>
         </li>
@@ -397,7 +397,7 @@ export function CompareTable({
         <div className="bg-paper px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
           {left}
         </div>
-        <div className="bg-paper px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-indigo">
+        <div className="bg-paper px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-moss">
           {right}
         </div>
 
@@ -503,7 +503,7 @@ export function Sources({ items }: { items: SourceRef[] }) {
                 href={item.url}
                 rel="noopener noreferrer nofollow"
                 target="_blank"
-                className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+                className="underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
               >
                 {item.name}
               </a>

@@ -60,12 +60,12 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
       initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="overflow-hidden rounded-md border border-indigo/20 bg-indigo/[0.03]"
+      className="overflow-hidden rounded-md border border-moss/25 bg-lime-wash"
     >
       {/* Header */}
-      <div className="flex items-start gap-3 border-b border-indigo/10 px-4 py-3.5">
+      <div className="flex items-start gap-3 border-b border-moss/25 px-4 py-3.5">
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
             {completed ? "Logged session" : "Today's session"}
           </p>
           <p className="mt-1.5 truncate text-[15px] font-semibold tracking-[-0.02em] text-ink">
@@ -106,7 +106,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                   className={cn(
                     "flex size-5 shrink-0 items-center justify-center rounded-sm border transition-colors",
                     checked
-                      ? "border-indigo bg-indigo text-on-indigo"
+                      ? "border-moss bg-lime text-on-lime"
                       : "border-rule bg-paper-sunken",
                   )}
                 >
@@ -132,7 +132,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
                 <span
                   className={cn(
                     "shrink-0 font-mono text-xs tabular-nums transition-colors",
-                    checked ? "text-ink-muted" : "text-indigo",
+                    checked ? "text-ink-muted" : "text-moss",
                   )}
                 >
                   {exercise.prescription}
@@ -146,9 +146,9 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
       </ul>
 
       {/* Action */}
-      <div className="border-t border-indigo/10 px-4 py-3.5">
+      <div className="border-t border-moss/25 px-4 py-3.5">
         {completed ? (
-          <p className="flex items-center justify-center gap-2 py-1 text-sm font-medium text-indigo">
+          <p className="flex items-center justify-center gap-2 py-1 text-sm font-medium text-moss">
             <CheckCircle2 className="size-4" strokeWidth={2.25} />
             Logged to your history
           </p>
@@ -157,7 +157,7 @@ export function PlanCard({ plan, completed, onLog }: PlanCardProps) {
             type="button"
             onClick={() => void log()}
             disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-50"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

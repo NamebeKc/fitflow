@@ -127,8 +127,8 @@ export function WeightChart({ measurements }: WeightChartProps) {
         >
           <defs>
             <linearGradient id="weightFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--indigo)" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="var(--indigo)" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--moss)" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="var(--moss)" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -137,7 +137,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
           <motion.polyline
             points={line}
             fill="none"
-            stroke="var(--indigo)"
+            stroke="var(--moss)"
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
             strokeLinecap="round"
@@ -154,7 +154,7 @@ export function WeightChart({ measurements }: WeightChartProps) {
               cy={point.y}
               r="2"
               fill="var(--paper)"
-              stroke="var(--indigo)"
+              stroke="var(--moss)"
               strokeWidth="1.5"
               vectorEffect="non-scaling-stroke"
             />

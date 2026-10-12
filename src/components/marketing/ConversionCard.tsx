@@ -122,7 +122,7 @@ export function ConversionCard() {
           track("signup_started", { method: "google" });
           void signInWithGoogle();
         }}
-        className="flex w-full items-center justify-center gap-3 rounded-sm border border-field-border bg-paper-raised px-6 py-3.5 text-[15px] font-semibold text-ink outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
+        className="flex w-full items-center justify-center gap-3 rounded-sm border border-field-border bg-paper-raised px-6 py-3.5 text-[15px] font-semibold text-ink outline-none transition-all hover:bg-paper-sunken focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px"
       >
         <GoogleMark />
         Continue with Google
@@ -138,7 +138,7 @@ export function ConversionCard() {
           type="button"
           onClick={() => setShowEmail((open) => !open)}
           aria-expanded={showEmail}
-          className="flex w-full items-center justify-center gap-1.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="flex w-full items-center justify-center gap-1.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           {showEmail ? "Hide email options" : "Or use email instead"}
           <ChevronDown
@@ -176,7 +176,7 @@ export function ConversionCard() {
                         }}
                         className={cn(
                           "relative z-10 flex-1 rounded-full px-4 py-2 text-[13px] font-medium outline-none transition-colors",
-                          active ? "text-on-indigo" : "text-ink-muted hover:text-ink",
+                          active ? "text-on-lime" : "text-ink-muted hover:text-ink",
                         )}
                       >
                         {active && (
@@ -187,7 +187,7 @@ export function ConversionCard() {
                                 ? { duration: 0 }
                                 : { type: "spring", stiffness: 420, damping: 34 }
                             }
-                            className="absolute inset-0 -z-10 rounded-full bg-indigo"
+                            className="absolute inset-0 -z-10 rounded-full bg-lime"
                             aria-hidden
                           />
                         )}
@@ -232,7 +232,7 @@ export function ConversionCard() {
                       type="button"
                       onClick={() => void resetPassword()}
                       disabled={resetting}
-                      className="text-[12px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 disabled:opacity-50"
+                      className="text-[12px] text-ink-muted underline underline-offset-4 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss disabled:opacity-50"
                     >
                       {resetting ? "Sending…" : "Forgot your password?"}
                     </button>
@@ -251,7 +251,7 @@ export function ConversionCard() {
                 {notice && (
                   <p
                     role="status"
-                    className="mt-3 rounded-md border border-indigo/25 bg-indigo/[0.07] px-3.5 py-2.5 text-[13px] leading-relaxed text-ink"
+                    className="mt-3 rounded-md border border-moss/25 bg-lime-wash px-3.5 py-2.5 text-[13px] leading-relaxed text-ink"
                   >
                     {notice}
                   </p>
@@ -261,7 +261,7 @@ export function ConversionCard() {
                   type="button"
                   onClick={() => void submit()}
                   disabled={busy}
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-[14px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-50"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-[14px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-50"
                 >
                   {busy ? (
                     <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -310,7 +310,7 @@ function Field({
           if (event.key === "Enter" && onEnter) onEnter();
         }}
         placeholder={placeholder}
-        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-muted focus:border-indigo/60 focus:bg-paper"
+        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-muted focus:border-moss focus:bg-paper"
       />
     </label>
   );

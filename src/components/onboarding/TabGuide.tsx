@@ -120,7 +120,7 @@ export function TabGuide() {
             type="button"
             onClick={dismiss}
             aria-label="Dismiss"
-            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="-mr-1 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             <X className="size-4" strokeWidth={2} />
           </button>
@@ -134,11 +134,11 @@ export function TabGuide() {
                 <Link
                   href={tab.href}
                   onClick={() => track("tab_guide_used", { tab: tab.label })}
-                  className="flex items-start gap-3.5 rounded-md border border-rule bg-paper-sunken px-4 py-3 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+                  className="flex items-start gap-3.5 rounded-md border border-rule bg-paper-sunken px-4 py-3 outline-none transition-all hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
                 >
                   <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-sm border border-rule bg-paper-sunken">
                     <Icon
-                      className="size-4 text-indigo"
+                      className="size-4 text-moss"
                       strokeWidth={2}
                       aria-hidden
                     />
@@ -161,7 +161,7 @@ export function TabGuide() {
         <button
           type="button"
           onClick={dismiss}
-          className="mt-4 w-full text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="mt-4 w-full text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           Got it — hide this
         </button>

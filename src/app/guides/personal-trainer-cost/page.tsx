@@ -192,7 +192,7 @@ export default function Page() {
         of the technique coaching.{" "}
         <Link
           href="/guides/personal-trainer-alternatives"
-          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
         >
           The alternatives compared
         </Link>{" "}

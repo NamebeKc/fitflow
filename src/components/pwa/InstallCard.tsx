@@ -81,8 +81,8 @@ export function InstallCard() {
 
   if (installed) {
     return (
-      <section className="flex items-center gap-3 rounded-lg border border-indigo/20 bg-indigo/[0.04] p-6">
-        <Check className="size-4 shrink-0 text-indigo" strokeWidth={3} />
+      <section className="flex items-center gap-3 rounded-lg border border-moss/25 bg-lime-wash p-6">
+        <Check className="size-4 shrink-0 text-moss" strokeWidth={3} />
         <p className="text-sm text-ink-muted">
           AdimFit is installed on this device.
         </p>
@@ -93,7 +93,7 @@ export function InstallCard() {
   return (
     <section className="rounded-lg border border-rule bg-paper-raised p-6 sm:p-6">
       <div className="flex items-center gap-2">
-        <Download className="size-4 text-indigo" strokeWidth={2} />
+        <Download className="size-4 text-moss" strokeWidth={2} />
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
           Install
         </p>
@@ -125,7 +125,7 @@ export function InstallCard() {
           type="button"
           onClick={() => void install()}
           disabled={!deferred || busy}
-          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-40"
         >
           <Download className="size-4" strokeWidth={2.5} />
           {deferred ? "Install AdimFit" : "Open in Chrome to install"}

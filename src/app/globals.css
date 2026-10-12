@@ -60,11 +60,19 @@
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
 
-  /* Indigo — primary. Laterite — emphasis. Ochre — rationed. */
-  --color-indigo: var(--indigo);
-  --color-indigo-deep: var(--indigo-deep);
-  --color-indigo-lift: var(--indigo-lift);
-  --color-indigo-wash: var(--indigo-wash);
+  /* THE BRAND LIME, AND WHY IT COMES IN TWO PARTS.
+     #CCFF00 is the logo and it is not negotiable. What it cannot do
+     is be a mark: on paper it measures 1.10:1, so as text, a border,
+     an icon or a focus ring it is simply invisible. As a FILL with
+     dark text on it, it measures 14.80:1 and is excellent.
+     So the brand hue does both jobs at two lightnesses — `lime`
+     fills, `moss` marks. One family, 123deg throughout, no second
+     accent colour competing. */
+  --color-lime: var(--lime);
+  --color-lime-press: var(--lime-press);
+  --color-lime-wash: var(--lime-wash);
+  --color-moss: var(--moss);
+  --color-moss-deep: var(--moss-deep);
   --color-laterite: var(--laterite);
   --color-laterite-wash: var(--laterite-wash);
   --color-ochre: var(--ochre);
@@ -77,7 +85,7 @@
   /* Paired foregrounds. A coloured fill NEVER takes --ink directly:
      invert the theme and the ochre chip drops from 6.86:1 to 1.70:1
      while every body-text check still passes. */
-  --color-on-indigo: var(--on-indigo);
+  --color-on-lime: var(--on-lime);
   --color-on-laterite: var(--on-laterite);
   --color-on-ochre: var(--on-ochre);
 
@@ -155,10 +163,14 @@
   --ink-muted: oklch(47% 0.012 70);
   --ink-faint: oklch(55% 0.012 74);
 
-  --indigo: oklch(38% 0.115 266);
-  --indigo-deep: oklch(27% 0.095 268);
-  --indigo-lift: oklch(55% 0.120 264);
-  --indigo-wash: oklch(94% 0.022 266);
+  /* The logo colour, as a literal. Not an oklch approximation —
+     an approximation round-trips to #CCFF01 and the mark must match
+     the asset exactly. */
+  --lime: #CCFF00;
+  --lime-press: oklch(86% 0.2 123); /* #B9E52B — hover/press on a lime fill */
+  --lime-wash: oklch(96% 0.055 123); /* #EBF9D0 — selected rows, info */
+  --moss: oklch(44% 0.1 123); /* #485B0F — links, focus, icons, strokes */
+  --moss-deep: oklch(34% 0.085 123); /* pressed, headings */
   --laterite: oklch(52% 0.135 40);
   --laterite-wash: oklch(94% 0.025 45);
   --ochre: oklch(72% 0.115 72);
@@ -167,7 +179,8 @@
   --warning: oklch(52% 0.105 62);
   --danger: oklch(50% 0.150 25);
 
-  --on-indigo: oklch(97.8% 0.006 83);
+  /* A lime fill takes DARK text, in both themes. */
+  --on-lime: oklch(22% 0.014 62);
   --on-laterite: oklch(97.8% 0.006 83);
   --on-ochre: oklch(22% 0.014 62);
 
@@ -183,37 +196,37 @@
   --card-foreground: var(--ink);
   --popover: var(--paper-raised);
   --popover-foreground: var(--ink);
-  --primary: var(--indigo);
-  --primary-foreground: var(--on-indigo);
+  --primary: var(--lime);
+  --primary-foreground: var(--on-lime);
   --secondary: var(--paper-sunken);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-sunken);
   --muted-foreground: var(--ink-muted);
-  --accent: var(--indigo-wash);
-  --accent-foreground: var(--indigo-deep);
+  --accent: var(--lime-wash);
+  --accent-foreground: var(--moss-deep);
   --destructive: var(--danger);
   --border: var(--rule);
   --input: var(--field-border);
-  --ring: var(--indigo);
-  --chart-1: var(--indigo);
+  --ring: var(--moss);
+  --chart-1: var(--moss);
   --chart-2: var(--laterite);
   --chart-3: var(--ochre);
-  --chart-4: var(--indigo-lift);
+  --chart-4: var(--lime-press);
   --chart-5: var(--ink-muted);
   --radius: 8px;
   --sidebar: var(--paper-raised);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--indigo);
-  --sidebar-primary-foreground: var(--on-indigo);
-  --sidebar-accent: var(--indigo-wash);
-  --sidebar-accent-foreground: var(--indigo-deep);
+  --sidebar-primary: var(--lime);
+  --sidebar-primary-foreground: var(--on-lime);
+  --sidebar-accent: var(--lime-wash);
+  --sidebar-accent-foreground: var(--moss-deep);
   --sidebar-border: var(--rule);
-  --sidebar-ring: var(--indigo);
+  --sidebar-ring: var(--moss);
 }
 
 /* ── DARK — "press" ───────────────────────────────────────────────
    Not an inversion. Elevation rises in lightness, surfaces stay warm,
-   and the accents are re-picked — an indigo that works at 38%
+   and the accents are re-picked — a moss that works at 44%
    lightness on paper is invisible at 17%. Phase 4: nothing applies
    `.dark` yet, so this is staged, not live.
    ───────────────────────────────────────────────────────────────── */
@@ -228,10 +241,14 @@
   --ink-muted: oklch(74% 0.011 78);
   --ink-faint: oklch(62% 0.012 76);
 
-  --indigo: oklch(72% 0.105 262);
-  --indigo-deep: oklch(30% 0.075 266);
-  --indigo-lift: oklch(82% 0.075 260);
-  --indigo-wash: oklch(26% 0.050 266);
+  /* Lime is unchanged in the dark: on near-black it reads at
+     16.90:1 and needs no help. Only `moss` is re-picked — a dark
+     olive is invisible here, so the mark colour moves UP. */
+  --lime: #CCFF00;
+  --lime-press: oklch(86% 0.2 123);
+  --lime-wash: oklch(26% 0.06 123);
+  --moss: oklch(80% 0.16 123); /* #ABCE4C */
+  --moss-deep: oklch(90% 0.18 123);
   --laterite: oklch(70% 0.120 44);
   --laterite-wash: oklch(27% 0.055 42);
   --ochre: oklch(78% 0.105 74);
@@ -241,7 +258,7 @@
   --danger: oklch(70% 0.135 28);
 
   /* A light fill in dark mode needs a DARK foreground. */
-  --on-indigo: oklch(14% 0.009 70);
+  --on-lime: oklch(14% 0.009 70);
   --on-laterite: oklch(14% 0.009 70);
   --on-ochre: oklch(14% 0.009 70);
 
@@ -256,26 +273,26 @@
   --card-foreground: var(--ink);
   --popover: var(--paper-raised);
   --popover-foreground: var(--ink);
-  --primary: var(--indigo);
-  --primary-foreground: var(--on-indigo);
+  --primary: var(--lime);
+  --primary-foreground: var(--on-lime);
   --secondary: var(--paper-sunken);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-sunken);
   --muted-foreground: var(--ink-muted);
-  --accent: var(--indigo-wash);
+  --accent: var(--lime-wash);
   --accent-foreground: var(--ink);
   --destructive: var(--danger);
   --border: var(--rule);
   --input: var(--field-border);
-  --ring: var(--indigo);
+  --ring: var(--moss);
   --sidebar: var(--paper-raised);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--indigo);
-  --sidebar-primary-foreground: var(--on-indigo);
-  --sidebar-accent: var(--indigo-wash);
+  --sidebar-primary: var(--lime);
+  --sidebar-primary-foreground: var(--on-lime);
+  --sidebar-accent: var(--lime-wash);
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--rule);
-  --sidebar-ring: var(--indigo);
+  --sidebar-ring: var(--moss);
 }
 
 @layer base {

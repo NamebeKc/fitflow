@@ -165,7 +165,7 @@ function SignIn({
 
   return (
     <Frame>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
         AdimFit partners
       </p>
       <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink">
@@ -203,7 +203,7 @@ function SignIn({
         <button
           type="submit"
           disabled={busy || !email || !password}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3.5 text-[15px] font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3.5 text-[15px] font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-40"
         >
           {busy ? (
             <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />
@@ -266,7 +266,7 @@ function Dashboard({
     <Frame>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
             AdimFit partner
           </p>
           <h1 className="mt-3 truncate text-2xl font-semibold tracking-[-0.03em] text-ink">
@@ -288,12 +288,12 @@ function Dashboard({
         <motion.div
           initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 rounded-md border border-indigo/20 bg-indigo/[0.05] p-6"
+          className="mt-6 rounded-md border border-moss/25 bg-lime-wash p-6"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-indigo/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-moss">
             Due to you
           </p>
-          <p className="mt-2 font-mono text-4xl tabular-nums text-indigo">
+          <p className="mt-2 font-mono text-4xl tabular-nums text-moss">
             {money(stats.amountDue)}
           </p>
           <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
@@ -394,7 +394,7 @@ function Field({
         value={value}
         autoComplete={autoComplete}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-3.5 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-indigo/40 focus-visible:ring-2 focus-visible:ring-indigo/30"
+        className="mt-1.5 w-full rounded-md border border-rule bg-paper px-3.5 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-moss focus-visible:ring-2 focus-visible:ring-moss"
       />
     </label>
   );

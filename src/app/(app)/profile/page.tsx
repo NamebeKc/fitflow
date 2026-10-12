@@ -57,7 +57,7 @@ export default function ProfilePage() {
         <button
           type="button"
           onClick={() => setShowPaywall(false)}
-          className="inline-flex w-fit items-center gap-1.5 rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="inline-flex w-fit items-center gap-1.5 rounded-full border border-rule px-4 py-2 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
         >
           <ArrowLeft className="size-3.5" strokeWidth={2.5} />
           Back to profile

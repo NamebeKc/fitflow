@@ -181,7 +181,7 @@ export default function CancelSubscriptionPage() {
     <div className="mx-auto w-full max-w-xl">
       <Link
         href="/profile"
-        className="inline-flex items-center gap-2 text-sm text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        className="inline-flex items-center gap-2 text-sm text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <ArrowLeft className="size-4" strokeWidth={2} />
         Back to profile
@@ -197,9 +197,9 @@ export default function CancelSubscriptionPage() {
       </p>
 
       {refundable && refundBy && (
-        <div className="mt-6 flex gap-3 rounded-md border border-rule bg-indigo-wash p-4">
+        <div className="mt-6 flex gap-3 rounded-md border border-rule bg-lime-wash p-4">
           <ShieldCheck
-            className="mt-0.5 size-4 shrink-0 text-indigo"
+            className="mt-0.5 size-4 shrink-0 text-moss"
             strokeWidth={2}
           />
           <p className="text-sm leading-relaxed text-ink">
@@ -226,7 +226,7 @@ export default function CancelSubscriptionPage() {
                   key={option.id}
                   className={`flex cursor-pointer items-center gap-3 rounded-sm border px-4 py-3 text-sm transition-colors ${
                     active
-                      ? "border-indigo bg-indigo-wash text-ink"
+                      ? "border-moss bg-lime-wash text-ink"
                       : "border-rule bg-paper-raised text-ink-muted hover:border-field-border hover:text-ink"
                   }`}
                 >
@@ -236,7 +236,7 @@ export default function CancelSubscriptionPage() {
                     value={option.id}
                     checked={active}
                     onChange={() => setReason(option.id)}
-                    className="size-4 accent-indigo"
+                    className="size-4 accent-moss"
                   />
                   {option.label}
                 </label>
@@ -323,7 +323,7 @@ function SupportAddress() {
   return (
     <a
       href="mailto:support@adimfit.com"
-      className="font-medium text-indigo underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-indigo"
+      className="font-medium text-moss underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-moss"
     >
       support@adimfit.com
     </a>

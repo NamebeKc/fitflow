@@ -94,7 +94,7 @@ export function FaqSection() {
           <div className="divide-y divide-rule border-y border-rule">
             {FAQS.map((faq) => (
               <details key={faq.question} className="group py-6">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-indigo/50">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 outline-none focus-visible:ring-2 focus-visible:ring-moss">
                   <h3 className="text-[16px] font-medium leading-snug text-ink">
                     {faq.question}
                   </h3>

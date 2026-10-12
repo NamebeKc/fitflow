@@ -180,7 +180,7 @@ export default function Page() {
       <P>
         <Link
           href="/"
-          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
         >
           AdimFit
         </Link>{" "}
@@ -190,7 +190,7 @@ export default function Page() {
         the scepticism it deserves, and see{" "}
         <Link
           href="/guides/is-an-ai-personal-trainer-worth-it"
-          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
         >
           the four things an AI coach cannot do
         </Link>{" "}

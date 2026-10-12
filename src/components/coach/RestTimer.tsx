@@ -168,7 +168,7 @@ export function RestTimer() {
               key={preset.seconds}
               type="button"
               onClick={() => start(preset.seconds)}
-              className="shrink-0 rounded-full border border-rule bg-paper-sunken px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+              className="shrink-0 rounded-full border border-rule bg-paper-sunken px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink-muted outline-none transition-all hover:border-moss/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
             >
               {preset.label}
             </button>
@@ -186,14 +186,14 @@ export function RestTimer() {
       className={cn(
         "relative overflow-hidden rounded-md border px-3 py-2 transition-colors",
         finished
-          ? "border-indigo/40 bg-indigo/[0.10]"
+          ? "border-moss bg-lime-wash"
           : "border-rule bg-paper-raised",
       )}
     >
       {/* Progress drains left to right beneath the content */}
       {!finished && (
         <div
-          className="absolute inset-y-0 left-0 bg-indigo/[0.07] transition-[width] duration-200 ease-linear"
+          className="absolute inset-y-0 left-0 bg-lime-wash transition-[width] duration-200 ease-linear"
           style={{ width: `${progress * 100}%` }}
           aria-hidden
         />
@@ -212,7 +212,7 @@ export function RestTimer() {
           <TimerIcon
             className={cn(
               "size-4",
-              finished ? "text-indigo" : "text-ink-muted",
+              finished ? "text-moss" : "text-ink-muted",
             )}
             strokeWidth={2}
             aria-hidden
@@ -224,7 +224,7 @@ export function RestTimer() {
           aria-live="polite"
           className={cn(
             "font-mono text-xl tabular-nums tracking-tight",
-            finished ? "text-indigo" : "text-ink",
+            finished ? "text-moss" : "text-ink",
           )}
         >
           {finished ? "Time" : display}
@@ -279,9 +279,9 @@ function KeepAwakeToggle({
       }
       title={wakeLock.active ? "Screen stays on" : "Keep screen on"}
       className={cn(
-        "ml-auto flex size-8 shrink-0 items-center justify-center rounded-full border outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
+        "ml-auto flex size-8 shrink-0 items-center justify-center rounded-full border outline-none transition-all focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
         wakeLock.active
-          ? "border-indigo/40 bg-indigo/10 text-indigo"
+          ? "border-moss bg-lime-wash text-moss"
           : "border-rule bg-paper-sunken text-ink-muted hover:text-ink",
       )}
     >
@@ -307,9 +307,9 @@ function TimerButton({
       onClick={onClick}
       aria-label={label}
       className={cn(
-        "flex size-8 items-center justify-center rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95",
+        "flex size-8 items-center justify-center rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-moss active:scale-95",
         accent
-          ? "bg-indigo text-on-indigo hover:bg-indigo-lift"
+          ? "bg-lime text-on-lime hover:bg-lime-press"
           : "border border-rule bg-paper-sunken text-ink-muted hover:text-ink",
       )}
     >

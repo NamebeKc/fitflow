@@ -170,7 +170,7 @@ export default function ProgressPage() {
                   track("weigh_in_opened");
                   setWeighInOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 text-[12px] font-medium text-ink-muted outline-none transition-colors hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+                className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 text-[12px] font-medium text-ink-muted outline-none transition-colors hover:border-moss/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
               >
                 <Plus className="size-3" strokeWidth={2.5} />
                 Record
@@ -221,7 +221,7 @@ function Stat({
       </p>
       <p
         className={`mt-2 font-mono text-2xl tabular-nums tracking-tight ${
-          accent ? "text-indigo" : "text-ink"
+          accent ? "text-moss" : "text-ink"
         }`}
       >
         {value}

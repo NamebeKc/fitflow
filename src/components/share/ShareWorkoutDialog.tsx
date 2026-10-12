@@ -228,7 +228,7 @@ export function ShareWorkoutDialog({
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.9, ease: "easeInOut" }}
-                    className="h-[3px] w-full origin-left bg-indigo"
+                    className="h-[3px] w-full origin-left bg-lime"
                   />
                 </motion.div>
               ) : null}
@@ -322,7 +322,7 @@ export function ShareWorkoutDialog({
             type="button"
             onClick={() => void handleShare()}
             disabled={!blob || busy}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-indigo px-6 py-3 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-40 disabled:shadow-none"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:translate-y-px disabled:opacity-40 disabled:shadow-none"
           >
             {busy ? (
               <Loader2 className="size-4 animate-spin" strokeWidth={2.5} />

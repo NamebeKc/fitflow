@@ -152,11 +152,11 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-lg border border-indigo/25 bg-indigo/[0.05] p-6 sm:p-6"
+          className="rounded-lg border border-moss/25 bg-lime-wash p-6 sm:p-6"
         >
           <div className="flex items-start gap-3">
             <Bell
-              className="mt-0.5 size-4 shrink-0 text-indigo"
+              className="mt-0.5 size-4 shrink-0 text-moss"
               strokeWidth={2}
               aria-hidden
             />
@@ -178,7 +178,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
               type="button"
               onClick={dismiss}
               aria-label="Not now"
-              className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+              className="flex size-7 shrink-0 items-center justify-center rounded-sm text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
             >
               <X className="size-3.5" strokeWidth={2.5} />
             </button>
@@ -191,7 +191,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
                 type="button"
                 onClick={() => void enable(time.hour)}
                 disabled={busy}
-                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-indigo/30 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px disabled:opacity-50"
+                className="flex items-center justify-between rounded-md border border-rule bg-paper-sunken px-4 py-3 text-left outline-none transition-all hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px disabled:opacity-50"
               >
                 <span>
                   <span className="block text-sm font-medium text-ink">
@@ -220,7 +220,7 @@ export function ReminderPrompt({ open, onDismiss }: ReminderPromptProps) {
           <button
             type="button"
             onClick={dismiss}
-            className="mt-3 w-full rounded-full px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/40"
+            className="mt-3 w-full rounded-full px-6 py-2.5 text-[13px] font-medium text-ink-muted outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             Not now
           </button>

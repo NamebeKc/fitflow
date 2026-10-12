@@ -125,7 +125,7 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full text-ink-faint outline-none transition-colors hover:bg-paper-sunken hover:text-ink-muted focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full text-ink-faint outline-none transition-colors hover:bg-paper-sunken hover:text-ink-muted focus-visible:ring-2 focus-visible:ring-moss"
         >
           <X className="size-3.5" strokeWidth={2.5} />
         </button>
@@ -151,8 +151,8 @@ export function BaselinePrompt({ workoutCount }: { workoutCount: number }) {
               onClick={() => void answer(option.id)}
               className={cn(
                 "rounded-md border border-rule bg-paper-sunken px-3 py-3 text-[13px] text-ink-muted outline-none transition-all",
-                "hover:border-indigo/40 hover:bg-indigo/[0.06] hover:text-ink",
-                "focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
+                "hover:border-moss hover:bg-lime-wash hover:text-ink",
+                "focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px",
                 "disabled:opacity-40",
               )}
             >

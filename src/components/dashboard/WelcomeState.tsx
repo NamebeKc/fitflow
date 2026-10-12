@@ -24,7 +24,7 @@ export function WelcomeState({ displayName, hasProfile }: WelcomeStateProps) {
   return (
     <div className="mx-auto w-full max-w-2xl space-y-4">
       <section className="rounded-lg border border-rule bg-paper-raised p-6 md:p-8">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
           Getting started
         </p>
 
@@ -56,9 +56,9 @@ export function WelcomeState({ displayName, hasProfile }: WelcomeStateProps) {
         </ol>
       </section>
 
-      <section className="flex items-center gap-4 rounded-lg border border-indigo/15 bg-indigo/[0.04] p-6">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-indigo/20 bg-indigo/[0.07]">
-          <Sparkles className="size-4 text-indigo" strokeWidth={2} />
+      <section className="flex items-center gap-4 rounded-lg border border-moss/25 bg-lime-wash p-6">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-moss/25 bg-lime-wash">
+          <Sparkles className="size-4 text-moss" strokeWidth={2} />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-ink">In a hurry? Just ask.</p>
@@ -68,7 +68,7 @@ export function WelcomeState({ displayName, hasProfile }: WelcomeStateProps) {
         </div>
         <Link
           href="/coach"
-          className="shrink-0 rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-on-indigo outline-none transition-all hover:bg-indigo-lift focus-visible:ring-2 focus-visible:ring-indigo/60 active:translate-y-px"
+          className="shrink-0 rounded-full bg-lime px-4 py-2 text-sm font-semibold text-on-lime outline-none transition-all hover:bg-lime-press focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
         >
           Open
         </Link>
@@ -96,13 +96,13 @@ function StepLink({
     <li>
       <Link
         href={href}
-        className="group flex items-start gap-4 rounded-md border border-rule bg-paper-sunken p-4 outline-none transition-all hover:border-indigo/25 focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+        className="group flex items-start gap-4 rounded-md border border-rule bg-paper-sunken p-4 outline-none transition-all hover:border-moss/25 focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
       >
         <div
           className={cn(
             "flex size-10 shrink-0 items-center justify-center rounded-md border transition-colors",
             done
-              ? "border-indigo/30 bg-indigo/10 text-indigo"
+              ? "border-moss/25 bg-lime-wash text-moss"
               : "border-rule bg-paper-sunken text-ink-muted",
           )}
         >
@@ -112,7 +112,7 @@ function StepLink({
         <div className="min-w-0 flex-1">
           <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
             {step}
-            {done && <span className="text-indigo/70">Done</span>}
+            {done && <span className="text-moss">Done</span>}
           </p>
           <p className="mt-1 text-sm font-medium text-ink">{title}</p>
           <p className="mt-0.5 text-sm leading-relaxed text-ink-muted">
@@ -121,7 +121,7 @@ function StepLink({
         </div>
 
         <ArrowRight
-          className="mt-1 size-4 shrink-0 text-ink-faint transition-colors group-hover:text-indigo"
+          className="mt-1 size-4 shrink-0 text-ink-faint transition-colors group-hover:text-moss"
           strokeWidth={2}
         />
       </Link>

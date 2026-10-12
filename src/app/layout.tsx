@@ -68,7 +68,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         suppressHydrationWarning
-        className="min-h-dvh bg-paper font-sans text-ink antialiased selection:bg-indigo-wash selection:text-ink"
+        className="min-h-dvh bg-paper font-sans text-ink antialiased selection:bg-lime-wash selection:text-ink"
       >
         <ServiceWorkerRegistrar />
 

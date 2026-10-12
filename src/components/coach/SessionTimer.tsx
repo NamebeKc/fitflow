@@ -108,7 +108,7 @@ export function SessionTimer() {
       className={cn(
         "flex items-center gap-3 rounded-md border px-3 py-2 transition-colors",
         running
-          ? "border-indigo/30 bg-indigo/[0.06]"
+          ? "border-moss/25 bg-lime-wash"
           : "border-rule bg-paper-raised",
       )}
     >
@@ -125,7 +125,7 @@ export function SessionTimer() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.16, ease: "easeOut" }}
-              className="font-mono text-lg tabular-nums leading-none text-indigo"
+              className="font-mono text-lg tabular-nums leading-none text-moss"
               // Announced on a coarse cadence; a per-second live region
               // would flood a screen reader for 45 minutes.
               aria-live="off"
@@ -144,7 +144,7 @@ export function SessionTimer() {
               {justLogged} min ready —{" "}
               <Link
                 href="/log"
-                className="font-medium text-indigo underline-offset-2 hover:underline"
+                className="font-medium text-moss underline-offset-2 hover:underline"
               >
                 log it
               </Link>
@@ -168,10 +168,10 @@ export function SessionTimer() {
         type="button"
         onClick={running ? handleStop : handleStart}
         className={cn(
-          "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold outline-none transition-all focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px",
+          "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold outline-none transition-all focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px",
           running
-            ? "bg-indigo text-on-indigo hover:bg-indigo-lift"
-            : "border border-rule bg-paper-sunken text-ink-muted hover:border-indigo/30 hover:text-ink",
+            ? "bg-lime text-on-lime hover:bg-lime-press"
+            : "border border-rule bg-paper-sunken text-ink-muted hover:border-moss/25 hover:text-ink",
         )}
       >
         {running ? (

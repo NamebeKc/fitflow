@@ -46,7 +46,7 @@ export function FeatureSection() {
           as deliberate; six read as decoration. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-indigo opacity-[0.05] blur-[130px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-lime opacity-[0.05] blur-[130px]"
       />
 
       <div className="relative mx-auto w-full max-w-[1180px] px-6 md:px-8">
@@ -128,7 +128,7 @@ function FeatureCard({
   wide?: boolean;
 }) {
   return (
-    <article className="group h-full rounded-lg bg-gradient-to-b from-rule to-rule/40 p-px transition-colors duration-300 hover:from-indigo/30">
+    <article className="group h-full rounded-lg bg-gradient-to-b from-rule to-rule/40 p-px transition-colors duration-300 hover:from-lime-wash">
       <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(1.5rem-1px)] bg-paper p-6 sm:p-8">
         {/* Interior top-light. Suggests a surface catching light from
             above, which is what actually makes a flat rectangle read
@@ -142,8 +142,8 @@ function FeatureCard({
           <div
             className={
               wide
-                ? "size-14 text-indigo sm:size-16"
-                : "size-12 text-indigo"
+                ? "size-14 text-moss sm:size-16"
+                : "size-12 text-moss"
             }
           >
             {glyph}
@@ -170,7 +170,7 @@ function FeatureCard({
 
         {/* Grows on hover — a transform-only cue that costs nothing. */}
         <div className="relative mt-auto pt-8">
-          <div className="h-px w-10 bg-indigo/60 transition-all duration-300 group-hover:w-20" />
+          <div className="h-px w-10 bg-lime/60 transition-all duration-300 group-hover:w-20" />
         </div>
       </div>
     </article>

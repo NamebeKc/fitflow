@@ -66,7 +66,7 @@ export function ExerciseVideoLink({
 
   /** Shared tile chrome, so both branches keep the same row rhythm. */
   const tileClass =
-    "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-rule bg-paper outline-none transition-all hover:border-indigo/40 focus-visible:ring-2 focus-visible:ring-indigo/50 active:scale-95";
+    "relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-rule bg-paper outline-none transition-all hover:border-moss focus-visible:ring-2 focus-visible:ring-moss active:scale-95";
 
   const thumb = showThumb ? (
     <>
@@ -114,10 +114,10 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-moss/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
         }
       >
-        <Search className="size-3 text-indigo" strokeWidth={2.5} />
+        <Search className="size-3 text-moss" strokeWidth={2.5} />
         {!compact && video.exercise}
       </a>
     );
@@ -141,12 +141,12 @@ export function ExerciseVideoLink({
         className={
           compact
             ? tileClass
-            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-indigo/30 hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50 active:translate-y-px"
+            : "inline-flex items-center gap-1.5 rounded-full border border-rule bg-paper px-3 py-1.5 text-[13px] font-medium text-ink-muted outline-none transition-all hover:border-moss/25 hover:text-ink focus-visible:ring-2 focus-visible:ring-moss active:translate-y-px"
         }
       >
         {thumb ?? (
           <Play
-            className="size-3 fill-indigo text-indigo"
+            className="size-3 fill-moss text-moss"
             strokeWidth={0}
           />
         )}
@@ -181,7 +181,7 @@ export function ExerciseVideoLink({
             href={fullVideoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-indigo/70 outline-none transition-colors hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-moss outline-none transition-colors hover:text-moss focus-visible:ring-2 focus-visible:ring-moss"
           >
             YouTube
             <ExternalLink className="size-3" strokeWidth={2} />

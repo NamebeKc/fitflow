@@ -177,7 +177,7 @@ Rules:
         instead of what you remembered to mention. That is what{" "}
         <Link
           href="/"
-          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-indigo"
+          className="text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-moss"
         >
           AdimFit
         </Link>{" "}

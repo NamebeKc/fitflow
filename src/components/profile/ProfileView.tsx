@@ -52,7 +52,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
         <CardHeader className="flex flex-row items-center gap-3 pb-6 sm:gap-4">
           <Avatar className="size-12 shrink-0 border border-rule sm:size-14">
             {user?.photoURL && <AvatarImage src={user.photoURL} alt="" />}
-            <AvatarFallback className="bg-paper-raised text-lg font-semibold text-indigo">
+            <AvatarFallback className="bg-paper-raised text-lg font-semibold text-moss">
               {profile.firstName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -70,7 +70,7 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
             variant="outline"
             size="sm"
             onClick={onEdit}
-            className="h-9 shrink-0 gap-2 rounded-full border-rule bg-transparent px-3 text-ink-muted shadow-none hover:border-indigo/30 hover:bg-paper-sunken hover:text-ink sm:px-4"
+            className="h-9 shrink-0 gap-2 rounded-full border-rule bg-transparent px-3 text-ink-muted shadow-none hover:border-moss/25 hover:bg-paper-sunken hover:text-ink sm:px-4"
           >
             <Pencil className="size-3.5" />
             <span className="hidden sm:inline">Edit</span>
@@ -99,8 +99,8 @@ export function ProfileView({ profile, onEdit }: ProfileViewProps) {
               </p>
             </div>
 
-            <div className="col-span-2 rounded-md border border-indigo/20 bg-indigo/[0.05] p-3.5 sm:col-span-1 sm:p-4">
-              <p className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.16em] text-indigo/70">
+            <div className="col-span-2 rounded-md border border-moss/25 bg-lime-wash p-3.5 sm:col-span-1 sm:p-4">
+              <p className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.16em] text-moss">
                 <Target className="size-3" strokeWidth={2.5} />
                 {profileGoals(profile).length > 1 ? "Goals" : "Goal"}
               </p>

@@ -39,7 +39,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
 
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 rounded-full border border-rule px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted outline-none transition-colors hover:border-indigo/30 hover:text-indigo focus-visible:ring-2 focus-visible:ring-indigo/50"
+          className="inline-flex items-center gap-1.5 rounded-full border border-rule px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted outline-none transition-colors hover:border-moss/25 hover:text-moss focus-visible:ring-2 focus-visible:ring-moss"
         >
           <ArrowLeft className="size-3" strokeWidth={2.5} />
           Back
@@ -47,7 +47,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
       </header>
 
       <main className="mx-auto w-full max-w-3xl px-6 pb-20 pt-6 md:px-8">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-indigo/70">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
           Legal
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
@@ -106,7 +106,7 @@ export function List({ items }: { items: ReactNode[] }) {
         <li key={index} className="flex gap-3">
           <span
             aria-hidden
-            className="mt-[0.6em] size-1 shrink-0 rounded-full bg-indigo/50"
+            className="mt-[0.6em] size-1 shrink-0 rounded-full bg-lime/50"
           />
           <span className="flex-1">{item}</span>
         </li>

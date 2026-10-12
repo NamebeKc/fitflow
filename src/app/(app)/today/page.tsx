@@ -166,7 +166,7 @@ function WeekStrip({ workouts }: { workouts: WorkoutEntry[] }) {
             className={cn(
               "size-2.5 rounded-full border transition-colors",
               day.active
-                ? "border-indigo bg-indigo"
+                ? "border-moss bg-lime"
                 : "border-rule bg-transparent",
               day.isToday && !day.active && "border-rule",
             )}

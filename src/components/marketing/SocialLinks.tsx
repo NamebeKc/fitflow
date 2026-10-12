@@ -38,7 +38,7 @@ export function SocialLinks({ className }: SocialLinksProps) {
             target="_blank"
             rel="me noopener noreferrer"
             aria-label={profile.label}
-            className="flex size-10 items-center justify-center rounded-full text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-indigo/50"
+            className="flex size-10 items-center justify-center rounded-full text-ink-muted outline-none transition-colors hover:bg-paper-sunken hover:text-ink focus-visible:ring-2 focus-visible:ring-moss"
           >
             <svg
               viewBox="0 0 24 24"
