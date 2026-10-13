@@ -3,6 +3,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
+import { recordAiUsage } from "@/lib/ops/usage";
+import { EMPTY_USAGE, type TokenUsage } from "@/lib/ops/cost";
 import { getOrCreateBilling } from "@/lib/billing-admin";
 import { isEntitled } from "@/lib/subscription";
 import { trackServer } from "@/lib/analytics-server";
@@ -56,6 +58,14 @@ interface ChatRequestBody {
   /** IANA zone from the browser, e.g. "Africa/Lagos". */
   timeZone?: string;
 }
+
+/**
+ * The model, as a constant so cost reporting can name what it priced.
+ * Changing it changes the bill — see `src/lib/ops/cost.ts`, which
+ * carries the published rates for this model and for the cheaper
+ * Sonnet that could replace it.
+ */
+const MODEL = "claude-sonnet-4-6";
 
 export async function POST(request: Request) {
   // ── Verify the caller is a signed-in AdimFit user ─────────────────
@@ -181,6 +191,17 @@ export async function POST(request: Request) {
   // ── Stream Claude's reply ─────────────────────────────────────────
   const encoder = new TextEncoder();
 
+  /**
+   * Usage is collected from the stream itself rather than from a
+   * `finalMessage()` await, so a stream that dies halfway still
+   * reports what it burned. A truncated request costs real money and
+   * is exactly the kind that would otherwise go unmeasured.
+   *
+   * `message_start` carries the input side, including the cache split.
+   * `message_delta` carries the running output count.
+   */
+  const usage: TokenUsage = { ...EMPTY_USAGE };
+
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       /**
@@ -213,7 +234,7 @@ export async function POST(request: Request) {
 
       try {
         const claudeStream = anthropic.messages.stream({
-          model: "claude-sonnet-4-6",
+          model: MODEL,
           // Raised from 1200 when nutrition coaching shipped. A reply
           // that carries a full day of eating alongside the usual
           // reasoning runs past 1200 and was being truncated
@@ -238,7 +259,15 @@ export async function POST(request: Request) {
         });
 
         for await (const event of claudeStream) {
-          if (
+          if (event.type === "message_start") {
+            const u = event.message.usage;
+            usage.inputTokens = u.input_tokens ?? 0;
+            usage.cacheWriteTokens = u.cache_creation_input_tokens ?? 0;
+            usage.cacheReadTokens = u.cache_read_input_tokens ?? 0;
+            usage.outputTokens = u.output_tokens ?? 0;
+          } else if (event.type === "message_delta") {
+            usage.outputTokens = event.usage.output_tokens ?? usage.outputTokens;
+          } else if (
             event.type === "content_block_delta" &&
             event.delta.type === "text_delta"
           ) {
@@ -256,6 +285,12 @@ export async function POST(request: Request) {
       } finally {
         clearInterval(heartbeat);
         controller.close();
+
+        // AFTER the stream is closed, deliberately. The user already
+        // has their reply; a metrics write must never sit between
+        // them and it, and `recordAiUsage` swallows its own errors
+        // for the same reason.
+        void recordAiUsage(uid, usage, MODEL);
       }
     },
   });

@@ -22,6 +22,7 @@ rules_version = '2';
 //   users/{uid}/messages             chat.ts           read + write
 //   users/{uid}/plans                plans.ts          read + write
 //   users/{uid}/billing/subscription subscription.ts   read only
+//   users/{uid}/usage/{yyyy-mm}      ops/usage.ts      server only
 //
 // Add a new client-read subcollection and you must add it here too —
 // the catch-all inside the user block denies anything unlisted. That
@@ -127,6 +128,31 @@ service cloud.firestore {
     // fake scarcity, and one that can read it gains nothing the API
     // doesn't already give.
     match /config/{docId} {
+      allow read, write: if false;
+    }
+
+    // ── Operations: server-only, all of it ────────────────────────
+    //
+    // The catch-all below would already deny these. They are listed
+    // anyway because this file is the place someone looks to find out
+    // what exists and who can read it, and a collection holding the
+    // revenue of the business should not be discoverable only by
+    // noticing its absence.
+
+    // One send, one row. Also the idempotency claim — see
+    // `lib/email/mailer.ts`.
+    match /emailLog/{logId} {
+      allow read, write: if false;
+    }
+
+    // Daily inference spend. Written by /api/chat after each reply.
+    match /usageDaily/{date} {
+      allow read, write: if false;
+    }
+
+    // The daily business snapshot behind /ops. Revenue, entitlement,
+    // partner balances. Nothing in here is for a browser.
+    match /metricsDaily/{date} {
       allow read, write: if false;
     }
 
