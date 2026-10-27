@@ -13,7 +13,7 @@
     "@base-ui/react": "^1.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "firebase": "^12.17.0",
+    "firebase": "^12.19.0",
     "firebase-admin": "^14.2.0",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.23.0",
@@ -42,7 +42,7 @@
   "allowScripts": {
     "sharp@0.34.5": true,
     "unrs-resolver@1.12.2": true,
-    "@firebase/util@1.15.2": true,
+    "@firebase/util@1.15.3": true,
     "protobufjs@7.6.5": true,
     "core-js@3.50.0": true
   }
