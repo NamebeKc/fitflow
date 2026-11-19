@@ -39,6 +39,7 @@ export function ConversionCard() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
   const [resetting, setResetting] = useState(false);
 
   const isRegister = mode === "register";
@@ -84,6 +85,13 @@ export function ConversionCard() {
     });
   }
 
+  async function continueWithGoogle() {
+    setGoogleBusy(true);
+    track("signup_started", { method: "google" });
+    await signInWithGoogle();
+    setGoogleBusy(false);
+  }
+
   async function resetPassword() {
     if (resetting) return;
 
@@ -118,11 +126,9 @@ export function ConversionCard() {
       {/* The one-tap path, given the most weight */}
       <button
         type="button"
-        onClick={() => {
-          track("signup_started", { method: "google" });
-          void signInWithGoogle();
-        }}
-        className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3.5 text-[15px] font-semibold text-[#14161A] shadow-[0_10px_30px_-12px_rgba(255,255,255,0.4)] outline-none transition-all hover:bg-white/92 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99]"
+        onClick={() => void continueWithGoogle()}
+        disabled={googleBusy}
+        className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3.5 text-[15px] font-semibold text-[#14161A] shadow-[0_10px_30px_-12px_rgba(255,255,255,0.4)] outline-none transition-all hover:bg-white/92 focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#14161A] active:scale-[0.99] disabled:opacity-50"
       >
         <GoogleMark />
         Continue with Google

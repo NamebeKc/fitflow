@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -109,7 +110,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsubscribe;
   }, []);
 
+  // A second signInWithPopup while one is open makes Firebase fail
+  // with an internal assertion, so a double click must not start one.
+  const googlePopupPending = useRef(false);
+
   async function signInWithGoogle() {
+    if (googlePopupPending.current) return;
+    googlePopupPending.current = true;
+    const previousUid = auth.currentUser?.uid;
+
     try {
       const credential = await signInWithPopup(auth, googleProvider);
 
@@ -122,9 +131,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         method: "google",
       });
     } catch (error) {
-      // Most common: the user closed the popup, or double-clicked and
-      // cancelled the first request — nothing to handle.
+      // The popup can reject after the sign-in itself succeeded. The
+      // person is in, so the funnel still needs the completion.
+      const signedIn = auth.currentUser;
+      if (signedIn && signedIn.uid !== previousUid) {
+        const { creationTime, lastSignInTime } = signedIn.metadata;
+        track(
+          creationTime === lastSignInTime ? "signup_completed" : "signin_completed",
+          { method: "google" },
+        );
+        return;
+      }
+
+      const code =
+        typeof error === "object" && error !== null && "code" in error
+          ? String((error as { code: unknown }).code)
+          : "";
+      // The person closed the popup, or a newer request replaced this
+      // one — nothing to handle.
+      if (
+        code === "auth/popup-closed-by-user" ||
+        code === "auth/cancelled-popup-request"
+      ) {
+        return;
+      }
       console.error("Google sign-in failed:", error);
+    } finally {
+      googlePopupPending.current = false;
     }
   }
 
