@@ -86,7 +86,6 @@ export function ConversionCard() {
   }
 
   async function continueWithGoogle() {
-    if (googleBusy) return;
     setGoogleBusy(true);
     track("signup_started", { method: "google" });
     await signInWithGoogle();
